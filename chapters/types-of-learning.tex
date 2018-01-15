@@ -1,0 +1,50 @@
+\section{Tipos de aprendizaje}
+El parendizaje de máquina se ha \sout{branched} en varios subcampos,
+cada uno atacando un tipo de problema distinto y utilizando diferentes
+tipos de aprendizaje.
+Se describen a continuación cuatro diferentes parámetros bajo los cuáles
+es posible clasificar los distintos paradigmas de aprendizaje.
+
+\textbf{Supervisado/no supervisado} Dado que el aprendizaje involucra
+una interacción entre el \sout{learner} y el ambiente, es posible
+dividir el aprendizaje con respecto a la naturaleza de dicha interacción.
+La primera distinción a notar es la diferencia entre aprendizaje supervisado
+y no supervisado. En abstracto, viendo el aprendizaje como un proceso
+de ``usar la experiencia para ganar \sout{expertise}'', el aprendizaje
+supervisado describe un escenario en el que la ``experiencia'', un
+ejemplo de entrenamiento, contiene información significativa que no
+está contenida en los ``ejemplos de prueba'' que el sistema aún no ha
+visto, y en los que se busca aplicar el \sout{expertise} adquirido.
+En esta configuración, el \sout{expertise} adquirido \sout{is aimed}
+a predecir la información faltante de los datos de prueba. Podemos
+pensar en el ambiente como un profesor que ``supervisa'' al \sout{learner}
+al proporcionarle información extra (una clasificación). Por otro lado,
+en el aprendizaje no supervisado no hay distinción entre datos de
+entrenamiento y de prueba. El \sout{learner} procesa los datos de entrada
+con el objetivo de generar una síntesis o versión comprimida de los
+datos que sea representativa.
+
+\textbf{\sout{learners} pasivos/activos} En los paradigmas de aprendizaje
+el rol tomado por el \sout{learner} varia. Es posible distinguir entre
+\sout{learner} activo y pasivo. Un \sout{learner} activo interactua
+con el ambiente durante el entrenamiento, realizando consultas o
+experimentos, mientras que un \sout{learner} pasivo sólo observa la
+información provista por el ambiente (o el profesor) sin influenciarla
+o dirigirla.
+
+\textbf{Ayuda del profesor} Cuando se piensa en el aprendizaje humano,
+el proceso por lo general involucra a un \sout{helpful} profesor, que
+está tratando de proveer al \sout{learner} con la información más útil
+para lograr el objetivo de aprendizaje. En contraste, cuando un científico
+aprender sobra la naturaleza, el ambiente, tomando el rol de profesor,
+puede ser pensado como pasivo - las manzanas caen, las estrellas
+brillan y la lluvia cae sin cuidado por la necesidad del \sout{learner}.
+Dichos escenarios son modelados postulando que los datos de aprendizaje
+(o la experiencia del \sout{learner}) son generados por un proceso aleatoria.
+
+\textbf{Protocolo de entrenamiento lineal (o en línea)/\sout{batch}} El
+último parámetro a mencionar es la distinción entre las situaciones en
+las que el \sout{learner} tiene que responer de forma líneal, es decir
+que para cada ejemplo de entrenamiento tiene que dar una respuesta, y
+cuando el \sout{learner} tiene que mostrar el aprendizaje adquirido
+después de tener la oportunidad de procesar grandes cantidades de datos.

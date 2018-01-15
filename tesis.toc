@@ -1,0 +1,7 @@
+\select@language {spanish}
+\contentsline {chapter}{\numberline {1}Capitulo 1}{2}
+\contentsline {section}{\numberline {1.1}Tipos de aprendizaje}{2}
+\contentsline {section}{\numberline {1.2}Perceptron}{3}
+\contentsline {section}{\numberline {1.3}Neuronas adaptativas lineales y la convergencia del entrenamiento}{5}
+\contentsline {section}{\numberline {1.4}Gradient descent}{6}
+\contentsline {section}{\numberline {1.5}Stochastic gradient descent}{8}
