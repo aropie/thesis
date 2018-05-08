@@ -5,8 +5,11 @@
 \usepackage[spanish]{babel}
 \usepackage{graphicx}
 \usepackage[normalem]{ulem}
-%% \usepackage{biblatex}
-%% \addbibresource{references.bib}
+\usepackage{biblatex}
+\usepackage{hyperref}
+\usepackage{blindtext} %% TO BE REMOVED
+
+\addbibresource{references.bib}
 \graphicspath{ {images/} }
 
 \title{
@@ -22,24 +25,23 @@
 \maketitle
 
 \begin{abstract}
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean felis massa, rhoncus et luctus tincidunt, varius a magna. Donec iaculis nunc nec consectetur consequat. Aenean erat dolor, maximus vel justo quis, fringilla ultrices urna. Pellentesque mattis pellentesque ante, vitae malesuada odio maximus a. Pellentesque dapibus, mauris sed fringilla aliquet, eros nibh gravida massa, sit amet consequat eros purus in purus. Fusce eu ligula tincidunt, consectetur turpis eget, imperdiet risus. Morbi urna tortor, lacinia bibendum iaculis accumsan, pharetra sed lectus. Nullam posuere nisl turpis, non sollicitudin orci commodo eget. Aenean pharetra, elit ut dictum pulvinar, mi enim scelerisque tortor, scelerisque pharetra ligula felis a leo. Nulla at consequat nulla. Mauris elementum metus sed tellus tempor tempor. Nam lobortis ante in odio condimentum pretium. Fusce ut hendrerit massa. Praesent volutpat molestie augue non semper.
+  \blindtext
 \end{abstract}
 
 \tableofcontents
 
 \chapter{Capitulo 1}
+algo va aqui \cite{python}
 \input{chapters/types-of-learning}
 
 \input{chapters/perceptron}
 
 \input{chapters/adaline}
 
-\input{chapters/gradient-descent}
+%% \input{chapters/gradient-descent}
 
-\input{chapters/stochastic-gradient-descent}
+%% \input{chapters/stochastic-gradient-descent}
 
 
-\nocite{*}
-\bibliographystyle{plain}
-\bibliography{references}
+\printbibliography
 \end{document}
