@@ -1,50 +1,97 @@
-\section{Tipos de aprendizaje}
-El parendizaje de máquina se ha \sout{branched} en varios subcampos,
+\section{Sobre inteligencia artificial}
+Un factor que ha sido central en la historia del ser humano es
+precisamente el que nos da el nombre como especie \sout{Homo Sapiens}:
+la inteligencia. Durante años se ha buscado entender cómo es que pensamos,
+es decir, la forma en que un ente puede percibir el entorno y a partir
+de ello entenderlo, e incluso manipularlo y hacer predicciones al respecto.
+La \textbf{inteligencia artificial} lleva este estudio un paso más adelante;
+busca no sólo entender sino también construir entes inteligentes.
+
+\subsection{La prueba de Turing}
+Dado que la inteligencia artificial busca crear entes inteligentes,
+es importante definir primero qué es la inteligencia. Al ser nosotros
+mismos como especie nuestro modelo de inteligencia, es razonable pensar
+en la inteligencia en términos de pensamiento humanos.
+
+La \textbf{prueba de Turing}, propuesta por Alan Turing (1950), fué diseñada
+para dar una definición de inteligencia en computadoras. Una computadora pasa
+la prueba si, tras ser interrogada de forma escrita por un evaluador humano,
+este no puede distinguir si las respuestas provienen de un humano o una computadora.
+La discusión sobre si el pasar la prueba realmente es señal de una \textit{inteligencia}
+sale del alcance de esta tésis, pero es importante resaltar que la prueba da
+cierta noción sobre lo que se busca en una "inteligencia artificial".
+Se busca que el ente "inteligente" sea capáz de tener un razonamiento racional.
+Es decir, que pueda sacar conclusiones lógicas a partir de premisas dadas a travéz
+de silogismos, como lo haría un humano. Pero rara vez toda la información con la que
+se cuenta es 100\% o acertada, lo que le da en la torre al enfoque puramente
+determinista de la inteligencia. 
+
+\subsection{Sobre agentes}
+En su concepción más tradicional, la inteligencia artificial gira en torno a
+\textbf{agentes racionales} que, a travéz de \textbf{sensores} pueden percibir
+su \textbf{entorno} y actuar sobre él a partir de un sistema de decisión.
+Internamente, el agente es una máquina compuesta por un conjunto (finito) de estados,
+cuyas transiciones están dadas por reglas de inferencias. Cuando una se da una
+transición de estados, entonces es realizada una acción. Esta concepción del agente
+nos permite reducir la IA en un problema de búsqueda de las funciones de transición.
+
+Computacionalmente hablando, la búsqueda de estas funciones en ciertos problemas de IA 
+se vuelve absurdamente compleja, por lo que no es posible hacer la codificación de todos
+los posibles escenarios en el sistema de inferencia de un agente. Por lo tanto un agente
+debe ser capáz de manejar la incertidumbre en su entorno. Además, debe poder \textit{aprender}
+del entorno y adaptarse a él, generando conocimiento a travéz de la experiencia.
+
+El \textbf{aprendizaje de máquina} (\textit{machine learning} en inglés) gira en torno a
+algorítmos capáces de manejar información estocástica y generar modelos de toma de decisiones
+a partir de ella. Un modelo es bueno en medida de lo acertado que es en términos estadísticos.
+
+\subsection{Tipos de aprendizaje}
+El aprendizaje de máquina se ha divido en varios subcampos,
 cada uno atacando un tipo de problema distinto y utilizando diferentes
 tipos de aprendizaje.
 Se describen a continuación cuatro diferentes parámetros bajo los cuáles
 es posible clasificar los distintos paradigmas de aprendizaje.
 
 \textbf{Supervisado/no supervisado} Dado que el aprendizaje involucra
-una interacción entre el \sout{learner} y el ambiente, es posible
+una interacción entre el agente y el ambiente, es posible
 dividir el aprendizaje con respecto a la naturaleza de dicha interacción.
 La primera distinción a notar es la diferencia entre aprendizaje supervisado
 y no supervisado. En abstracto, viendo el aprendizaje como un proceso
-de ``usar la experiencia para ganar \sout{expertise}'', el aprendizaje
+de "usar la experiencia para ganar \textit{maestría}", el aprendizaje
 supervisado describe un escenario en el que la ``experiencia'', un
 ejemplo de entrenamiento, contiene información significativa que no
 está contenida en los ``ejemplos de prueba'' que el sistema aún no ha
-visto, y en los que se busca aplicar el \sout{expertise} adquirido.
-En esta configuración, el \sout{expertise} adquirido \sout{is aimed}
-a predecir la información faltante de los datos de prueba. Podemos
-pensar en el ambiente como un profesor que ``supervisa'' al \sout{learner}
+visto, y en los que se busca aplicar la \textit{maestría} adquirida.
+En esta configuración, la \textit{maestría} adquirida busca
+predecir la información faltante de los datos de prueba. Podemos
+pensar en el ambiente como un profesor que ``supervisa'' al agente
 al proporcionarle información extra (una clasificación). Por otro lado,
 en el aprendizaje no supervisado no hay distinción entre datos de
-entrenamiento y de prueba. El \sout{learner} procesa los datos de entrada
+entrenamiento y de prueba. El agente procesa los datos de entrada
 con el objetivo de generar una síntesis o versión comprimida de los
 datos que sea representativa.
 
-\textbf{\sout{learners} pasivos/activos} En los paradigmas de aprendizaje
-el rol tomado por el \sout{learner} varia. Es posible distinguir entre
-\sout{learner} activo y pasivo. Un \sout{learner} activo interactua
+\textbf{Agentes pasivos/activos} En los paradigmas de aprendizaje
+el rol tomado por el agente varia. Es posible distinguir entre
+agente activo y pasivo. Un agente activo interactua
 con el ambiente durante el entrenamiento, realizando consultas o
-experimentos, mientras que un \sout{learner} pasivo sólo observa la
-información provista por el ambiente (o el profesor) sin influenciarla
-o dirigirla.
+experimentos, mientras que un agente pasivo sólo observa la
+información provista por el ambiente sin influenciarla
+o dirigirla durante el proceso de aprendizaje.
 
 \textbf{Ayuda del profesor} Cuando se piensa en el aprendizaje humano,
-el proceso por lo general involucra a un \sout{helpful} profesor, que
-está tratando de proveer al \sout{learner} con la información más útil
+el proceso por lo general involucra a un profesor, que
+está tratando activamente de proveer al agente con la información más útil
 para lograr el objetivo de aprendizaje. En contraste, cuando un científico
-aprender sobra la naturaleza, el ambiente, tomando el rol de profesor,
+aprende sobre la naturaleza, el ambiente, tomando el rol de profesor,
 puede ser pensado como pasivo - las manzanas caen, las estrellas
-brillan y la lluvia cae sin cuidado por la necesidad del \sout{learner}.
+brillan y la lluvia cae sin cuidado por el aprendizaje del agente.
 Dichos escenarios son modelados postulando que los datos de aprendizaje
-(o la experiencia del \sout{learner}) son generados por un proceso aleatoria.
+(o la experiencia del agente) son generados por un proceso aleatorio.
 
-\textbf{Protocolo de entrenamiento lineal (o en línea)/\sout{batch}} El
+\textbf{Protocolo de entrenamiento lineal (o en línea)/por lote} El
 último parámetro a mencionar es la distinción entre las situaciones en
-las que el \sout{learner} tiene que responer de forma líneal, es decir
+las que el agente tiene que responder de forma líneal, es decir
 que para cada ejemplo de entrenamiento tiene que dar una respuesta, y
-cuando el \sout{learner} tiene que mostrar el aprendizaje adquirido
+cuando el agente tiene que mostrar el aprendizaje adquirido
 después de tener la oportunidad de procesar grandes cantidades de datos.
