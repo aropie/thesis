@@ -84,7 +84,7 @@ que es llamada a veces la \textit{función de Heaviside}:
 
 Por simplicidad, definimos $w_0=-\theta$ y $x_0=1$, escribiendo entonces a $z$ de la
 forma $z=w_0x_0 + w_1x_1 + \dots + w_mx_m = \mathbf{w^Tx}$.
-La siguiente imágen ilustra cómo la entrada de la red $z=w^Tx$ es \textit{aplanada}
+La siguiente imagen ilustra cómo la entrada de la red $z=w^Tx$ es \textit{aplanada}
 a una salida binaria (-1 o 1) por la función de activación del perceptrón (izquierda)
 y cómo puede ser usada para discriminar entre dos clases linealmente separables (derecha):
 \includegraphics[scale=0.5]{perceptron}\cite{python}
@@ -121,10 +121,10 @@ todos los pesos en el vector de pesos son actualizados de manera
 simultánea, lo que significa que no recalculamos $\hat y^{(i)}$ hasta que
 todos los pesos $\Delta w_j$ han sido actualizados.
 
-Podemos resumir el concepto general de perceptron con la siguiente imágen:
+Podemos resumir el concepto general de perceptron con la siguiente imagen:
 \includegraphics[scale=0.5]{perceptron-summary}\cite{python}
 
-La imágen anterior muestra cómo el perceptron recibe las entradas de una
+La imagen anterior muestra cómo el perceptron recibe las entradas de una
 muestra $x$ y las combina con los pesos $w$ para calcular la entrada neta.
 Esta entrada se le dá a la función de activación, que genera una salida
 binaria (-1 o 1 en este caso), representando la predicción de la clasifica-
@@ -151,11 +151,11 @@ $\phi (w^T x) = w^T x$.
 Mientras que la función de activación lineal es usada para la actualiza-
 ción de pesos, un \textit{cuantificador}, similar a la función escalón
 descrita anteriormente, puede ser usado para hacer la clasificación,
-como se ilustra en la siguiente imágen:
+como se ilustra en la siguiente imagen:
 
 \includegraphics[scale=0.5]{adaline}\cite{python}
 
-Si se compara la imágen anterior con la ilustración del algoritmo del
+Si se compara la imagen anterior con la ilustración del algoritmo del
 perceptrón, la diferencia es que se usa la salida con valores continuos
 de la función lineal de activación para calcular el error y actualizar
 los pesos, en lugar de hacer una clasificación binaria.
