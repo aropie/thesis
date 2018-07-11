@@ -1,14 +1,44 @@
+\section{Sobre compuertas y neuronas}
+Los modelos de redes neuronales artificiales, uno de los cuales es el \textit{perceptrón}
+que discutiremos en este capitulo, están inspirados en el cerebro humano. Hay científicos
+cognitivos y de neurociencia cuya meta es entender el funcionamiento del cerebro, y con
+esto en mente, construir modelos de las redes neuronales naturales del cerebro.
+
+Sin embargo, lo que busca la inteligencia artificial es construir máquinas \textit{útiles}
+tomando como modelo el cerebro. El cerebro es un dispositivo de procesamiento de información
+con habilidades asombrosas en muchos campos que sobrepasan con creces a los más grandes
+esfuerzos de la ingenieria, como son visión, aprendizaje y reconocimiento del habla, por
+nombrar algunos.
+\subsection{Inspiracion en la biología}
+El cerebro humano es muy diferente de una computadora. Mientras una computadora tiene
+un número reducido de procesadores, el cerebro está compuesto de una enorme cantidad $(10^{11})$
+de unidades de procesamiento llamadas \textbf{neuronas} trabajando en paralelo.
+
+Aunque los detalles son inciertos, se cree que las neuronas son mucho más simples y lentas
+que un procesador de una computadora \cite{ethem}. Lo que hace al cerebro distinto, y le da
+su gran poder computacional, es su gran conectividad: las neuronas en el cerebro tienen
+conecciones, llamadas \textit{sinápsis}, a alrededor de otras $10^{4}$ neuronas.
+
+En una computadora, el procesador es activo y la memoria está separada y opera de forma pasiva
+(el procesador accede a ella sólo cuando se requiere); se cree que en el cerebro, tanto el
+procesamiento como la memoria están distribuidos por toda la red. El procesamiento es realizado
+por las neuronas y la memoria se encuentra en las sinápsis entre ellas.
+
+El cerebro es, además, un órgano capás de adaptarse a las condiciones de su ambiente, ya que
+constantemente son agregadas nuevas conexiones sinápticas entre neuronas y modificadas
+las ya existentes. Una vez que una neuroan ha emitido una señal eléctrica, las adyacentes
+reciben la información por medio de canales de transmisión llamados \textit{dendritas}. Estos
+impulsos son llevados hasta el \textit{núcleo} de la neurona para su procesamiento y, posteriormente,
+una reacción es transmitida a través del \textit{axón} de la célula \cite{memes}.
+
+\textbf{Imagén de https://psi121f.wordpress.com/2016/07/03/la-estructura-de-la-neurona-2/}
+
+
+
 \section{Perceptron}
 En 1943, Warren McCullock y Walter Pitts publican la primera aproximación de una
-neurona simplificada, tratando de entender cómo funciona el cerebro biológico oara
-el dieseño de inteligencia artificial, la llamada neurona McCullock-Pits (MCP)
-\cite{python}.
-
-Las neuronas son células nerviosas interconectadas del cerebro que están involucradas
-en el procesamiento y la transimición de señales químicas y eléctricas, como en la
-siguiente figura:
-
-IMÁGEN
+neurona simplificada, tratando de entender cómo funciona el cerebro biológico para
+el dieseño de inteligencia artificial, la llamada neurona McCullock-Pits (MCP) \cite{mcp}.
 
 McCullock y Pitts describen a la neurona como una compuerta lógica sencilla con una
 salida binaria; múltiples señales llegan a las dendritas para ser integradas al cuerpo
@@ -16,7 +46,7 @@ de la célula. Si la señal acumulada excede cierto umbral, se genera una señal
 que se le pasa al axón.
 
 Unos años después, Frank Rosenblatt publica la primera aproximación al concepto de
-perceptron basado en el modelo de neuronas MCP. FALTA REF. Intuitivamente, el algoritmo
+perceptron basado en el modelo de neuronas MCP \cite{rosenblatt}. Intuitivamente, el algoritmo
 aprende automáticamente los coeficientes de pesos óptimos que luego se multiplican
 con las características de entrada para tomar la decisión de si la neurona se activa
 o no. Este algoritmo podría ser usado entonces para predecir si una muestra pertenece
@@ -46,7 +76,7 @@ w=
 \\
 Si la activación de una muestra particular $x^{(i)}$ es mayor que un parámetro definido
 $\theta$, predecimos la clase 1, y la clase -1 en caso contrario. En el algoritmo
-del perceptrón, la activación de función $\phi (\dot)$ es una \textit{función escalón},
+del perceptrón de Rosenblatt, la activación de función $\phi (\dot)$ es una \textit{función escalón},
 que es llamada a veces la \textit{función de Heaviside}:
 \begin{equation*}
   \phi(z)= \left\{ \begin{array} {rl}
@@ -54,12 +84,12 @@ que es llamada a veces la \textit{función de Heaviside}:
     -1 & \text{en otro caso} \end{array} \right.
 \end{equation*}
 
-Por simplicidad, definimios $w_0=-\theta$ y $x_0=1$, escribiendo entonces a $z$ de la
+Por simplicidad, definimos $w_0=-\theta$ y $x_0=1$, escribiendo entonces a $z$ de la
 forma $z=w_0x_0 + w_1x_1 + \dots + w_mx_m = \mathbf{w^Tx}$.
 La siguiente imágen ilustra cómo la entrada de la red $z=w^Tx$ es \textit{aplanada}
 a una salida binaria (-1 o 1) por la función de activación del perceptrón (izquierda)
 y cómo puede ser usada para discriminar entre dos clases linealmente separables (derecha):
-\includegraphics[scale=0.5]{perceptron}
+\includegraphics[scale=0.5]{perceptron}\cite{python}
 
 La idea detrás del modelo de perceptron de Rosenblatt es reducir a una abstracción de cómo funciona
 una neurona: se activa o no se activa. Así, la regla inicial de Roseblatt es relativamente
@@ -88,13 +118,13 @@ calculado por la regla de aprendizaje de percetron:
 
 Donde $\eta$ es el índice de aprendizaje (una constante entre 0 y 1),
 $y^{(i)}$ es la clasificación real de la i-ésima muestra, y $\hat y^{(i)}$
-es la clasificación dada por la predicción. Es importante resaltar que
+es la clasificación dada por la predicción. Es importante recalcar que
 todos los pesos en el vector de pesos son actualizados de manera
 simultánea, lo que significa que no recalculamos $\hat y^{(i)}$ hasta que
 todos los pesos $\Delta w_j$ han sido actualizados.
 
 Podemos resumir el concepto general de perceptron con la siguiente imágen:
-\includegraphics[scale=0.5]{perceptron-summary}
+\includegraphics[scale=0.5]{perceptron-summary}\cite{python}
 
 La imágen anterior muestra cómo el perceptron recibe las entradas de una
 muestra $x$ y las combina con los pesos $w$ para calcular la entrada neta.
