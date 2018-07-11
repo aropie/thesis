@@ -9,6 +9,7 @@ tomando como modelo el cerebro. El cerebro es un dispositivo de procesamiento de
 con habilidades asombrosas en muchos campos que sobrepasan con creces a los más grandes
 esfuerzos de la ingenieria, como son visión, aprendizaje y reconocimiento del habla, por
 nombrar algunos.
+
 \subsection{Inspiracion en la biología}
 El cerebro humano es muy diferente de una computadora. Mientras una computadora tiene
 un número reducido de procesadores, el cerebro está compuesto de una enorme cantidad $(10^{11})$
@@ -30,12 +31,9 @@ las ya existentes. Una vez que una neuroan ha emitido una señal eléctrica, las
 reciben la información por medio de canales de transmisión llamados \textit{dendritas}. Estos
 impulsos son llevados hasta el \textit{núcleo} de la neurona para su procesamiento y, posteriormente,
 una reacción es transmitida a través del \textit{axón} de la célula \cite{memes}.
-
 \textbf{Imagén de https://psi121f.wordpress.com/2016/07/03/la-estructura-de-la-neurona-2/}
 
-
-
-\section{Perceptron}
+\section{El perceptrón}
 En 1943, Warren McCullock y Walter Pitts publican la primera aproximación de una
 neurona simplificada, tratando de entender cómo funciona el cerebro biológico para
 el dieseño de inteligencia artificial, la llamada neurona McCullock-Pits (MCP) \cite{mcp}.
@@ -132,3 +130,38 @@ Esta entrada se le dá a la función de activación, que genera una salida
 binaria (-1 o 1 en este caso), representando la predicción de la clasifica-
 ción. Durante la fase de aprendizaje, la salida es usada para calcular el
 error de la predicción y actualizar los pesos.
+
+\subsection{Neuronas adaptativas lineales}
+La neurona adaptativa lineal (\textbf{Adaline}) fué publicada unos años
+después del algoritmo del perceptrón de Frank Rosenblatt, por Bernard
+Widrow \cite{adaline} y se considera la evolución natural del perceptrón
+de Rosenblatt.
+El algoritmo de Adaline es particularmente interesante porque ilustra
+el concepto clave de definir y minimizar funciones de costo, lo que
+sienta las bases para algoritmos mas avanzados de clasificación,
+como la regresión logística o las máquinas de vectores de apoyo.
+
+La principal diferencia entre las reglas de Adaline (también llamada
+de \textit{Widrow-Hoff}) y la del perceptrón de Rosenblatt es que los
+pesos son actualizados con base en una función de activación lineal,
+en lugar de una función escalón. En Adaline, esta función de activación
+$\phi (z)$ es simplemente la función identidad de la entrada neta, así
+$\phi (w^T x) = w^T x$.
+
+Mientras que la función de activación lineal es usada para la actualiza-
+ción de pesos, un \textit{cuantificador}, similar a la función escalón
+descrita anteriormente, puede ser usado para hacer la clasificación,
+como se ilustra en la siguiente imágen:
+
+\includegraphics[scale=0.5]{adaline}\cite{python}
+
+Si se compara la imágen anterior con la ilustración del algoritmo del
+perceptrón, la diferencia es que se usa la salida con valores continuos
+de la función lineal de activación para calcular el error y actualizar
+los pesos, en lugar de hacer una clasificación binaria.
+
+Cabe destacar que actualmente se buscan funciones de activación más
+suavizadas y, sobre todo, diferenciables. Esto con el fin de optimizar
+los parámetros de los modelos más complejos.
+
+\textbf{Insertar imagen de (https://www.slideshare.net/SungJuKim2/multi-layer-perceptron-back-propagation)}
