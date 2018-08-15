@@ -14,7 +14,7 @@ Definimos la función de costo $J$ como la \textbf{Suma de
   los errores cuadrados (SSE)} entre la salida calculada y el valor
 real.
 \begin{equation}
-  J(w)=1/2n \sum_i (\hat{y}_i - y_i^2
+  J(w)=1/2n \sum_i (\hat{y}_i - y_i^2)
 \end{equation}
 donde $w$ es el conjunto de los parámteros de la red, es decir
 $w := \bigcup{W_i, b_i}_{i=1}^{n}$, $n$ el número de capas de la red, y $y_i$
@@ -37,7 +37,7 @@ el valor del índice de aprendizaje, así como por la pendiente del gradiente.
 
 \includegraphics[scale=0.5]{gradient-descent}
 
-Usando el \sout{gradient descent}, se pueden actualizar los pesos quitandole un \textit{paso}
+Usando el descenso por el gradiente, se pueden actualizar los pesos quitandole un \textit{paso}
 al gradiente $\nabla J(w)$ de la función de costos $J(w)$:
 \begin{equation}
   w := w + \Delta w
@@ -61,10 +61,7 @@ j-ésimo peso de la siguiente manera:
 \end{split}
 \end{equation*}
 
-Aunque la regla de aprendizaje de Adaline se ve idéntica a la del preceptrón,
-el término $\phi(z^{(i)})$ con $z^{(i)}=w^Tx^{(i)}$ es un número real y no un
-número entero de clasificación. Más aún, la actualización de los pesos está
-basada en todas las muestras de entrenamiento (en lugar de actualizar de
-forma incremental después de cada muestra). Es por esto que a este acercamiento
-se le conoce como ``batch'' \sout{gradient descent}.
-
+\subsection{Propagación hacia atrás}
+\cite{haykin} 129
+\cite{memes} 36
+http://www.iro.umontreal.ca/~pift6266/H10/notes/mlp.html
