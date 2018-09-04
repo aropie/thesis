@@ -1,0 +1,37 @@
+\section{Workflow}
+\subsection{¿Qué se hizo?}
+Se tomó una base de datos cristalográfica de acoplamientos ya
+realizados y sobre esos ligandos y proteinas se corrió Docking con
+AutoDockVina n.m. Después se hace una tabla comparando los scores que
+les asigna AutoDockVina con el RMSDI cristalográfico. Pero los scores
+de autodockvina no siempre son muy buenos y pasa que muchas veces la
+que es la mejor pose la manda al $4^o$ o $5^o$ lugar del ranking.
+Aquí es donde entra la red:
+
+DosSantos \cite{dossantos} crea una red de metaanálisis de los scores
+del docking, tomando como entradas a cada átomo del ligando con su
+contexto (entendido como las características de los átomos aledaños).
+Partiendo de esta idea, y considerando al docking como un proceso
+puramente estructural, tomamos como unidad básica a las ramas de cada
+ligando encapsulamos a cada una con la información de las ramas más
+cercanas.
+
+Esta infromación consiste en tipo de rama y distancia. Para el tipo
+de rama, se hace un listado con todos las ramas distintas presentes en
+la base de datos (apróx. 5000) y se le asocia un número a cada una.
+
+\subsection{¿Cómo se hizo?}
+Se toma una base de datos cristalográfica y se hace docking sobre
+ella. En paralelo, se toman archvios PDB y sus correspondientes PDBQT
+y se generan objetos de Python donde cada objeto representa ya sea un
+ligando o una proteína y se asocia a cada uno su respectivo score y
+RMSDI. Después en otro script, se procesa cada ligando y se genera
+acorde a la entrada de la red.
+\subsubsection{Contexto de la rama}
+Para extraer la información principal de la rama, se hace primero un
+índice (o diccionario) con todos los tipos de ramas distintas. A
+partir de ese diccionario (con su respectivo índice), se asocia a una
+rama dada las cinco ramas más cercanas codificadas a través de sus
+tipos y sus distancias a las ramas dadas. Esto se hace para cada rama
+del ligando y el conjunto de estas constituye la codificación del ligando.
+\subsection{¿Para qué?}

@@ -14,3 +14,56 @@ crucial en muchos procesos regulatorios esenciales para la vida, como
 reacciones de catálisis (e.g. digestión); funciones inmunológicas y
 hormonales;  y la coordinación de actividades neuronales, crecimiento
 de células y hueso, y diferenciación celular.
+
+\subsection{Acoplamiento molecular}
+Basado en \cite{kukol}
+El campo del \textbf{acoplamiento molecular} o \textbf{docking}
+surge a lo largo de las últimas tres décadas gracias a la necesidad de la
+biología molecular estructural y el descubrimiento de hinibidores basado
+en estructuras. Ha podido evolucionar considerablemente gracias al
+crecimiento dramático de disponibilidad y poder de las computadoras, y
+al creciente acceso a bases de datos de proteínas y moléculas.
+
+\begin{figure}[h]
+  \includegraphics[scale=0.3]{docking}
+  \centering
+  \caption{Represenatción esquemática del \textit{docking}.
+    (Tomado de \url{https://en.wikipedia.org/wiki/Docking_(molecular)})}
+\end{figure}
+
+El objetivo de un programa de acoplamiento molecular automatizado es
+comprender y predecir reconocimiento molecular, tanto
+estructuralmente, encontrando posibles \textit{poses} de acoplamiento,
+como energéticamente, prediciendo la afinidad del enlace. El
+acoplamiento molecular usualmente se realiza entre una molécula
+pequeña, llamada ligando, y una macromolécula objetivo, una proteína
+en nuestro caso. 
+
+\begin{figure}[h]
+  \includegraphics[scale=0.5]{docking_steps}
+  \caption{Diagrama de flujo para un acoplamiento usual.
+    (Tomado de \cite{kukol})}
+  \label{fig:docking_flowchart}
+\end{figure}
+\ref{fig:docking_flowchart} muestra los pasos clave que son comunes en
+todos los protocolos. El acoplamiento consiste en encontrar los
+\sout{binding modes} más favorables de un ligando hacia una proteína
+objetivo. El \sout{binding mode} de un ligando puede ser caracterizado
+de forma única por sus variables de estado. Estas consiten en su
+posición (traslaciones sobre los ejes $x, y, z$), orientación (ángulos
+de Euler o cuaterniones) y, si el ligando es flexible, su conformación
+(los ángulos de torción para cada enlace \sout{rotable}). Cada una de
+las variables de estado describe un grado de libertad en un espacio de
+búsqueda multidimensional.
+
+\subsection{Función evaluadora}
+Todos los métodos de acoplamiento requieren una función de evaluación
+para calificar los \sout{binding modes} de los candidatos, y un método
+de búsqueda para explorar las configuraciones de las variables de
+estado. En general, el éxito de un acoplamiento se mide en términos de
+la \textit{desviación media cuadrática} (RMSD) the las coordenadas
+cartesianas de los átomos del ligando en las conformaciónes del
+acoplamiento, comparadas con las cristalográficas: un acoplamiento se
+considera exitoso si el RMSD es menor a 2\AA.
+
+Falta hablar de los archivo .pdb
