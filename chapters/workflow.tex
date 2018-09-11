@@ -8,30 +8,63 @@ de autodockvina no siempre son muy buenos y pasa que muchas veces la
 que es la mejor pose la manda al $4^o$ o $5^o$ lugar del ranking.
 Aquí es donde entra la red:
 
-DosSantos \cite{dossantos} crea una red de metaanálisis de los scores
-del docking, tomando como entradas a cada átomo del ligando con su
-contexto (entendido como las características de los átomos aledaños).
-Partiendo de esta idea, y considerando al docking como un proceso
-puramente estructural, tomamos como unidad básica a las ramas de cada
-ligando encapsulamos a cada una con la información de las ramas más
-cercanas.
+Pereira, Caffaren y dos Santos \cite{dossantos} consideran al átomo
+como una entidad ligada íntimamente con su contexto. Con esta premisa,
+crean una red que toma como entrada a cada átomo del ligando con su
+contexto codificado, entendiendo contexto del átomo como las
+carácteristicas del mismo y de los átomos más cercanos.
+Pereira buscaba encontrar el acoplamiento que generara la mayor
+cantidad de energía, sin importar cual fuera la conformación necesaria
+para poder realizarlo; nuestro enfoque busca precisamente encontrar
+dicha conformación.
 
-Esta infromación consiste en tipo de rama y distancia. Para el tipo
-de rama, se hace un listado con todos las ramas distintas presentes en
-la base de datos (apróx. 5000) y se le asocia un número a cada una.
-
-\subsection{¿Cómo se hizo?}
-Se toma una base de datos cristalográfica y se hace docking sobre
-ella. En paralelo, se toman archvios PDB y sus correspondientes PDBQT
-y se generan objetos de Python donde cada objeto representa ya sea un
-ligando o una proteína y se asocia a cada uno su respectivo score y
-RMSDI. Después en otro script, se procesa cada ligando y se genera
-acorde a la entrada de la red.
 \subsubsection{Contexto de la rama}
-Para extraer la información principal de la rama, se hace primero un
-índice (o diccionario) con todos los tipos de ramas distintas. A
-partir de ese diccionario (con su respectivo índice), se asocia a una
-rama dada las cinco ramas más cercanas codificadas a través de sus
+Partiendo de la ídea del átomo ligado a su contexto, y considerando
+que lo que buscamos encontrar es una propiedad puramente estructural,
+tomamos como unidad básica del ligando a la rama. Así, nuestro
+\textit{contexto de átomo} se convierte en \textbf{contexto de rama},
+siendo este la combinación de el tipo de rama, los de las ramas más
+cercanas y la distancia a cada una de ellas.
+
+A partir de ese diccionario (con su respectivo índice), se asocia a
+una rama con las cinco ramas más cercanas codificadas a través de sus
 tipos y sus distancias a las ramas dadas. Esto se hace para cada rama
-del ligando y el conjunto de estas constituye la codificación del ligando.
-\subsection{¿Para qué?}
+del ligando.
+
+Para el tipo de rama se divide cada ligando en sus respectivas ramas y
+cada una de estas ramas se codifica usando la respresentación
+SMILES \footnote{\url{http://www.daylight.com/smiles/}} y se ponen en
+un listado donde se asocia cada rama codificada con un índice,
+generando así lo que llamamos el \textit{diccionario de ramas}.
+
+Luego, una capa convolucionall es empleada para sintetizar la
+información de todos los contextos de todas las ramas del ligando y
+genera una representación vectorial del complejo. Después se pasa a
+\sout{dos} capas ocultas para sintetización y procesamiento del
+vector-ligando. Finalmente, en la última capa, la representación del
+complejo es dada como entrada a un clasificador \textit{softmax},
+quien es responsable de producir el puntaje. A continuación se
+presenta un pseudo-código de alto nivel del proceso de la red:
+\begin{algorithm}
+  \caption{Red con nombre fancy}
+  \begin{algorithmic}[1]
+    \State \textbf{Dado:} $W^{b\_type} \in \mathbb{R}^{kxk}$,
+    $W^{b\_dist} \in \mathbb{R}^{kxk}$,
+    
+  \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+\caption{Euclid’s algorithm}\label{euclid}
+\begin{algorithmic}[1]
+\Procedure{Euclid}{$a,b$}\Comment{The g.c.d. of a and b}
+\State $r\gets a\bmod b$
+\While{$r\not=0$}\Comment{We have the answer if r is 0}
+\State $a\gets b$
+\State $b\gets r$
+\State $r\gets a\bmod b$
+\EndWhile\label{euclidendwhile}
+\State \textbf{return} $b$\Comment{The gcd is b}
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
