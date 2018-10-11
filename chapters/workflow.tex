@@ -12,7 +12,7 @@ Pereira, Caffaren y dos Santos \cite{dossantos} consideran al átomo
 como una entidad ligada íntimamente con su contexto. Con esta premisa,
 crean una red que toma como entrada a cada átomo del ligando con su
 contexto codificado, entendiendo contexto del átomo como las
-carácteristicas del mismo y de los átomos más cercanos.
+carácteristicas de este y de los átomos más cercanos.
 Pereira buscaba encontrar el acoplamiento que generara la mayor
 cantidad de energía, sin importar cual fuera la conformación necesaria
 para poder realizarlo; nuestro enfoque busca precisamente encontrar
@@ -48,9 +48,39 @@ presenta un pseudo-código de alto nivel del proceso de la red:
 \begin{algorithm}
   \caption{Red con nombre fancy}
   \begin{algorithmic}[1]
-    \State \textbf{Dado:} $W^{b\_type} \in \mathbb{R}^{kxk}$,
-    $W^{b\_dist} \in \mathbb{R}^{kxk}$,
-    
+    \State \textbf{Dados:}\newline
+                           $W_{b\_type} \in \mathbb{R}^{h\times |B|}, W_{b\_dist}
+                           \in \mathbb{R}^{h\times |B|},\newline
+                           W_{conv} \in \mathbb{R}^{|z_i| \times cf}, W_1 \in
+                           \mathbb{R}^{cf \times h_1},\newline
+                           W_2 \in \mathbb{R}^{h_1 \times h_2}, W_{out} \in
+                           \mathbb{R}^{h_2 \times out},\newline
+                           b_{conv} \in \mathbb{R}^{cf}, b_{1} \in
+                           \mathbb{R}^{h_1},\newline
+                           b_{2} \in \mathbb{R}^{h_2}, b_{out}
+                           \in \mathbb{R}^{out}$
+    \State $Z = []$
+    \For{$i=1$ to $m$}
+      \State $z_{b\_type}$ = columnas de $W_{b\_type}$
+      correspondientes a los tipos de ramas de los vecinos de la
+      rama $i$
+      \State $z_{b\_dist}$ = columnas de $W_{b\_dist}$
+      correspondientes a las distancias de los vecinos de la rama $i$
+      \State $z_i$ = {$z_{b\_type}, z_{b\_dist}$}
+      \State $Z.add(z_i)$
+    \EndFor
+    \State // $U$ es inicializada con ceros
+    \State $U = [..] \in \mathbb{R}^{cf \times m}$
+    \State // Capa convolucional
+    \For{$i=1 to m$}
+      \State $U[:,i]=f(W_1Z[i] + b_1)$
+    \EndFor
+    \State // max-pooling por columnas
+    \State $r=max(U, axis=1)$
+    \State //Capas ocultas y capa de salida
+    \State $score=W_3(W_2r + b_2) + b_3$
+    \State // Regresa el puntaje normalizado
+    \State \textbf{return} $\frac{e^{score[1]}}{e^{score[0]}+e^{score[1]}}$
   \end{algorithmic}
 \end{algorithm}
 
