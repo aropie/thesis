@@ -1,4 +1,5 @@
-\section{Capítulo sin nombre}
+\section{Sobre redes neuronales}
+  \blindtext
 \subsection{Descenso por el gradiente}
 Uno de los puntos clave del aprendizaje de máquina supervisado es
 definir una función objetivo que deberá ser optimizada durante el
@@ -8,7 +9,7 @@ proceso de aprendizaje. Esta función objetivo usualmente es una
 La no-linealidad de las funciones de activación provocan que no se garantice la convexidad
 de las funciones de error más comunes, es decir, que no existe un método analítico para
 encontrar el mínimo de la función de error, el entrenamiento de la red se basa en
-métodos iterativos que van reduciendo paulatinamente ese error. 
+métodos iterativos que van reduciendo paulatinamente ese error.
 
 Definimos la función de costo $J$ como la \textbf{Suma de
   los errores cuadrados (SSE)} entre la salida calculada y el valor
@@ -26,7 +27,7 @@ es que la función de costos se vuelve diferenciable.
 Sabemos que la derivada es útil para minimizar funciones porque, dada una función
 $y = f(x)$, nos dice cómo cambiar $x$ para hacer una pequeña mejora en $y$, en
 otras palabras $f(x-\varepsilon f'(x)) < f(x)$ para un $\varepsilon \in \mathbb{R}$
-suficientemente pequeño. Podemos entonces reducir $f(x)$ al mover a $x$ en pequeños
+suficientemente pequeño. Podemos entonces minimizar $f(x)$ al mover a $x$ en pequeños
 \textit{pasos} con el signo opuesto de la derivada. A esta técnica se le conoce como
 \textbf{descenso por el gradiente}.
 

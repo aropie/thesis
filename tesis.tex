@@ -1,5 +1,6 @@
 \documentclass[letterpaper,12pt]{book}
 
+\usepackage{geometry}
 \usepackage{amsmath}
 \usepackage[utf8]{inputenc}
 \usepackage[spanish]{babel}
@@ -8,10 +9,13 @@
 \usepackage[backend=biber]{biblatex}
 \usepackage{hyperref}
 \usepackage{amssymb}
+\usepackage{float}
 \usepackage[Sonny]{fncychap}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
 \usepackage{blindtext} %% TO BE REMOVED
+
+\geometry{bindingoffset=3cm}
 
 \addbibresource{references.bib}
 \graphicspath{ {images/} }
@@ -26,7 +30,7 @@
     \chapter{Marco teorico}
         \input{chapters/types-of-learning}
         \input{chapters/perceptron}
-        \input{chapters/gradient-descent}
+        \input{chapters/neural-networks}
         \input{chapters/proteins}
     \chapter{Metaanálisis del acoplamiento}
         \input{chapters/workflow}

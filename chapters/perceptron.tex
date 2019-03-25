@@ -18,16 +18,16 @@ de unidades de procesamiento llamadas \textbf{neuronas} trabajando en paralelo.
 Aunque los detalles son inciertos, se cree que las neuronas son mucho más simples y lentas
 que un procesador de una computadora \cite{ethem}. Lo que hace al cerebro distinto, y le da
 su gran poder computacional, es su gran conectividad: las neuronas en el cerebro tienen
-conecciones, llamadas \textit{sinápsis}, a alrededor de otras $10^{4}$ neuronas.
+conexiones, llamadas \textit{sinápsis}, a alrededor de otras $10^{4}$ neuronas.
 
-En una computadora, el procesador es activo y la memoria está separada y opera de forma pasiva
+En una computadora, el procesador es activo y la memoria está separada operando de forma pasiva
 (el procesador accede a ella sólo cuando se requiere); se cree que en el cerebro, tanto el
 procesamiento como la memoria están distribuidos por toda la red. El procesamiento es realizado
 por las neuronas y la memoria se encuentra en las sinápsis entre ellas.
 
 El cerebro es, además, un órgano capás de adaptarse a las condiciones de su ambiente, ya que
 constantemente son agregadas nuevas conexiones sinápticas entre neuronas y modificadas
-las ya existentes. Una vez que una neuroan ha emitido una señal eléctrica, las adyacentes
+las ya existentes. Una vez que una neurona ha emitido una señal eléctrica, las adyacentes
 reciben la información por medio de canales de transmisión llamados \textit{dendritas}. Estos
 impulsos son llevados hasta el \textit{núcleo} de la neurona para su procesamiento y, posteriormente,
 una reacción es transmitida a través del \textit{axón} de la célula \cite{memes}.
@@ -40,7 +40,7 @@ una reacción es transmitida a través del \textit{axón} de la célula \cite{me
 \subsection{El perceptrón}
 En 1943, Warren McCullock y Walter Pitts publican la primera aproximación de una
 neurona simplificada, tratando de entender cómo funciona el cerebro biológico para
-el dieseño de inteligencia artificial, la llamada neurona McCullock-Pits (MCP) \cite{mcp}.
+el diseño de inteligencia artificial, la llamada neurona McCullock-Pits (MCP) \cite{mcp}.
 
 McCullock y Pitts describen a la neurona como una compuerta lógica sencilla con una
 salida binaria; múltiples señales llegan a las dendritas para ser integradas al cuerpo
@@ -58,7 +58,7 @@ Formalmente, podemos plantearlo como un problema de clasificación binaria, dond
 referimos a nuestras dos clases, por simplicidad, como 1 (clase positiva) y -1
 (clase negativa). Definimos también una \textit{función de activación $\mathbf{\phi (z)}$}
 que toma una combinación lineal de ciertos valores de entrada \textbf{x} y un
-vector de pesos \textbf{w}, donde \textbf{z} es la llamada \textit{entrada de la red}
+vector de pesos \textbf{w}, donde \textbf{z} es lo que llamamos \textit{entrada de la red}
 $(z = w_1x_1 + ... + w_mx_m)$:
 
 \begin{equation*}
@@ -91,7 +91,7 @@ forma $z=w_0x_0 + w_1x_1 + \dots + w_mx_m = \mathbf{w^Tx}$.
 La figura \ref{fig:binary} ilustra cómo la entrada de la red $z=w^Tx$ es \textit{aplanada}
 a una salida binaria (-1 o 1) por la función de activación del perceptrón (izquierda)
 y cómo puede ser usada para discriminar entre dos clases linealmente separables (derecha):
-\begin{figure}[h]
+\begin{figure}[H]
   \includegraphics[scale=0.5]{perceptron}
   \centering
   \caption{\textit{Aplanamiento} de la salida del perceptrón para hacer clasificación.
@@ -132,7 +132,7 @@ todos los pesos en el vector de pesos son actualizados de manera
 simultánea, lo que significa que no recalculamos $\hat y^{(i)}$ hasta que
 todos los pesos $\Delta w_j$ han sido actualizados.
 
-\begin{figure}[h]
+\begin{figure}[H]
   \includegraphics[scale=0.5]{perceptron-summary}
   \centering
   \caption{Resumen del concepto general de perceptrón. (Tomado de \cite{python})}
@@ -141,12 +141,20 @@ todos los pesos $\Delta w_j$ han sido actualizados.
 
 La figura \ref{fig:perceptron} muestra cómo el perceptron recibe las entradas de una
 muestra $x$ y las combina con los pesos $w$ para calcular la entrada neta.
-Esta entrada se le dá a la función de activación, que genera una salida
+Esta entrada se le da a la función de activación, que genera una salida
 binaria (-1 o 1 en este caso), representando la predicción de la clasifica-
 ción. Durante la fase de aprendizaje, la salida es usada para calcular el
 error de la predicción y actualizar los pesos.
 
 \subsection{Neuronas adaptativas lineales}
+
+\begin{figure}[H]
+  \includegraphics[scale=0.5]{adaline}
+  \centering
+  \caption{Esquema de Adaline. (Tomado de \cite{python})}
+  \label{fig:adaline}
+\end{figure}
+
 La neurona adaptativa lineal (\textbf{Adaline}) fué publicada unos años
 después del algoritmo del perceptrón de Frank Rosenblatt, por Bernard
 Widrow \cite{adaline} y se considera la evolución natural del perceptrón
@@ -163,13 +171,6 @@ en lugar de una función escalón. En Adaline, esta función de activación
 $\phi (z)$ es simplemente la función identidad de la entrada neta, así
 $\phi (w^T x) = w^T x$.
 
-\begin{figure}[h]
-  \includegraphics[scale=0.5]{adaline}
-  \centering
-  \caption{Esquema de Adaline. (Tomado de \cite{python})}
-  \label{fig:adaline}
-\end{figure}
-
 Mientras que la función de activación lineal es usada para la actualiza-
 ción de pesos, un \textit{cuantificador}, similar a la función escalón
 descrita anteriormente, puede ser usado para hacer la clasificación,
@@ -184,14 +185,14 @@ Cabe destacar que actualmente se buscan funciones de activación más
 suavizadas y, sobre todo, diferenciables. Esto con el fin de optimizar
 los parámetros de los modelos más complejos.
 
-\begin{figure}[h]
+\begin{figure}[H]
   \includegraphics[scale=0.5]{activation}
   \centering
   \caption{Algunos ejemplos de otras funciones de activación.
   (Tomado de \url{https://www.slideshare.net/SungJuKim2/multi-layer-perceptron-back-propagation})}
 \end{figure}
 
-\subsection{Él perceptrón multicapa}
+\subsection{El perceptrón multicapa}
 El perceptrón multicapa es una generalización del perceptrón simple de Rosenblatt,
 como conescuencia de las limitaciones de este ante conjuntos de datos que no son
 linealmente separables. Lo que se hace es combinar varios perceptrones en una
@@ -204,7 +205,7 @@ conjunto de neuronas sin conexiones entre ellas, pero totalmente conectadas a la
 capas inmediatamente anterior y posterior. Visto como una gráfica, un \textbf{perceptrón
   multicapa} (\textit{MLP} por sus siglas en inglés) es una gráfica $n-partita$ dirigida
 donde $n$ seria el número de capas.
-\begin{figure}[h]
+\begin{figure}[H]
   \includegraphics[scale=0.5]{mlp}
   \centering
   \caption{Arquitectura de un MLP con dos capas ocultas (Tomado \cite{haykin})}
@@ -231,6 +232,6 @@ $i+1$-ésima capa oculta computa su valor como
 \end{equation}
 Por último, la salida, suponiendo que hay $n$ capas ocultas, seria
 \begin{equation}
-  \hat{y} = \sigma{W_{n+1}h_n + b_{n+1}}
+  \hat{y} = \sigma{(W_{n+1}h_n + b_{n+1})}
 \end{equation}
 donde $\hat{y}$ es el vector de clasificación.
