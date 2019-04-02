@@ -1,15 +1,14 @@
 \section{Workflow}
-\subsection{¿Qué se hizo?}
 Se tomó una base de datos cristalográfica de acoplamientos ya
 realizados y sobre esos ligandos y proteinas se corrió Docking con
 AutoDockVina n.m. Después se hace una tabla comparando los scores que
 les asigna AutoDockVina con el RMSDI cristalográfico. Pero los scores
 de autodockvina no siempre son muy buenos y pasa que muchas veces la
 que es la mejor pose la manda al $4^o$ o $5^o$ lugar del ranking.
-Aquí es donde entra la red:
 
+\subsection{Contexto de la rama}
 Pereira, Caffaren y dos Santos \cite{dossantos} consideran al átomo
-como una entidad ligada íntimamente con su contexto. Con esta premisa,
+como una entidad ligada íntimamente a su contexto. Bajo esta premisa,
 crean una red que toma como entrada a cada átomo del ligando con su
 contexto codificado, entendiendo contexto del átomo como las
 carácteristicas de este y de los átomos más cercanos.
@@ -18,24 +17,77 @@ cantidad de energía, sin importar cual fuera la conformación necesaria
 para poder realizarlo; nuestro enfoque busca precisamente encontrar
 dicha conformación.
 
-\subsubsection{Contexto de la rama}
 Partiendo de la ídea del átomo ligado a su contexto, y considerando
 que lo que buscamos encontrar es una propiedad puramente estructural,
-tomamos como unidad básica del ligando a la rama. Así, nuestro
+tomamos como unidad básica del ligando a los segmentos con libertad
+rotacional, al que llamaremos \textit{rama}. Así, nuestro
 \textit{contexto de átomo} se convierte en \textbf{contexto de rama},
 siendo este la combinación de el tipo de rama, los de las ramas más
 cercanas y la distancia a cada una de ellas.
 
-A partir de ese diccionario (con su respectivo índice), se asocia a
-una rama con las cinco ramas más cercanas codificadas a través de sus
-tipos y sus distancias a las ramas dadas. Esto se hace para cada rama
-del ligando.
+IMAGEN HISTOGRAMA DE DISTRIBUCIÖN DE TIPOS DE RAMA
 
-Para el tipo de rama se divide cada ligando en sus respectivas ramas y
-cada una de estas ramas se codifica usando la respresentación
-SMILES \footnote{\url{http://www.daylight.com/smiles/}} y se ponen en
-un listado donde se asocia cada rama codificada con un índice,
-generando así lo que llamamos el \textit{diccionario de ramas}.
+Se divide cada receptor y ligando en sus respectivas ramas y cada una
+de estas ramas se codifica usando la respresentación
+SMILES \footnote{\url{http://www.daylight.com/smiles/}}. Esta
+codificación, representa de forma única a cada rama distinta; es a
+esto a lo que llamamos \textbf{tipo de rama}. Se enlistan todos los
+tipos de rama, asociando a cada uno un índice, generando así lo que
+llamamos el \textit{diccionario de ramas}.
+
+Del mismo modo, se segmentan los rangos de distancia encontrados en
+compartimentos, y a cada uno de estos se les asigna también un índice,
+generando así un \textit{diccionario de distancias}.
+
+\begin{table}[H]
+  \begin{center}
+    \begin{tabular}{l|l}
+      SMILES                 & Id \\ \hline
+      NC1=N{[}C{]}(=NC=C1)=O & 93 \\
+      C1CCCCC1               & 94 \\
+      CNC=O                  & 95 \\
+      NC=N                   & 96 \\
+      CC=C                   & 97
+    \end{tabular}
+    \begin{tabular}{l|l}
+      Rango de distancia (\AA) & Idx \\ \hline
+      3.0526 - 3.2631        & 6   \\
+      3.2632 - 3.4736        & 7   \\
+      3.4737 - 3.6842        & 8   \\
+      3.6843 - 3.8947        & 9   \\
+      3.8948 - 4.1052        & 10
+    \end{tabular}
+  \end{center}
+  \caption{Fragmento de los diccionarios de ramas y de distancias}
+  \label{fig:dictionary}
+\end{table}
+
+A partir de estos diccionarios, se asocia a una rama del ligando con
+las cinco ramas del receptor más cercanas codificadas a través de sus
+tipos y sus distancias a las ramas dadas, generando así el
+\textit{vector de la rama}.
+
+\begin{table}[H]
+  \begin{center}
+  \begin{tabular}{l|l}
+    OP(O)O                 & \AA        \\ \hline
+    N                      & 5.794664 \\
+    C1CC1                  & 5.691862 \\
+    NC1=N{[}C{]}(=NC=C1)=O & 4.449922 \\
+    NC=N                   & 3.785496 \\
+    O                      & 3.747894
+  \end{tabular}
+  \end{center}
+  \begin{equation*}
+  \downarrow
+  \end{equation*}
+  \begin{equation*}
+    OP(O)O=\begin{bmatrix}
+    (2, 13, 93, 96, 4) & (4, 2, 2, 6, 4)
+    \end{bmatrix}
+  \end{equation*}
+  \caption{Traducción de una rama a su representación vectorial}
+\end{table}
 
 Luego, una capa convolucional es empleada para sintetizar la
 información de todos los contextos de todas las ramas del ligando y
