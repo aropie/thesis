@@ -64,18 +64,19 @@ generando así un \textit{diccionario de distancias}.
 
 A partir de estos diccionarios, se asocia a una rama del ligando con
 las cinco ramas del receptor más cercanas codificadas a través de sus
-tipos y sus distancias a las ramas dadas, generando así el
-\textit{vector de la rama}.
+tipos y sus distancias a las ramas dadas. Lo que se genera entonces es
+un vector con dos tuplas, donde cada elemento de las tuplas son
+índices de tipos de rama y distancia respectivamente; a este vector le
+llamamos el \textit{vector de rama}. El conjunto de vectores de rama
+de un ligando genera la \textit{matriz de ligando}, que será la
+entrada de la red.
 
 \begin{table}[H]
   \begin{center}
   \begin{tabular}{l|l}
-    OP(O)O                 & \AA        \\ \hline
-    N                      & 5.794664 \\
-    C1CC1                  & 5.691862 \\
-    NC1=N{[}C{]}(=NC=C1)=O & 4.449922 \\
-    NC=N                   & 3.785496 \\
-    O                      & 3.747894
+    OP(O)O & \AA \\ \hline N & 5.794664 \\ C1CC1 & 5.691862
+    \\ NC1=N{[}C{]}(=NC=C1)=O & 4.449922 \\ NC=N & 3.785496 \\ O &
+    3.747894
   \end{tabular}
   \end{center}
   \begin{equation*}
@@ -88,6 +89,23 @@ tipos y sus distancias a las ramas dadas, generando así el
   \end{equation*}
   \caption{Traducción de una rama a su representación vectorial}
 \end{table}
+
+Tanto para los tipos de rama, como para los tipos de distancia, se
+generan las matrices $W_{b\_type}$ y $W_{b\_dist}$ respectivamente. Estas
+matrices constituyen los pesos de la primera capa de la red y son
+inicializadas con valores aleatorios.
+
+La primera capa de la red, toma cada matriz de ligando y la transforma
+en una matriz en $\mathbb{R}$. Cada columna en $W_{b\_type} \in
+\mathbb{R}^{h\times |B|}$ corresponde el vector característico de un
+tipo de rama, donde B es el conjunto de tipo de ramas y $h$ es la dimensión
+de los vectores característicos, quedando como un hiperparámetro a definir.
+Dado el contexto de una rama, la red transforma cada tipo de rama en
+su respectivo vector característico, utilizando los índices ya generados,
+y luego concatena los vectores para generar a la representación vectorial
+de la rama $z_{b\_type}$.
+
+DIAGRAMA DE GENERAACION DE $Z_{b\_type}$
 
 Luego, una capa convolucional es empleada para sintetizar la
 información de todos los contextos de todas las ramas del ligando y
