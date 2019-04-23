@@ -89,24 +89,25 @@ entrada de la red.
   \caption{Traducción de una rama a su representación vectorial}
 \end{table}
 
-Tanto para los tipos de rama, como para los tipos de distancia, se
+Tanto para los tipos de rama, como para las particiones de distancia, se
 generan las matrices $W_{b\_type}$ y $W_{b\_dist}$ respectivamente. Estas
 matrices constituyen los pesos de la primera capa de la red y son
 inicializadas con valores aleatorios.
 
+
 La primera capa de la red, toma cada matriz de ligando y la transforma
 en una matriz en $\mathbb{R}$. Cada columna en $W_{b\_type} \in
-\mathbb{R}^{h\times |B|}$ corresponde el vector característico de un
-tipo de rama, donde B es el conjunto de tipo de ramas y $h$ es la
+\mathbb{R}^{h\times |B|}$ corresponde al vector característico de un
+tipo de rama, donde $B$ es el conjunto de tipo de ramas y $h$ es la
 dimensión de los vectores característicos, quedando como un
 hiperparámetro a definir.  Dado el contexto de una rama, la red
 transforma cada tipo de rama en su respectivo vector característico,
 utilizando los índices ya generados, y luego concatena los vectores
 para generar a la representación vectorial del tipo de rama
-$z_{b\_type}$.
+$z_{b\_type}$. Analogamente, se genera el vector $z_{b\_dist}$ en el
+contexto de la rama objetivo.
 
-DIAGRAMA DE GENERAACION DE $Z_{b\_type}$
-\begin{table}[h]
+\begin{table}[H]
   \begin{equation*}
     Rama=\begin{bmatrix}
     OP=O, & OC=O, & C=O, & OPO, & OP=O
@@ -121,7 +122,6 @@ DIAGRAMA DE GENERAACION DE $Z_{b\_type}$
       &      &     &     &      &     &      \\ \hline
       &      &     &     &      &     &      \\ \hline
       &      &     &     &      &     &      \\ \hline
-      &      &     &     &      &     &      \\ \hline
     \end{tabular}
   \end{center}
   \begin{equation*}
@@ -131,12 +131,18 @@ DIAGRAMA DE GENERAACION DE $Z_{b\_type}$
     z_{b\_type}^T =
   \begin{tabular}{lllllllllllllll}
 \multicolumn{3}{l}{OP=O}                                               &                       & \multicolumn{3}{l}{OC=O}                                              &                       & \multicolumn{3}{l}{C=O}                                               &                       & \multicolumn{3}{l}{OPO}                                               \\ \cline{1-3} \cline{5-7} \cline{9-11} \cline{13-15}
-\multicolumn{1}{|l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} \\ \cline{1-3} \cline{5-7} \cline{9-11} \cline{13-15}
+\multicolumn{1}{|l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{$\bullet$} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{$\bullet$} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{$\bullet$} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} \\ \cline{1-3} \cline{5-7} \cline{9-11} \cline{13-15}
   \end{tabular}
   \end{equation*}
-  \caption{My caption}
-  \label{my-label}
+  \caption{Representación de la construcción del tipo de rama ($z_{b\_type}$).
+    El símbolo $\bullet$ representa la operación de concatenación.}
+\label{my-label}
 \end{table}
+
+Finalmente, la representación del contexto de la rama $b$ se define como
+$z_b = z_{b\_type} \cdot z_{b\_dist}$. La idea es que a partir de características
+básicas contextuales, la red pueda aprender a distinguir rasgos abtractos
+de las ramas que permitan la discriminación entre poses válidas y señuelos.
 
 Luego, una capa convolucional es empleada para sintetizar la
 información de todos los contextos de todas las ramas del ligando y
