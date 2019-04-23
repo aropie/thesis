@@ -1,2 +1,31 @@
-\section{abstract}
-  \blindtext
+\section{Abstract}
+El descubrimiento de nuevos fármacos es un proceso muy tardado y costoso.
+El desarrollo e incluso el reposicionamiento de compuestos ya conocidos es una
+tarea sumamente complicada. El escenario es aún más complicado si se toman en cuenta
+los miles o millones de moléculas capáces de ser sintetizadas en cada etapa del desarrollo.
+Para superar estas dificultades, el uso de alternativas computacionales de bajo costo
+es altamente recomendado, y se ha adoptado como la forma estándar te ayuda para el
+desarrollo de nuevos fármacos.
+
+Una de las metodologias computacionales más usades para investigar estas interacciones es
+el acoplamiento molecular. La selección de los ligandos más potentes utilizando Cribado
+Virtual basado en Acoplamiento (DBVS) es realizado a través de realizar la inserción de
+cada compuesto de la bibilioteca de compuestos en una región particular de un receptor
+objetivo. En la primera etapa del proceso, una búsqueda heurística es llevada a cabo
+en la que miles de posibles inserciones son consideradas. En la segunda etapa, la calidad
+de la inserción es evaluada a través de una función evaluadora. Esta última fase se ha
+convertido en todo un reto para los científicos computacionales, por la dificultad de decidir
+de forma determinística si un acoplamiento es bueno o no.
+
+Los sistemas basados en aprendizaje de máquina (ML) han sido usados con éxito para mejorar la
+salida del DBVS para tanto incrementar el desempeño de las funciones evaluadoras, como para
+construir clasificadores de afinidad de enlace. Una de las principales ventajas de utilizar ML
+es la capacidad de explicar la dependencia no lineal de las interacciones moleculares entre
+ligando y receptor.
+
+En este trabajo se propone un acercamiento con una red neuronal convolucional para mejorar el
+DBVS. El método utiliza los resultados de una simulación de acoplamiento como entrada, en
+donde automáticamente aprende a extraer características relevantes a partir de datos básicos
+como tipos de átomo, distancias entre ellos, y su contexto en la rama estructural. La red
+aprende características abstractas que son útiles para discriminar entre ligandos activos y
+señuelos en una proteína.
