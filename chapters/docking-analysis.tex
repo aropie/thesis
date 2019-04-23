@@ -1,4 +1,3 @@
-\section{Workflow}
 Se tomó una base de datos cristalográfica de acoplamientos ya
 realizados y sobre esos ligandos y proteinas se corrió Docking con
 AutoDockVina n.m. Después se hace una tabla comparando los scores que
@@ -6,7 +5,7 @@ les asigna AutoDockVina con el RMSDI cristalográfico. Pero los scores
 de autodockvina no siempre son muy buenos y pasa que muchas veces la
 que es la mejor pose la manda al $4^o$ o $5^o$ lugar del ranking.
 
-\subsection{Contexto de la rama}
+\section{Contexto de la rama}
 Pereira, Caffaren y dos Santos \cite{dossantos} consideran al átomo
 como una entidad ligada íntimamente a su contexto. Bajo esta premisa,
 crean una red que toma como entrada a cada átomo del ligando con su
@@ -98,14 +97,46 @@ inicializadas con valores aleatorios.
 La primera capa de la red, toma cada matriz de ligando y la transforma
 en una matriz en $\mathbb{R}$. Cada columna en $W_{b\_type} \in
 \mathbb{R}^{h\times |B|}$ corresponde el vector característico de un
-tipo de rama, donde B es el conjunto de tipo de ramas y $h$ es la dimensión
-de los vectores característicos, quedando como un hiperparámetro a definir.
-Dado el contexto de una rama, la red transforma cada tipo de rama en
-su respectivo vector característico, utilizando los índices ya generados,
-y luego concatena los vectores para generar a la representación vectorial
-de la rama $z_{b\_type}$.
+tipo de rama, donde B es el conjunto de tipo de ramas y $h$ es la
+dimensión de los vectores característicos, quedando como un
+hiperparámetro a definir.  Dado el contexto de una rama, la red
+transforma cada tipo de rama en su respectivo vector característico,
+utilizando los índices ya generados, y luego concatena los vectores
+para generar a la representación vectorial del tipo de rama
+$z_{b\_type}$.
 
 DIAGRAMA DE GENERAACION DE $Z_{b\_type}$
+\begin{table}[h]
+  \begin{equation*}
+    Rama=\begin{bmatrix}
+    OP=O, & OC=O, & C=O, & OPO, & OP=O
+    \end{bmatrix}
+  \end{equation*}
+  \begin{center}
+    $W_{b\_type}=$
+    \begin{tabular}{|l|l|l|l|l|l|l|}
+      \hline
+      \rowcolor[HTML]{D0D0D0}
+      OP=O & OC=O & OPO & C=O & NC=O & OPO & OP=O \\ \hline
+      &      &     &     &      &     &      \\ \hline
+      &      &     &     &      &     &      \\ \hline
+      &      &     &     &      &     &      \\ \hline
+      &      &     &     &      &     &      \\ \hline
+    \end{tabular}
+  \end{center}
+  \begin{equation*}
+  \downarrow
+  \end{equation*}
+  \begin{equation*}
+    z_{b\_type}^T =
+  \begin{tabular}{lllllllllllllll}
+\multicolumn{3}{l}{OP=O}                                               &                       & \multicolumn{3}{l}{OC=O}                                              &                       & \multicolumn{3}{l}{C=O}                                               &                       & \multicolumn{3}{l}{OPO}                                               \\ \cline{1-3} \cline{5-7} \cline{9-11} \cline{13-15}
+\multicolumn{1}{|l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} \\ \cline{1-3} \cline{5-7} \cline{9-11} \cline{13-15}
+  \end{tabular}
+  \end{equation*}
+  \caption{My caption}
+  \label{my-label}
+\end{table}
 
 Luego, una capa convolucional es empleada para sintetizar la
 información de todos los contextos de todas las ramas del ligando y
