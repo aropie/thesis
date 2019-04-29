@@ -1,11 +1,69 @@
-Se tomó una base de datos cristalográfica de acoplamientos ya
+\sout{Se tomó una base de datos cristalográfica de acoplamientos ya
 realizados y sobre esos ligandos y proteinas se corrió Docking con
 AutoDockVina n.m. Después se hace una tabla comparando los scores que
 les asigna AutoDockVina con el RMSDI cristalográfico. Pero los scores
 de autodockvina no siempre son muy buenos y pasa que muchas veces la
-que es la mejor pose la manda al $4^o$ o $5^o$ lugar del ranking.
+que es la mejor pose la manda al $4^o$ o $5^o$ lugar del ranking.}
 
-\section{Contexto de la rama}
+\section{Deep-pose}
+\textbf{Deep-pose} es una red neuronal convolucional profunda que toma
+la información de la pose de un acoplamiento en un complejo
+proteína-ligando como entrada y produce una calificación de qué tan
+\sout{viable} es dicha pose.  Primero, dada una entrada de un complejo
+proteína-ligando $x$, se extrae información del contexto local de cada
+rama. El \textit{contexto} de una rama está dado por información
+estructural básica (\textit{tipo de rama}, y distancia). Después cada
+una de estas características básicas de cada rama es convertida en
+vectores característicos que utiliza la red para aprender. Luego, una
+capa convolucional es empleada para sintetizar la información de todos
+los contextos de todas las ramas del ligando y genera una
+representación vectorial del complejo. Después se pasa a dos capas
+ocultas para sintetización y procesamiento del
+vector-ligando. Finalmente, en la última capa, la representación del
+complejo es dada como entrada a un clasificador \textit{softmax},
+quien es responsable de producir el puntaje. A continuación se
+presenta un pseudo-código de alto nivel del proceso de la red:
+\begin{algorithm}
+  \caption{Deep-pose}
+  \begin{algorithmic}[1]
+    \State \textbf{Dados:}\newline
+                           $W^{b\_type} \in \mathbb{R}^{h\times |B|}, W^{b\_dist}
+                           \in \mathbb{R}^{h\times |B|},\newline
+                           W^{conv} \in \mathbb{R}^{|z_i| \times cf}, W^2 \in
+                           \mathbb{R}^{cf \times h_2},\newline
+                           W^3 \in \mathbb{R}^{h_2 \times h_3}, W_{out} \in
+                           \mathbb{R}^{h_3 \times out},\newline
+                           b^{conv} \in \mathbb{R}^{cf}, b^{1} \in
+                           \mathbb{R}^{h_2},\newline
+                           b^{3} \in \mathbb{R}^{h_3}, b^{out}
+                           \in \mathbb{R}^{out}$
+    \State $Z = []$
+    \For{$i=1$ to $m$}
+      \State $z_{b\_type}$ = columnas de $W_{b\_type}$
+      correspondientes a los tipos de ramas de los vecinos de la
+      rama $i$
+      \State $z_{b\_dist}$ = columnas de $W_{b\_dist}$
+      correspondientes a las distancias de los vecinos de la rama $i$
+      \State $z_i$ = {$z_{b\_type}, z_{b\_dist}$}
+      \State $Z.add(z_i)$
+    \EndFor
+    \State // $U$ es inicializada con ceros
+    \State $U = [..] \in \mathbb{R}^{cf \times m}$
+    \State // Capa convolucional
+    \For{$i=1 to m$}
+      \State $U[:,i]=f(W^2Z[i] + b^2)$
+    \EndFor
+    \State // max-pooling por columnas
+    \State $r=max(U, axis=1)$
+    \State //Capas ocultas y capa de salida
+    \State $score=W^4(W^3r + b^3) + b^4$
+    \State // Regresa el puntaje normalizado
+    \State \textbf{return} $\frac{e^{score[1]}}{e^{score[0]}+e^{score[1]}}$
+  \end{algorithmic}
+\end{algorithm}
+Veamos a detalle cada una de las partes de la red.
+
+\subsection{Contexto de la rama}
 Pereira, Caffaren y dos Santos \cite{dossantos} consideran al átomo
 como una entidad ligada íntimamente a su contexto. Bajo esta premisa,
 crean una red que toma como entrada a cada átomo del ligando con su
@@ -19,7 +77,7 @@ dicha conformación.
 Partiendo de la ídea del átomo ligado a su contexto, y considerando
 que lo que buscamos encontrar es una propiedad puramente estructural,
 tomamos como unidad básica del ligando a los segmentos con libertad
-rotacional, al que llamaremos \textit{rama}. Así, nuestro
+rotacional, a la que llamaremos \textit{rama}. Así, nuestro
 \textit{contexto de átomo} se convierte en \textbf{contexto de rama},
 siendo este la combinación de el tipo de rama, los de las ramas más
 cercanas y la distancia a cada una de ellas.
@@ -90,13 +148,14 @@ entrada de la red.
 \end{table}
 
 Tanto para los tipos de rama, como para las particiones de distancia, se
-generan las matrices $W_{b\_type}$ y $W_{b\_dist}$ respectivamente. Estas
+generan las matrices $W^{b\_type}$ y $W^{b\_dist}$ respectivamente. Estas
 matrices constituyen los pesos de la primera capa de la red y son
 inicializadas con valores aleatorios.
 
+\subsection{Representación vectorial del contexto de rama}
 
 La primera capa de la red, toma cada matriz de ligando y la transforma
-en una matriz en $\mathbb{R}$. Cada columna en $W_{b\_type} \in
+en una matriz en $\mathbb{R}$. Cada columna en $W^{b\_type} \in
 \mathbb{R}^{h\times |B|}$ corresponde al vector característico de un
 tipo de rama, donde $B$ es el conjunto de tipo de ramas y $h$ es la
 dimensión de los vectores característicos, quedando como un
@@ -139,54 +198,57 @@ contexto de la rama objetivo.
 \label{my-label}
 \end{table}
 
-Finalmente, la representación del contexto de la rama $b$ se define como
-$z_b = z_{b\_type} \cdot z_{b\_dist}$. La idea es que a partir de características
-básicas contextuales, la red pueda aprender a distinguir rasgos abtractos
-de las ramas que permitan la discriminación entre poses válidas y señuelos.
+Finalmente, la representación del contexto de la rama $b$ se define
+como $z_b = z_{b\_type} \cdot z_{b\_dist}$. La idea es que a partir de
+características básicas contextuales, la red pueda aprender a
+distinguir rasgos abtractos de las ramas que permitan la
+discriminación entre poses válidas y señuelos.
 
-Luego, una capa convolucional es empleada para sintetizar la
-información de todos los contextos de todas las ramas del ligando y
-genera una representación vectorial del complejo. Después se pasa a
-dos capas ocultas para sintetización y procesamiento del
-vector-ligando. Finalmente, en la última capa, la representación del
-complejo es dada como entrada a un clasificador \textit{softmax},
-quien es responsable de producir el puntaje. A continuación se
-presenta un pseudo-código de alto nivel del proceso de la red:
-\begin{algorithm}
-  \caption{Deep-pose}
-  \begin{algorithmic}[1]
-    \State \textbf{Dados:}\newline
-                           $W_{b\_type} \in \mathbb{R}^{h\times |B|}, W_{b\_dist}
-                           \in \mathbb{R}^{h\times |B|},\newline
-                           W_{conv} \in \mathbb{R}^{|z_i| \times cf}, W_1 \in
-                           \mathbb{R}^{cf \times h_1},\newline
-                           W_2 \in \mathbb{R}^{h_1 \times h_2}, W_{out} \in
-                           \mathbb{R}^{h_2 \times out},\newline
-                           b_{conv} \in \mathbb{R}^{cf}, b_{1} \in
-                           \mathbb{R}^{h_1},\newline
-                           b_{2} \in \mathbb{R}^{h_2}, b_{out}
-                           \in \mathbb{R}^{out}$
-    \State $Z = []$
-    \For{$i=1$ to $m$}
-      \State $z_{b\_type}$ = columnas de $W_{b\_type}$
-      correspondientes a los tipos de ramas de los vecinos de la
-      rama $i$
-      \State $z_{b\_dist}$ = columnas de $W_{b\_dist}$
-      correspondientes a las distancias de los vecinos de la rama $i$
-      \State $z_i$ = {$z_{b\_type}, z_{b\_dist}$}
-      \State $Z.add(z_i)$
-    \EndFor
-    \State // $U$ es inicializada con ceros
-    \State $U = [..] \in \mathbb{R}^{cf \times m}$
-    \State // Capa convolucional
-    \For{$i=1 to m$}
-      \State $U[:,i]=f(W_1Z[i] + b_1)$
-    \EndFor
-    \State // max-pooling por columnas
-    \State $r=max(U, axis=1)$
-    \State //Capas ocultas y capa de salida
-    \State $score=W_3(W_2r + b_2) + b_3$
-    \State // Regresa el puntaje normalizado
-    \State \textbf{return} $\frac{e^{score[1]}}{e^{score[0]}+e^{score[1]}}$
-  \end{algorithmic}
-\end{algorithm}
+\subsection{Representación de la pose de un complejo proteína-ligando}
+
+La segunda capa en la red es una capa convolucional encargada de
+extraer más características abstractas de las representaciones de los
+contextos de ramas y sintetizar la información de todas ellas en un
+vector $r$ de longitud fija.  La preocupación subyaciente que ataca el
+uso de una capa convolucional es la capacidad de manejar entradas de
+distintas dimensiones. La cantidad de ramas por ligando es variable,
+entonces la capa convolucional nos permite procesar complejos de
+distintos tamaños.
+
+Dado un complejo $x$ conformado por $n$ ramas, la entrada de la capa
+convolucional es una lista de vectores $\{z_1, z_2, ..., z_n\}$ donde
+$z_i$ es la representación vectorial del contexto de la $i$-ésima rama
+del ligando. En la primera etapa de la capa, la extracción de
+características más abstractas de cada vector $z_i$ está dada por
+\begin{equation}
+  u_i = f(W^2_{z_i} + b^1)
+\end{equation}
+donde $W^2 \in \mathbb{R}^{cf \times h_1}$ es la matriz de pesos
+correspondiente a la capa convolucional, $b^1$ es el sesgo, $f$ es la
+función tangente hiperbólica y $u_i \in \mathbb{R}^{cf}$. El número de
+unidades o filtros en la capa convolucional ($cf$) es un hiperparámetro
+definido por el usuario.
+
+La segunda etapa en la capa convolucional correspondiende a la etapa
+de agrupación (\textit{pooling} en inglés) se encarga de sintetizar
+las características de los contextos de rama. La entrada consiste en
+un conjunto de vectores $\{u_1, u_2, ..., u_n\}$. Utilizamos una capa
+de \textit{max-pooling}, que produce un vector $r \in \mathbb{R}^{cf}$,
+donde el valor del $j$-ésimo elemento está definido como el máximo de
+los $j$-ésimos elementos del conjunto de vectores de entrada:
+\begin{equation}
+  [r]_j = \max_{1 \leq i \leq n} [u_i]_j
+\end{equation}
+El vector resultante $r$ de esta etapa es la representación de la pose
+del complejo proteína-ligando. De este modo, la red puede aprender a
+generar una representacipon vectorial que sintetize la información del
+complejo que sea relevante para discriminar poses válidas de señuelos.
+
+\subsection{Calificación de la pose}
+El vector $r$ es procesado por tres capas capas neuronales básicas
+más: unas cuarta y quinta capas ocultas que representan un nivel más
+de abstracciónm y una seexta y última capa de salida, que computa una
+calificación para cada una de las posibles clasificaciones de la pose:
+(0) pose señuelo y (1) pose válida. Formalmente, dada la representación
+$r$ de la pose del complejo ESPERANDO RESULTADOS DE ENTRENAR CON UNA
+CAPA OCULTA EN LUGAR DE CON DOS.
