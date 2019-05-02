@@ -283,5 +283,17 @@ inglés). En este caso, SDG se utiliza para minimizar la función de
 costos sobre un conjunto de entrenamiento $D$ que contiene poses tanto
 válidas como señuelos. En cada iteración, un nuevo complejo $(x,y) \in D$
 es elegido al azar, donde $y=1$ si la pose es válida y $y=0$ en caso
-contrario. Después dados los parámetros de la red
+contrario. Después la red, junto con los parámetros
 $\theta = \{W^{b_{type}}, W^{b_{dist}}, W^{conv}, W^3, W^{out}, b^{conv}, b^{3}, b^{out}\}$
+es utilizada para estimar la probabilidad $p(y|x, \theta)$. Finalmente,
+el error en la predicción se computa como la probabilidad logarítmica
+negativa, $-\log(p(y|x, \theta))$, y los parámetros de $\theta$ son
+actualizados utilizando \sout{backpropagation}.
+\begin{equation}
+  \theta \longmapsto \sum_{(x,y) \in D} -\log p(y|x, \theta)
+\end{equation}
+
+En este trabajo, se utilizaron \textit{minilotes} de complejos, 30 por
+lote, y tomamos el promedio del error de la predicción para realizar
+el \sout{backpropagation}. La red se implementó utilizando la biblioteca
+Theano\footnote{http://deeplearning.net/software/theano/}.
