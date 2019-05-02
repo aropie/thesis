@@ -23,40 +23,40 @@ vector-ligando. Finalmente, en la última capa, la representación del
 complejo es dada como entrada a un clasificador \textit{softmax},
 quien es responsable de producir el puntaje. A continuación se
 presenta un pseudo-código de alto nivel del proceso de la red:
-\begin{algorithm}
+\begin{algorithm}[H]
   \caption{Deep-pose}
   \begin{algorithmic}[1]
+    \State \textbf{Entrada:} complejo proteína-ligando x,
+    donde el ligando tiene $n$ \textit{ramas}
     \State \textbf{Dados:}\newline
                            $W^{b\_type} \in \mathbb{R}^{h\times |B|}, W^{b\_dist}
                            \in \mathbb{R}^{h\times |B|},\newline
-                           W^{conv} \in \mathbb{R}^{|z_i| \times cf}, W^2 \in
-                           \mathbb{R}^{cf \times h_2},\newline
-                           W^3 \in \mathbb{R}^{h_2 \times h_3}, W_{out} \in
-                           \mathbb{R}^{h_3 \times out},\newline
-                           b^{conv} \in \mathbb{R}^{cf}, b^{1} \in
-                           \mathbb{R}^{h_2},\newline
-                           b^{3} \in \mathbb{R}^{h_3}, b^{out}
-                           \in \mathbb{R}^{out}$
-    \State $Z = []$
-    \For{$i=1$ to $m$}
-      \State $z_{b\_type}$ = columnas de $W_{b\_type}$
+                           W^{conv} \in \mathbb{R}^{|z_i| \times cf}, W^3 \in
+                           \mathbb{R}^{cf \times h},\newline
+                           W_{out} \in \mathbb{R}^{h \times 2},\newline
+                           b^{conv} \in \mathbb{R}^{cf}, b^{3} \in
+                           \mathbb{R}^{h},\newline
+                           b^{out} \in \mathbb{R}^{2}$
+    \State $Z \gets [..]$
+    \For{$i\gets 1, n$}
+      \State $z_{b\_type} \gets$ columnas de $W_{b\_type}$
       correspondientes a los tipos de ramas de los vecinos de la
       rama $i$
-      \State $z_{b\_dist}$ = columnas de $W_{b\_dist}$
+      \State $z_{b\_dist} \gets$  columnas de $W_{b\_dist}$
       correspondientes a las distancias de los vecinos de la rama $i$
-      \State $z_i$ = {$z_{b\_type}, z_{b\_dist}$}
+      \State $z_i \gets \{z_{b\_type}, z_{b\_dist}$\}
       \State $Z.add(z_i)$
     \EndFor
     \State // $U$ es inicializada con ceros
-    \State $U = [..] \in \mathbb{R}^{cf \times m}$
+    \State $U \gets [..] \in \mathbb{R}^{cf \times n}$
     \State // Capa convolucional
-    \For{$i=1 to m$}
-      \State $U[:,i]=f(W^2Z[i] + b^2)$
+    \For{$i\gets1, n$}
+      \State $U[:,i]\gets f(W^{conv}Z[i] + b^{conv})$
     \EndFor
-    \State // max-pooling por columnas
-    \State $r=max(U, axis=1)$
-    \State //Capas ocultas y capa de salida
-    \State $score=W^4(W^3r + b^3) + b^4$
+    \State // \textit{max-pooling} por columnas
+    \State $r\gets \max(U, axis=1)$
+    \State //Capas oculta y de salida
+    \State $score\gets W^{out}(W^3r + b^3) + b^{out}$
     \State // Regresa el puntaje normalizado
     \State \textbf{return} $\frac{e^{score[1]}}{e^{score[0]}+e^{score[1]}}$
   \end{algorithmic}
@@ -221,10 +221,10 @@ $z_i$ es la representación vectorial del contexto de la $i$-ésima rama
 del ligando. En la primera etapa de la capa, la extracción de
 características más abstractas de cada vector $z_i$ está dada por
 \begin{equation}
-  u_i = f(W^2_{z_i} + b^1)
+  u_i = f(W^{conv}_{z_i} + b^{conv})
 \end{equation}
-donde $W^2 \in \mathbb{R}^{cf \times h_1}$ es la matriz de pesos
-correspondiente a la capa convolucional, $b^1$ es el sesgo, $f$ es la
+donde $W^{conv} \in \mathbb{R}^{cf \times h_1}$ es la matriz de pesos
+correspondiente a la capa convolucional, $b^{conv}$ es el sesgo, $f$ es la
 función tangente hiperbólica y $u_i \in \mathbb{R}^{cf}$. El número de
 unidades o filtros en la capa convolucional ($cf$) es un hiperparámetro
 definido por el usuario.
@@ -241,14 +241,47 @@ los $j$-ésimos elementos del conjunto de vectores de entrada:
 \end{equation}
 El vector resultante $r$ de esta etapa es la representación de la pose
 del complejo proteína-ligando. De este modo, la red puede aprender a
-generar una representacipon vectorial que sintetize la información del
+generar una representación vectorial que sintetice la información del
 complejo que sea relevante para discriminar poses válidas de señuelos.
 
 \subsection{Calificación de la pose}
-El vector $r$ es procesado por tres capas capas neuronales básicas
-más: unas cuarta y quinta capas ocultas que representan un nivel más
-de abstracciónm y una seexta y última capa de salida, que computa una
-calificación para cada una de las posibles clasificaciones de la pose:
-(0) pose señuelo y (1) pose válida. Formalmente, dada la representación
-$r$ de la pose del complejo ESPERANDO RESULTADOS DE ENTRENAR CON UNA
-CAPA OCULTA EN LUGAR DE CON DOS.
+El vector $r$ es procesado por dos capas neuronales básicas más: una
+tercera capa oculta que representa un nivel más de abstracción y una
+cuarta y última capa de salida, que computa una calificación para cada
+una de las posibles clasificaciones de la pose: (0) pose señuelo y (1)
+pose válida. Formalmente, dada la representación $r$ de la pose del
+complejo x, la capa oculta y la de salida se computan de la siguiente
+manera:
+\begin{equation}
+  s(x) = W^{out}(w^3r + b^3) + b^{out}
+\end{equation}
+donde $W^3 \in \mathbb{R}^{hxcf}$ es la matriz de pesos de la tercera
+capa oculta $W^{out} \in \mathbb{R}^{2xh}$ es la matriz de pesos de la
+capa de salida, y $b^3 \in \mathbb{R}^h$ y $b^{out} \in \mathbb{R}^2$ son
+sesgos. El número de unidades en la capa oculta, $h$, es un hiperparámetro
+que está definido por el usuario. $s(x) \in \mathbb{R}^2$ es un vector
+que contiene las calificaciones de cada una de las dos clases.
+
+Sean $s(x)_0$ y $s(x)_1$ las calificaciones de las clases 0 y 1
+respectivamente. Transformamos estas calificaciones en una
+distribución de probabilidad utilizando la función \textit{softmax}:
+\begin{equation}
+  p(0|x) = \frac{e^{s(x)_0}}{e^{s(x)_0}+e^{s(x)_1}}
+\end{equation}
+\begin{equation}
+  p(1|x) = \frac{e^{s(x)_1}}{e^{s(x)_0}+e^{s(x)_1}}
+\end{equation}
+donde decimos que $p(0|x)$ y $p(1|x)$ es la probabilidad condicional
+de que la pose del compuesto sea válida o sea señuelo respectivamente,
+dados los datos obtenidos a partir del acoplamiento del complejo
+proteína-ligando.
+
+\subsection{Entrenamiento de la red}
+\textit{Deep-pose} se entrenó utilizando un algoritmo de
+\textbf{descenso estocástico por el gradiente} (SDG por sus siglas en
+inglés). En este caso, SDG se utiliza para minimizar la función de
+costos sobre un conjunto de entrenamiento $D$ que contiene poses tanto
+válidas como señuelos. En cada iteración, un nuevo complejo $(x,y) \in D$
+es elegido al azar, donde $y=1$ si la pose es válida y $y=0$ en caso
+contrario. Después dados los parámetros de la red
+$\theta = \{W^{b_{type}}, W^{b_{dist}}, W^{conv}, W^3, W^{out}, b^{conv}, b^{3}, b^{out}\}$
