@@ -6,7 +6,8 @@ proceso de aprendizaje. Esta función objetivo usualmente es una
 \textbf{función de costo, pérdida o error} que se quiere minimizar.
 
 Definimos la función de costo $J$ como la \textbf{Suma de los errores
-  cuadrados (SSE)} entre la salida calculada y el valor real.
+  cuadrados} (SSE, \textit{Squared Sum Error}) entre la salida
+  calculada y el valor real.
 \begin{equation}
   J(w)=1/2n \sum_i (\hat{y}_i - y_i^2)
 \end{equation}
@@ -61,20 +62,20 @@ j-ésimo peso de la siguiente manera:
 \end{split}
 \end{equation*}
 
-Las redes neuronales (ANN por sus siglas en inglés) son modelos
-complejos que por lo general tienen un alto número de mínimos locales,
-volviendo al descenso por el gradiente poco efectivo como mecanismo de
-entrenamiento.  Sin embargo, redes altamente eficientes por lo general
-son entrenadas utilizando descenso por el gradiente. ¿Cómo explicar
-esta aparente contradicción?
+Las redes neuronales (ANN, \textit{Artificial Neural Network}) son
+modelos complejos que por lo general tienen un alto número de mínimos
+locales, volviendo al descenso por el gradiente poco efectivo como
+mecanismo de entrenamiento.  Sin embargo, redes altamente eficientes
+usualmente son entrenadas utilizando descenso por el gradiente. ¿Cómo
+explicar esta aparente contradicción?
 
 Recientemente, evidencia empírica \cite{choromanska} ha dado indicios
 de que las ANN tienen la mayoría de sus mínimos locales cerca del
 mínimo global.  Esto quiere decir que \textbf{el descenso por el
-  gradiente funciona ``suficientemente bien''}. Hay otros métodos más
-avanzados que son empleados para entrenar ANNs, pero este trabajo
-utiliza descenso por el gradiente por su simplicidad e interpetación
-tan intuitiva.
+gradiente funciona ``suficientemente bien''}. Hay otros métodos más
+avanzados que son empleados para entrenar ANNs, pero en este trabajo
+utilizamos descenso por el gradiente por su simplicidad e
+interpetación tan intuitiva.
 
 \section{Propagación hacia atrás}
 FALTA SECCIÓN

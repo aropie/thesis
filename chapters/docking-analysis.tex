@@ -12,17 +12,17 @@ proteína-ligando como entrada y produce una calificación de qué tan
 \sout{viable} es dicha pose.  Primero, dada una entrada de un complejo
 proteína-ligando $x$, se extrae información del contexto local de cada
 rama. El \textit{contexto} de una rama está dado por información
-estructural básica (\textit{tipo de rama}, y distancia). Después cada
+estructural básica (\textit{tipo de rama} y distancia). Después, cada
 una de estas características básicas de cada rama es convertida en
 vectores característicos que utiliza la red para aprender. Luego, una
 capa convolucional es empleada para sintetizar la información de todos
-los contextos de todas las ramas del ligando y genera una
-representación vectorial del complejo. Después se pasa a dos capas
-ocultas para sintetización y procesamiento del
+los contextos de todas las ramas del ligando y generar una
+representación vectorial del complejo. Posteriormente se pasa a una
+capa oculta para síntesis y procesamiento del
 vector-ligando. Finalmente, en la última capa, la representación del
-complejo es dada como entrada a un clasificador \textit{softmax},
-quien es responsable de producir el puntaje. A continuación se
-presenta un pseudo-código de alto nivel del proceso de la red:
+complejo es dada como entrada a un clasificador \textit{softmax}, que
+es responsable de producir el puntaje. A continuación se presenta un
+pseudo-código de alto nivel del proceso de la red:
 \begin{algorithm}[H]
   \caption{Deep-pose}
   \begin{algorithmic}[1]
@@ -74,12 +74,12 @@ cantidad de energía, sin importar cual fuera la conformación necesaria
 para poder realizarlo; nuestro enfoque busca precisamente encontrar
 dicha conformación.
 
-Partiendo de la ídea del átomo ligado a su contexto, y considerando
-que lo que buscamos encontrar es una propiedad puramente estructural,
-tomamos como unidad básica del ligando a los segmentos con libertad
+Partiendo de la idea del átomo ligado a su contexto, y considerando
+que lo que buscamos es una propiedad puramente estructural, tomamos
+como unidad básica del ligando a los segmentos con libertad
 rotacional, a la que llamaremos \textit{rama}. Así, nuestro
 \textit{contexto de átomo} se convierte en \textbf{contexto de rama},
-siendo este la combinación de el tipo de rama, los de las ramas más
+siendo éste la combinación del tipo de rama, los de las ramas más
 cercanas y la distancia a cada una de ellas.
 
 IMAGEN HISTOGRAMA DE DISTRIBUCIÖN DE TIPOS DE RAMA
@@ -154,7 +154,7 @@ inicializadas con valores aleatorios.
 
 \subsection{Representación vectorial del contexto de rama}
 
-La primera capa de la red, toma cada matriz de ligando y la transforma
+La primera capa de la red toma cada matriz de ligando y la transforma
 en una matriz en $\mathbb{R}$. Cada columna en $W^{b\_type} \in
 \mathbb{R}^{h\times |B|}$ corresponde al vector característico de un
 tipo de rama, donde $B$ es el conjunto de tipo de ramas y $h$ es la
@@ -162,7 +162,7 @@ dimensión de los vectores característicos, quedando como un
 hiperparámetro a definir.  Dado el contexto de una rama, la red
 transforma cada tipo de rama en su respectivo vector característico,
 utilizando los índices ya generados, y luego concatena los vectores
-para generar a la representación vectorial del tipo de rama
+para generar la representación vectorial del tipo de rama
 $z_{b\_type}$. Analogamente, se genera el vector $z_{b\_dist}$ en el
 contexto de la rama objetivo.
 
@@ -199,9 +199,9 @@ contexto de la rama objetivo.
 \end{table}
 
 Finalmente, la representación del contexto de la rama $b$ se define
-como $z_b = z_{b\_type} \cdot z_{b\_dist}$. La idea es que a partir de
-características básicas contextuales, la red pueda aprender a
-distinguir rasgos abtractos de las ramas que permitan la
+como $z_b = z_{b\_type} \cdot z_{b\_dist}$. El objetivo es que, a
+partir de características básicas contextuales, la red pueda aprender
+a distinguir rasgos abtractos de las ramas que permitan la
 discriminación entre poses válidas y señuelos.
 
 \subsection{Representación de la pose de un complejo proteína-ligando}
@@ -209,11 +209,13 @@ discriminación entre poses válidas y señuelos.
 La segunda capa en la red es una capa convolucional encargada de
 extraer más características abstractas de las representaciones de los
 contextos de ramas y sintetizar la información de todas ellas en un
-vector $r$ de longitud fija.  La preocupación subyaciente que ataca el
-uso de una capa convolucional es la capacidad de manejar entradas de
-distintas dimensiones. La cantidad de ramas por ligando es variable,
-entonces la capa convolucional nos permite procesar complejos de
-distintos tamaños.
+vector $r$ de longitud fija.
+
+El problema esencial que resuelve el uso de una capa convolucional es
+la capacidad de manejar entradas de distintas dimensiones. Dado que la
+cantidad de ramas por ligando es variable, el uso de una capa
+convolucional posibilita el procesamiento de complejos de distintos
+tamaños.
 
 Dado un complejo $x$ conformado por $n$ ramas, la entrada de la capa
 convolucional es una lista de vectores $\{z_1, z_2, ..., z_n\}$ donde
@@ -224,16 +226,16 @@ características más abstractas de cada vector $z_i$ está dada por
   u_i = f(W^{conv}_{z_i} + b^{conv})
 \end{equation}
 donde $W^{conv} \in \mathbb{R}^{cf \times h_1}$ es la matriz de pesos
-correspondiente a la capa convolucional, $b^{conv}$ es el sesgo, $f$ es la
-función tangente hiperbólica y $u_i \in \mathbb{R}^{cf}$. El número de
-unidades o filtros en la capa convolucional ($cf$) es un hiperparámetro
-definido por el usuario.
+correspondiente a la capa convolucional, $b^{conv}$ es el sesgo, $f$
+es la función tangente hiperbólica y $u_i \in \mathbb{R}^{cf}$. El
+número de unidades o filtros ($cf$) en la capa convolucional es un
+hiperparámetro definido por el usuario.
 
-La segunda etapa en la capa convolucional correspondiende a la etapa
+La segunda etapa en la capa convolucional correspondiente a la etapa
 de agrupación (\textit{pooling} en inglés) se encarga de sintetizar
 las características de los contextos de rama. La entrada consiste en
 un conjunto de vectores $\{u_1, u_2, ..., u_n\}$. Utilizamos una capa
-de \textit{max-pooling}, que produce un vector $r \in \mathbb{R}^{cf}$,
+de \textit{max-pooling} que produce un vector $r \in \mathbb{R}^{cf}$,
 donde el valor del $j$-ésimo elemento está definido como el máximo de
 los $j$-ésimos elementos del conjunto de vectores de entrada:
 \begin{equation}
@@ -256,14 +258,14 @@ manera:
   s(x) = W^{out}(w^3r + b^3) + b^{out}
 \end{equation}
 donde $W^3 \in \mathbb{R}^{hxcf}$ es la matriz de pesos de la tercera
-capa oculta $W^{out} \in \mathbb{R}^{2xh}$ es la matriz de pesos de la
+capa oculta, $W^{out} \in \mathbb{R}^{2xh}$ es la matriz de pesos de la
 capa de salida, y $b^3 \in \mathbb{R}^h$ y $b^{out} \in \mathbb{R}^2$ son
 sesgos. El número de unidades en la capa oculta, $h$, es un hiperparámetro
 que está definido por el usuario. $s(x) \in \mathbb{R}^2$ es un vector
 que contiene las calificaciones de cada una de las dos clases.
 
-Sean $s(x)_0$ y $s(x)_1$ las calificaciones de las clases 0 y 1
-respectivamente. Transformamos estas calificaciones en una
+Sean $s(x)_0$ y $s(x)_1$ las calificaciones de las clases 0 y 1,
+respectivamente, transformamos estas calificaciones en una
 distribución de probabilidad utilizando la función \textit{softmax}:
 \begin{equation}
   p(0|x) = \frac{e^{s(x)_0}}{e^{s(x)_0}+e^{s(x)_1}}
@@ -272,23 +274,25 @@ distribución de probabilidad utilizando la función \textit{softmax}:
   p(1|x) = \frac{e^{s(x)_1}}{e^{s(x)_0}+e^{s(x)_1}}
 \end{equation}
 donde decimos que $p(0|x)$ y $p(1|x)$ es la probabilidad condicional
-de que la pose del compuesto sea válida o sea señuelo respectivamente,
-dados los datos obtenidos a partir del acoplamiento del complejo
-proteína-ligando.
+de que la pose del compuesto sea válida o sea señuelo,
+respectivamente, dados los datos obtenidos a partir del acoplamiento
+del complejo proteína-ligando.
 
 \subsection{Entrenamiento de la red}
 \textit{Deep-pose} se entrenó utilizando un algoritmo de
-\textbf{descenso estocástico por el gradiente} (SDG por sus siglas en
-inglés). En este caso, SDG se utiliza para minimizar la función de
-costos sobre un conjunto de entrenamiento $D$ que contiene poses tanto
-válidas como señuelos. En cada iteración, un nuevo complejo $(x,y) \in D$
-es elegido al azar, donde $y=1$ si la pose es válida y $y=0$ en caso
-contrario. Después la red, junto con los parámetros
-$\theta = \{W^{b_{type}}, W^{b_{dist}}, W^{conv}, W^3, W^{out}, b^{conv}, b^{3}, b^{out}\}$
-es utilizada para estimar la probabilidad $p(y|x, \theta)$. Finalmente,
-el error en la predicción se computa como la probabilidad logarítmica
-negativa, $-\log(p(y|x, \theta))$, y los parámetros de $\theta$ son
-actualizados utilizando \sout{backpropagation}.
+\textbf{descenso estocástico por el gradiente}
+(SGD, \textit{Stochastic Gradient Descent}).
+En este caso, SGD se utiliza para minimizar la función de costos sobre
+un conjunto de entrenamiento $D$ que contiene poses tanto válidas como
+señuelos. En cada iteración, un nuevo complejo $(x,y) \in D$ es
+elegido al azar, donde $y=1$ si la pose es válida y $y=0$ en caso
+contrario. Después la red, junto con los parámetros $\theta
+= \{W^{b_{type}}, W^{b_{dist}}, W^{conv}, W^3, W^{out}, b^{conv},
+b^{3}, b^{out}\}$ es utilizada para estimar la probabilidad
+$p(y|x, \theta)$. Finalmente, el error en la predicción se computa
+como la probabilidad logarítmica negativa, $-\log(p(y|x, \theta))$, y
+los parámetros de $\theta$ son actualizados
+utilizando \sout{backpropagation}.
 \begin{equation}
   \theta \longmapsto \sum_{(x,y) \in D} -\log p(y|x, \theta)
 \end{equation}

@@ -1,24 +1,24 @@
-El término \textbf{proteína} se origina del griego \textit{proteios},
+El término \textbf{proteína} se origina del griego \textit{proteios}
 que significa ``primario'' o ``de primer orden''. El nombre fue
 adoptado por Jöns Berzelius en 1838 para enfatizar la importancia de
 esta clase de moléculas. Las proteínas juegan un rol crucial en el
-mantenimiento de la vida (\sout{life-sustaining}). Las proteínas proveen el
-soporte para la arquitectura de tejido musculoso, ligamentos, tendones, huesos,
-piel, cabello, órganos y glándulas. Las proteínas también proveen los servicios
-fundamentales de transporte y almacenamiento como en el caso del oxígeno y
-hierro en células musculares y eritrocitos. Las proteínas también juegan un rol
-crucial en muchos procesos regulatorios esenciales para la vida, como reacciones
-de catálisis (e.g. digestión); funciones inmunológicas y hormonales; y la
-coordinación de actividades neuronales, crecimiento de células y hueso, y
-diferenciación celular.\cite{tamar}
+mantenimiento de la vida, ya que son el soporte para la arquitectura
+del tejido muscular, ligamentos, tendones, huesos, piel, cabello,
+órganos y glándulas. Proveen los servicios fundamentales de transporte
+y almacenamiento como en el caso del oxígeno y hierro en células
+musculares y eritrocitos. También participan en muchos procesos
+regulatorios esenciales, como reacciones de catálisis, funciones
+inmunológicas y hormonales, así como en la coordinación de actividades
+neuronales y diferenciación celular.\cite{tamar}
 
 \section{Acoplamiento molecular}
-Basado en \cite{kukol} El campo del \textbf{acoplamiento molecular} o
+El campo del \textbf{acoplamiento molecular} o
 \textbf{docking} surge a lo largo de las últimas tres décadas gracias a la
-necesidad de la biología molecular estructural y el descubrimiento de
-hinibidores basado en estructuras. Ha podido evolucionar considerablemente
-gracias al crecimiento dramático de disponibilidad y poder de las computadoras,
-y al creciente acceso a bases de datos de proteínas y moléculas.
+necesidad de la biología molecular en cuanto al descubrimiento de
+inhibidores basado en estructuras. Ha podido evolucionar
+considerablemente gracias al crecimiento dramático de disponibilidad y
+poder de las computadoras, y al creciente acceso a bases de datos de
+proteínas y moléculas.\cite{kukol}
 
 \begin{figure}[H]
   \includegraphics[scale=0.3]{docking} \centering
@@ -40,25 +40,27 @@ nuestro caso.
   \label{fig:docking_flowchart}
 \end{figure}
 
-La figura \ref{fig:docking_flowchart} muestra los pasos clave que son comunes en
-todos los protocolos. El acoplamiento consiste en encontrar las poses de unión
-más favorables de un ligando hacia una proteína objetivo. La
-pose de unión de un ligando puede ser caracterizado de forma única por sus
-variables de estado. Estas consisten en su posición (traslaciones sobre los ejes
-$x, y, z$), orientación (ángulos de Euler o cuaterniones) y, si el ligando es
-flexible, su conformación (los ángulos de torción para cada enlace de
-rotación). Cada una de las variables de estado describe un grado de libertad en
-un espacio de búsqueda multidimensional.
+La figura \ref{fig:docking_flowchart} muestra los pasos clave que son
+comunes en todos los protocolos. El acoplamiento consiste en encontrar
+las poses de unión más favorables de un ligando hacia una proteína
+objetivo. La pose de unión de un ligando puede ser caracterizado de
+forma única por sus variables de estado. Éstas consisten en su
+posición (traslaciones sobre los ejes $x, y, z$), orientación (ángulos
+de Euler o cuaterniones) y, si el ligando es flexible, su conformación
+(los ángulos de torsión para cada enlace de rotación). Cada una de las
+variables de estado describe un grado de libertad en un espacio de
+búsqueda multidimensional.
 
 \section{Función evaluadora}
 Todos los métodos de acoplamiento requieren una función de evaluación
-para calificar las poses de unión de los candidatos, y un método
-de búsqueda para explorar las configuraciones de las variables de
+para calificar las poses de unión de los candidatos, y un método de
+búsqueda para explorar las configuraciones de las variables de
 estado. En general, el éxito de un acoplamiento se mide en términos de
-la \textit{desviación media cuadrática} (RMSD) de las coordenadas
-cartesianas de los átomos del ligando en las conformaciones del
-acoplamiento, comparadas con las cristalográficas; un acoplamiento se
-considera exitoso si el RMSD es menor a 2\AA.
+la \textit{desviación media cuadrática} (RMSD, \textit{Root Mean
+Squared Deviation}) de las coordenadas cartesianas de los átomos del
+ligando en las conformaciones del acoplamiento, comparadas con las
+cristalográficas. Un acoplamiento se considera exitoso si el RMSD es
+menor a 2\AA.
 
 \section{Archivos PDB}
 \sout{¿Esto está bien aquí? ¿Habría que profundizar?}
@@ -71,10 +73,11 @@ formato con el que se trabajó durante el proyecto.
 
 \section{SMILES}
 \sout{¿Vale la pena poner esto?}
-SMILES (Simple Molecular Input Line Entry System) es un sencillo lenguaje
-químico que permite describir moléculas y reacciones utilizando únicamente
-caracteres ASCII que representan símbolos de átomos y enlaces. Una cadena SMILES
-contiene la misma información que una tabla de conexiones extendida, pero con
-varias ventajas: es sumamente compacta y puede ser canonizada de tal manera
-que puede ser usada como identificador universal para una estructura química
+SMILES (\textit{Simple Molecular Input Line Entry System}) es un
+sencillo lenguaje químico que permite describir moléculas y reacciones
+utilizando únicamente caracteres ASCII que representan símbolos de
+átomos y enlaces. Una cadena SMILES contiene la misma información que
+una tabla de conexiones extendida, pero con varias ventajas: es
+sumamente compacta y puede ser canonizada de tal manera que puede ser
+usada como identificador universal para una estructura química
 dada.\footnote{\url{http://www.daylight.com/smiles/}}

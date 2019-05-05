@@ -1,57 +1,65 @@
 Un factor que ha sido central en la historia del ser humano es
-precisamente el que nos da el nombre como especie \sout{Homo Sapiens}:
-la inteligencia. Durante años se ha buscado entender cómo es que pensamos,
-es decir, la forma en que un ente puede percibir el entorno y a partir
-de ello entenderlo, e incluso manipularlo y hacer predicciones al respecto.
-La \textbf{inteligencia artificial} lleva este estudio un paso más adelante;
-busca no sólo entender sino también construir entes inteligentes.
+precisamente el que nos da el nombre como especie \textit{Homo
+sapiens}: la inteligencia. Durante años se ha buscado entender cómo es
+que pensamos; es decir, la forma en que un ente puede percibir el
+entorno y, a partir de ello, entenderlo e incluso manipularlo y hacer
+predicciones al respecto.  La inteligencia artificial (IA) lleva este
+estudio un paso más adelante: busca no sólo entender sino también
+construir entes inteligentes.
 
 \section{La prueba de Turing}
 Dado que la inteligencia artificial busca crear entes inteligentes,
 es importante definir primero qué es la inteligencia. Al ser nosotros
 mismos como especie nuestro modelo de inteligencia, es razonable pensar
-en la inteligencia en términos de pensamiento humanos.
+en la inteligencia en términos de pensamiento humano.
 
-La \textbf{prueba de Turing}, propuesta por Alan Turing (1950), fué diseñada
-para dar una definición de inteligencia en computadoras. Una computadora pasa
-la prueba si, tras ser interrogada de forma escrita por un evaluador humano,
-este no puede distinguir si las respuestas provienen de un humano o una computadora.
-La discusión sobre si el pasar la prueba realmente es señal de una \textit{inteligencia}
-sale del alcance de esta tésis, pero es importante resaltar que la prueba da
-cierta noción sobre lo que se busca en una "inteligencia artificial".
-Se busca que el ente "inteligente" sea capáz de tener un razonamiento racional.
-Es decir, que pueda sacar conclusiones lógicas a partir de premisas dadas a través
-de silogismos, como lo haría un humano. Pero rara vez toda la información con la que
-se cuenta es 100\% acertada, lo que le da en la torre al enfoque puramente
-determinista de la inteligencia.
+La \textbf{prueba de Turing}, propuesta por Alan Turing (1950), fue
+diseñada para dar una definición de inteligencia en computadoras. Una
+computadora pasa la prueba si, tras ser interrogada de forma escrita
+por un evaluador humano, éste no puede distinguir si las respuestas
+provienen de un humano o una computadora.  La discusión sobre si pasar
+la prueba realmente es señal de una \textit{inteligencia} sale del
+alcance de esta tesis, pero es importante resaltar que la prueba da
+cierta noción sobre lo que se busca en una ``inteligencia
+artificial''.  Se busca que el ente ``inteligente'' sea capaz de tener
+un criterio racional.  Es decir, que pueda sacar conclusiones lógicas
+a partir de premisas dadas mediante silogismos, como lo haría un
+humano. Pero rara vez toda la información con la que se cuenta es
+100\% acertada, lo que echa abajo el enfoque puramente determinista de
+la inteligencia.
 
 \section{Agentes}
 En su concepción más tradicional, la inteligencia artificial gira en torno a
 \textbf{agentes racionales} que, a través de \textbf{sensores} pueden percibir
-su \textbf{entorno} y actuar sobre él a partir de un sistema de decisión.
-Internamente, el agente es una máquina compuesta por un conjunto (finito) de estados,
-cuyas transiciones están dadas por reglas de inferencias. Cuando una se da una
-transición de estados, entonces es realizada una acción. Esta concepción del agente
-nos permite reducir la IA en un problema de búsqueda de las funciones de transición.
+su \textbf{entorno} y actuar sobre él a partir de un sistema de
+decisión.  Internamente, el agente es una máquina compuesta por un
+conjunto (finito) de estados, cuyas transiciones están dadas por
+reglas de inferencias. Cuando se da una transición de estados,
+entonces es realizada una acción. Esta concepción del agente nos
+permite reducir la IA a un problema de búsqueda de las funciones de
+transición.
 
-Computacionalmente hablando, la búsqueda de estas funciones en ciertos problemas de IA
-se vuelve absurdamente compleja, por lo que no es posible hacer la codificación de todos
-los posibles escenarios en el sistema de inferencia de un agente. Por lo tanto un agente
-debe ser capáz de manejar la incertidumbre en su entorno. Además, debe poder \textit{aprender}
-del entorno y adaptarse a él, generando conocimiento a través de la experiencia.
+Computacionalmente hablando, la búsqueda de estas funciones en ciertos
+problemas de IA se vuelve absurdamente compleja, por lo que no es
+factible hacer la codificación de todos los posibles escenarios en el
+sistema de inferencia de un agente. Por lo tanto, un agente debe ser
+capaz de manejar la incertidumbre en su entorno. Además, debe
+poder \textit{aprender} del entorno y adaptarse a él, generando
+conocimiento por medio de la experiencia.
 
-El \textbf{aprendizaje de máquina} (\textit{machine learning} en inglés) gira en torno a
-algorítmos capáces de manejar información estocástica y generar modelos de toma de decisiones
-a partir de ella. Un modelo es bueno en medida de lo acertado que es en términos estadísticos.
+El \textbf{aprendizaje de máquina} (ML, \textit{machine learning})
+gira en torno a algorítmos capaces de manejar información estocástica
+y generar modelos de toma de decisiones a partir de ella. Un modelo es
+bueno en la medida de lo acertado que es en términos estadísticos.
 
 \section{Tipos de aprendizaje}
-El aprendizaje de máquina se ha divido en varios subcampos,
-cada uno atacando un tipo de problema distinto y utilizando diferentes
-tipos de aprendizaje.
-Se describen a continuación cuatro diferentes parámetros bajo los cuáles
-es posible clasificar los distintos paradigmas de aprendizaje.
+El aprendizaje de máquina se ha divido en varios subcampos, cada uno
+atacando un tipo de problema distinto y utilizando diferentes formas
+de aprendizaje. Se describen a continuación cuatro parámetros bajo
+los cuáles es posible clasificar los distintos paradigmas de
+aprendizaje.
 
-\textbf{Supervisado/no supervisado} Dado que el aprendizaje involucra
+\textbf{Supervisado/no supervisado}. Dado que el aprendizaje involucra
 una interacción entre el agente y el ambiente, es posible
 dividir el aprendizaje con respecto a la naturaleza de dicha interacción.
 La primera distinción a notar es la diferencia entre aprendizaje supervisado
@@ -70,27 +78,28 @@ entrenamiento y de prueba. El agente procesa los datos de entrada
 con el objetivo de generar una síntesis o versión comprimida de los
 datos que sea representativa.
 
-\textbf{Agentes pasivos/activos} En los paradigmas de aprendizaje
+\textbf{Agentes pasivos/activos}. En los paradigmas de aprendizaje
 el rol tomado por el agente varia. Es posible distinguir entre
-agente activo y pasivo. Un agente activo interactua
-con el ambiente durante el entrenamiento, realizando consultas o
+agente activo y pasivo. Un agente activo interactúa
+con el ambiente durante el entrenamiento, haciendo consultas o
 experimentos, mientras que un agente pasivo sólo observa la
-información provista por el ambiente sin influenciarla
+información provista por el ambiente sin influir
 o dirigirla durante el proceso de aprendizaje.
 
-\textbf{Ayuda del profesor} Cuando se piensa en el aprendizaje humano,
-el proceso por lo general involucra a un profesor, que
-está tratando activamente de proveer al agente con la información más útil
-para lograr el objetivo de aprendizaje. En contraste, cuando un científico
+\textbf{Ayuda del profesor}. Cuando se piensa en el aprendizaje humano
+el proceso, por lo general, involucra a un profesor que está tratando
+activamente de proveer al agente con la información más útil para
+lograr el objetivo de aprendizaje. En contraste, cuando un científico
 aprende sobre la naturaleza, el ambiente, tomando el rol de profesor,
 puede ser pensado como pasivo: las manzanas caen, las estrellas
 brillan y la lluvia cae sin cuidado por el aprendizaje del agente.
-Dichos escenarios son modelados postulando que los datos de aprendizaje
-(o la experiencia del agente) son generados por un proceso aleatorio.
+Dichos escenarios son modelados postulando que los datos de
+aprendizaje (o la experiencia del agente) son generados por un proceso
+aleatorio.
 
-\textbf{Protocolo de entrenamiento lineal (o en línea)/por lote} El
+\textbf{Protocolo de entrenamiento lineal (o en línea)/por lote}. El
 último parámetro a mencionar es la distinción entre las situaciones en
-las que el agente tiene que responder de forma líneal, es decir
-que para cada ejemplo de entrenamiento tiene que dar una respuesta, y
-cuando el agente tiene que mostrar el aprendizaje adquirido
-después de tener la oportunidad de procesar grandes cantidades de datos.
+las que el agente tiene que responder de forma lineal; es decir, que
+para cada ejemplo de entrenamiento tiene que dar una respuesta, y
+el agente tiene que mostrar el aprendizaje adquirido después de
+tener la oportunidad de procesar grandes cantidades de datos.

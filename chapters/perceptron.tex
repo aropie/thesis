@@ -1,15 +1,15 @@
 Los modelos de redes neuronales artificiales, uno de los cuales es el
-\textit{perceptrón} que discutiremos en este capitulo, están
+\textit{perceptrón} que discutiremos en este capítulo, están
 inspirados en el cerebro humano. Hay científicos cognitivos y de
-neurociencia cuya meta es entender el funcionamiento del cerebro, y
-con esto en mente, construir modelos de las redes neuronales naturales
-del cerebro.
+neurociencia cuya meta es entender el funcionamiento del cerebro y
+construir modelos que repliquen las redes neuronales naturales del
+cerebro.
 
 Sin embargo, lo que busca la inteligencia artificial es construir
 máquinas \textit{útiles} tomando como modelo el cerebro. El cerebro es
 un dispositivo de procesamiento de información con habilidades
 asombrosas en muchos campos que sobrepasan con creces a los más
-grandes esfuerzos de la ingenieria, como son visión, aprendizaje y
+grandes esfuerzos de la ingeniería como son visión, aprendizaje y
 reconocimiento del habla, por nombrar algunos.
 
 \section{Inspiracion en la biología}
@@ -21,15 +21,15 @@ procesamiento llamadas \textbf{neuronas} trabajando en paralelo.
 Aunque los detalles son inciertos, se cree que las neuronas son mucho
 más simples y lentas que un procesador de una computadora
 \cite{ethem}. Lo que hace al cerebro distinto, y le da su gran poder
-computacional, es su gran conectividad: las neuronas en el cerebro
-tienen conexiones, llamadas \textit{sinápsis}, a alrededor de otras
+computacional, es su gran conectividad: cada neurona en el cerebro
+tienen conexiones, llamadas \textit{sinapsis}, con alrededor de otras
 $10^{4}$ neuronas.
 
 En una computadora, el procesador es activo y la memoria está separada
 operando de forma pasiva (el procesador accede a ella sólo cuando se
 requiere); se cree que en el cerebro, tanto el procesamiento como la
 memoria están distribuidos por toda la red. El procesamiento es
-realizado por las neuronas y la memoria se encuentra en las sinápsis
+efectuado por las neuronas y la memoria se encuentra en las sinapsis
 entre ellas.
 
 El cerebro es, además, un órgano capás de adaptarse a las condiciones
@@ -59,7 +59,7 @@ dendritas para ser integradas al cuerpo de la célula. Si la señal
 acumulada excede cierto umbral, se genera una señal de salida que se
 le pasa al axón.
 
-Unos años después, Frank Rosenblatt publica la primera aproximación al
+Unos años después, Frank Rosenblatt publicó la primera aproximación al
 concepto de perceptron basado en el modelo de neuronas MCP
 \cite{rosenblatt}. Intuitivamente, el algoritmo aprende
 automáticamente los coeficientes de pesos óptimos que luego se
@@ -93,7 +93,7 @@ activación de función $\phi (\dot)$ es una \textit{función escalón},
 que es llamada a veces la \textit{función de Heaviside}:
 \begin{equation*}
   \phi(z)= \left\{ \begin{array} {rl} 1 & \text{si } z \geq \theta
-    \\ -1 & \text{en otro caso} \end{array} \right.
+|    \\ -1 & \text{en otro caso} \end{array} \right.
 \end{equation*}
 
 Por simplicidad, definimos $w_0=-\theta$ y $x_0=1$, escribiendo
@@ -135,7 +135,7 @@ formalmente cómo:
 \end{equation}
 
 El valor de $\Delta w_j$, que es usado para actualizar el peso $w_j$,
-es calculado por la regla de aprendizaje de percetron:
+es calculado por la regla de aprendizaje de perceptrón:
 \begin{equation}
   \Delta w_j = \eta (y^{(i)} - \hat y^{(i)})x^{(i)}_j
 \end{equation}
@@ -154,7 +154,7 @@ hasta que todos los pesos $\Delta w_j$ han sido actualizados.
   \label{fig:perceptron}
 \end{figure}
 
-La figura \ref{fig:perceptron} muestra cómo el perceptron recibe las
+La figura \ref{fig:perceptron} muestra cómo el perceptrón recibe las
 entradas de una muestra $x$ y las combina con los pesos $w$ para
 calcular la entrada neta.  Esta entrada se le da a la función de
 activación, que genera una salida binaria (-1 o 1 en este caso),
@@ -170,14 +170,14 @@ predicción y actualizar los pesos.
   \label{fig:adaline}
 \end{figure}
 
-La neurona adaptativa lineal (\textbf{Adaline}) fué publicada unos
-años después del algoritmo del perceptrón de Frank Rosenblatt, por
-Bernard Widrow \cite{adaline} y se considera la evolución natural del
-perceptrón de Rosenblatt.  El algoritmo de Adaline es particularmente
-interesante porque ilustra el concepto clave de definir y minimizar
-funciones de costo, lo que sienta las bases para algoritmos mas
-avanzados de clasificación, como la regresión logística o las máquinas
-de vectores de apoyo.
+La neurona adaptativa lineal (\textbf{Adaline}) fue publicada por
+Bernard Widrow \cite{adaline} unos años después del algoritmo del
+perceptrón de Frank Rosenblatt, y se le considera su evolución natural.
+
+El algoritmo de Adaline es particularmente interesante porque ilustra
+el concepto clave de definir y minimizar funciones de costo, lo que
+sienta las bases para algoritmos mas avanzados de clasificación, como
+la regresión logística o las máquinas de vectores de apoyo.
 
 La principal diferencia entre las reglas de Adaline (también llamada
 de \textit{Widrow-Hoff}) y la del perceptrón de Rosenblatt es que los
@@ -196,9 +196,9 @@ Si se compara la figura \ref{fig:perceptron} con la figura
 continuos de la función lineal de activación para calcular el error y
 actualizar los pesos, en lugar de hacer una clasificación binaria.
 
-Cabe destacar que actualmente se buscan funciones de activación más
-suavizadas y, sobre todo, diferenciables. Esto con el fin de optimizar
-los parámetros de los modelos más complejos.
+Cabe destacar que actualmente se buscan funciones de activación con
+curvas más suavizadas y, sobre todo, diferenciables. Esto con el fin
+de optimizar los parámetros de los modelos más complejos.
 
 \begin{figure}[H]
   \includegraphics[scale=0.5]{activation} \centering
@@ -209,24 +209,23 @@ los parámetros de los modelos más complejos.
 
 \section{El perceptrón multicapa}
 El perceptrón multicapa es una generalización del perceptrón simple de
-Rosenblatt, como conescuencia de las limitaciones de este ante
+Rosenblatt, como consecuencia de las limitaciones de éste ante
 conjuntos de datos que no son linealmente separables. Lo que se hace
 es combinar varios perceptrones en una \textit{red neuronal de
   propagación hacia adelante}, con una estructura de \textit{capas}.
 
 La información fluye de capa en capa en el mismo sentido, desde la
 \textit{capa de entrada} donde están los datos sin procesar, hasta la
-\textit{capa de salida} dónde se da la clasificación. Cada capa
-intermedia, llamadas \textit{capas ocultas}, consta de un conjunto de
+\textit{capa de salida} dónde se da la clasificación. Cada una de las capas
+intermedias, llamadas \textit{capas ocultas}, consta de un conjunto de
 neuronas sin conexiones entre ellas, pero totalmente conectadas a las
 capas inmediatamente anterior y posterior. Visto como una gráfica, un
-\textbf{perceptrón multicapa} (\textit{MLP} por sus siglas en inglés)
-es una gráfica $n-partita$ dirigida donde $n$ seria el número de
+\textbf{perceptrón multicapa} (MLP, \textit{Multilayer Perceptron})
+es una gráfica $n$-partita dirigida donde $n$ seria el número de
 capas.
 \begin{figure}[H]
-  \includegraphics[scale=0.5]{mlp} \centering
-  \caption{Arquitectura de un MLP con dos capas ocultas (Tomado
-    \cite{haykin})}
+  \includegraphics[scale=0.5]{mlp} \centering \caption{Arquitectura de
+  un MLP con dos capas ocultas (Tomado de \cite{haykin})}
 \end{figure}
 Cada neurona oculta actua como un \textit{detector de
   características}. Conforme va avanzando el proceso de aprendizaje,
