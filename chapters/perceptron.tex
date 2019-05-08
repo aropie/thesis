@@ -89,15 +89,15 @@ w=
 \\ Si la activación de una muestra particular $x^{(i)}$ es mayor que
 un parámetro definido $\theta$, predecimos la clase 1, y la clase -1
 en caso contrario. En el algoritmo del perceptrón de Rosenblatt, la
-activación de función $\phi (\dot)$ es una \textit{función escalón},
+función de activación $\phi$ es una \textit{función escalón},
 que es llamada a veces la \textit{función de Heaviside}:
 \begin{equation*}
   \phi(z)= \left\{ \begin{array} {rl} 1 & \text{si } z \geq \theta
-|    \\ -1 & \text{en otro caso} \end{array} \right.
+    \\ -1 & \text{en otro caso} \end{array} \right.
 \end{equation*}
 
 Por simplicidad, definimos $w_0=-\theta$ y $x_0=1$, escribiendo
-entonces a $z$ de la forma $z=w_0x_0 + w_1x_1 + \dots + w_mx_m =
+entonces a $z$ de la forma $z=-\theta + w_1x_1 + \dots + w_mx_m =
 \mathbf{w^Tx}$.  La figura \ref{fig:binary} ilustra cómo la entrada de
 la red $z=w^Tx$ es \textit{aplanada} a una salida binaria (-1 o 1) por
 la función de activación del perceptrón (izquierda) y cómo puede ser
@@ -176,7 +176,7 @@ perceptrón de Frank Rosenblatt, y se le considera su evolución natural.
 
 El algoritmo de Adaline es particularmente interesante porque ilustra
 el concepto clave de definir y minimizar funciones de costo, lo que
-sienta las bases para algoritmos mas avanzados de clasificación, como
+sienta las bases para algoritmos más avanzados de clasificación, como
 la regresión logística o las máquinas de vectores de apoyo.
 
 La principal diferencia entre las reglas de Adaline (también llamada
