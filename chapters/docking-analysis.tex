@@ -1,9 +1,19 @@
-\sout{Se tomó una base de datos cristalográfica de acoplamientos ya
-realizados y sobre esos ligandos y proteinas se corrió Docking con
-AutoDockVina n.m. Después se hace una tabla comparando los scores que
-les asigna AutoDockVina con el RMSDI cristalográfico. Pero los scores
-de autodockvina no siempre son muy buenos y pasa que muchas veces la
-que es la mejor pose la manda al $4^o$ o $5^o$ lugar del ranking.}
+Como se mencionaba en el capitulo anterior, cada acoplamiento es
+evaluado a través de una función evaluadora. El detalle es que esta
+fase de evaluación se ha convertido en todo un reto para los
+científicos computacionales por la dificultad de decidir de forma
+determinística si un acoplamiento es bueno o no. Esto se traduce en
+que la pose que se evalua como la ``mejor'' está realmente alejada de
+la pose cristalográfica, y la pose más cercana a la cristalográfica
+esta mucho más abajo en el ranking de poses ``buenas'' dado por esta
+evaluación.
+
+En este trabajo se propone un acercamiento con una red neuronal
+convolucional para hacer un meta-análisis de dichos acoplamientos,
+comparando las poses cristalográficas con las dadas por el acoplamiento
+simulado.
+
+
 
 \section{Deep-pose}
 \textbf{Deep-pose} es una red neuronal convolucional profunda que toma
