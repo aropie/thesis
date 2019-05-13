@@ -51,12 +51,15 @@ proteínas y moléculas.\cite{kukol}
     \url{https://en.wikipedia.org/wiki/Docking_(molecular)})}
 \end{figure}
 
-El objetivo de un programa de acoplamiento molecular automatizado es comprender
-y predecir reconocimiento molecular, tanto estructuralmente, encontrando
-posibles \textit{poses} de acoplamiento, como energéticamente, prediciendo la
-afinidad del enlace. El acoplamiento molecular usualmente se realiza entre una
-molécula pequeña, un ligando, y una macromolécula objetivo, una proteína en
-nuestro caso.
+El objetivo de un programa de acoplamiento molecular automatizado es
+comprender y predecir reconocimiento molecular, tanto
+estructuralmente, encontrando posibles \textit{poses} de acoplamiento,
+como energéticamente, prediciendo la afinidad del enlace. El
+acoplamiento molecular usualmente se realiza entre una molécula
+pequeña, un ligando, y una macromolécula objetivo, una proteína en
+nuestro caso. Es importante que este acoplamiento se haga en el sitio
+activo del receptor, ya que es ahí donde se espera que se dé la
+interacción.
 
 \begin{figure}[H]
   \includegraphics[scale=0.5]{docking_steps}
@@ -69,7 +72,7 @@ La figura \ref{fig:docking_flowchart} muestra los pasos clave que son
 comunes en todos los protocolos. El acoplamiento consiste en encontrar
 las poses de unión más favorables de un ligando hacia una proteína
 objetivo. La pose de unión de un ligando puede ser caracterizado de
-forma única por sus variables de estado. Éstas consisten en su
+forma única por sus variables de estado. Estas consisten en su
 posición (traslaciones sobre los ejes $x, y, z$), orientación (ángulos
 de Euler o cuaterniones) y, si el ligando es flexible, su conformación
 (los ángulos de torsión para cada enlace de rotación). Cada una de las
