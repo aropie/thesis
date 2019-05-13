@@ -77,11 +77,64 @@ avanzados que son empleados para entrenar ANNs, pero en este trabajo
 utilizamos descenso por el gradiente por su simplicidad e
 interpetación tan intuitiva.
 
-\section{Propagación hacia atrás}
-FALTA SECCIÓN
-\cite{haykin} 129
-\cite{memes} 36
-http://www.iro.umontreal.ca/~pift6266/H10/notes/mlp.html
+\section{Retropropagación}
+Para utilizar de forma efectiva el descenso por el gradiente, es
+necesario una forma eficiente de computar el gradiente de una función
+de error. La propagación hacia atrás o retropropagación
+(\textit{Backpropagation}) nos permite hacerlo.
 
-\section{Convolución}
-FALTA SECCIÓN
+Definimos para cada neurona $j$ en la capa $l$ la salida $o^{(l)}_j$ como
+\begin{equation}
+\label{eqn:def_o}
+  o^{(l)}_j = \phi(a^{(l)}_j) = \phi(\sum_{k=1}^n w_{kj}o_k^{(l-1)})
+\end{equation}
+donde $\phi$ es la función de activación y $a_j^{(l)}$ se refiere a la
+suma de los pesos de las salidas de las neuronas de la capa inmediata
+anterior. Comunmente, llamamos a $a_j^{(l)}$ la \textit{activación} de
+la neurona.
+
+Supongamos ahora que queremos encontrar la derivada parcial de la
+función de errir con respecto a $w_{ij}$.
+Para encontrar cómo cambia una función de error $J$ cambia con respecto
+al peso $w_{ij}$, aplicamos la regla de la cadena:
+\begin{equation}
+  \frac{\partial J}{\partial w_{ij}} = \frac{\partial J}{\partial o_j^{(l)}}
+  \frac{\partial o_j^{(l)}}{\partial a_j^{(l)}} \frac{\partial a_j^{(l)}}{\partial w_{ij}}
+\end{equation}
+
+A partir de \ref{eqn:def_o}, podemos ver que
+$a_j^{(l)} = \sum_{k=1}^n w_{kj}o_k^{(l-1)}$. Esto implica que
+$\frac{\partial a_j^{(l)}}{\partial w_{ij}} = o_i^{(l-1)}$. Definimos entonces
+\begin{equation}
+  \delta_j^{(l)} = \frac{\partial J}{\partial o_j^{(l)}} \frac{\partial o_j^{(l)}}{a_j^{(l)}}
+\end{equation}
+
+Así, tenemos que
+\begin{equation}
+  \frac{\partial J}{\partial w_{ij}} = \delta_j^{(l)}o_i^{(l-1)}
+\end{equation}
+Resulta entonces que tenemos una identidad recursiva para
+$\delta_j^{(l)}$, llamada la fórmula de la retropropagación
+\begin{equation}
+  \delta_j^{(l)} = \phi'(a_j^{(l)})\sum_m w_{jm} d_m^{(l+1)}
+\end{equation}
+donde la suma es sobre las neuronas conectadas a la $j$-ésima neurona
+de la capa $l$.
+
+Podemos entonces derivar esta identidad utilizando la regla de la cadena
+para escribir $\frac{\partial J}{\partial o_j^{(l)}}$ en términos de
+$\frac{\partial J}{\partial a_m^{(l+1)}}$ y $\frac{\partial a_m^{(l+1)}}{\partial o_j^{(l)}}$.
+
+\begin{equation}
+\begin{split}
+  \delta_j^{(l)} &= \frac{\partial J}{\partial o_j^{(l)}} \frac{\partial o_j^{(l)}}{\partial a_j^{(l)}} \\
+  &= \frac{\partial o_j^{(l)}}{\partial a_j^{(l)}} \frac{\partial J}{\partial o_j^{(l)}} \\
+  &= \phi' (a_j^{(l)}) \sum_m \frac{\partial J}{\partial o_m^{(l+1)}} \frac{\partial o_m^{(l+1)}}{\partial a_m^{(l+1)}} \frac{\partial a_m^{(l+1)}}{\partial o_j^{(l)}} \\
+  &= \phi'(a_j^{(l)}) \sum_m \delta_m^{(l+1)}w_{jm}
+\end{split}
+\end{equation}
+
+Notemos que esto nos permite computar capas anteriores a $\delta_j$ a
+través de las capas posteriores --- de ahí el nombre de retropropagación.
+Podemos computar $\delta_j$ directamente, si $j$ es una capa de salida,
+así que este proceso eventualmente termina.
