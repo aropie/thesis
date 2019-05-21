@@ -1,4 +1,54 @@
 \blindtext
+\section{El perceptrón multicapa}
+El perceptrón multicapa es una generalización del perceptrón simple de
+Rosenblatt, como consecuencia de las limitaciones de éste ante
+conjuntos de datos que no son linealmente separables. Lo que se hace
+es combinar varios perceptrones en una \textit{red neuronal de
+  propagación hacia adelante}, con una estructura de \textit{capas}.
+
+La información fluye de capa en capa en el mismo sentido, desde la
+\textit{capa de entrada} donde están los datos sin procesar, hasta la
+\textit{capa de salida} dónde se da la clasificación. Cada una de las capas
+intermedias, llamadas \textit{capas ocultas}, consta de un conjunto de
+neuronas sin conexiones entre ellas, pero totalmente conectadas a las
+capas inmediatamente anterior y posterior. Visto como una gráfica, un
+\textbf{perceptrón multicapa} (MLP, \textit{Multilayer Perceptron})
+es una gráfica $n$-partita dirigida donde $n$ seria el número de
+capas.
+\begin{figure}[H]
+  \includegraphics[scale=1.3]{mlp} \centering \caption{Arquitectura de
+  un MLP con una capa oculta (Tomado de \url{https://es.wikipedia.org/wiki/Perceptron_multicapa})}
+\end{figure}
+Cada neurona oculta actua como un \textit{detector de
+  características}. Conforme va avanzando el proceso de aprendizaje,
+las neuronas ocultas comienzan a ``descubrir'' gradualmente las
+características más sobresalientes de los datos de entrenamiento.
+Esto se logra a través de una serie de transformaciones no lineales,
+dadas por las funciones de activación y pesos específicos de cada
+neurona.
+
+Inicialmente, a cada neurona se le asigna un peso aleatorio. Dada la
+estructura en capas de la red, es mucho más fácil visualizar y
+manipular estos pesos acomodandolos en una matriz $W$, que llamaremos
+\textit{matriz de pesos}, donde $W_i$ son los pesos de la $i$-ésima
+capa de la red. Entonces, dado un vector de entrada $x$, la primera
+capa oculta $h_1$ calcula su valor a partir de $W_1$ y una traslación
+$b_1$, que llamamos \textit{sesgo} (en inglés, \textit{bias}), del
+siguiente modo:
+\begin{equation}
+  h_1 = \sigma(W_1x + b_1)
+\end{equation}
+donde $\sigma$ es una función de activación no lineal y
+diferenciable. Así la $i+1$-ésima capa oculta computa su valor como
+\begin{equation}
+  h_{i+1} = \sigma(W_{i+1}h_i + b_{i+1})
+\end{equation}
+Por último, la salida, suponiendo que hay $n$ capas ocultas, seria
+\begin{equation}
+  \hat{y} = \sigma{(W_{n+1}h_n + b_{n+1})}
+\end{equation}
+donde $\hat{y}$ es el vector de clasificación.
+
 \section{Descenso por el gradiente}
 Uno de los puntos clave del aprendizaje de máquina supervisado es
 definir una función objetivo que deberá ser optimizada durante el
