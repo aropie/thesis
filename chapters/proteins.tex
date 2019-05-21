@@ -62,12 +62,14 @@ nuestro caso. Es importante que este acoplamiento se haga en el sitio
 activo del receptor, ya que es ahí donde se espera que se dé la
 interacción.
 
+\begin{center}
 \begin{figure}[H]
-  \includegraphics[scale=0.5]{docking_steps}
+  \includegraphics[scale=0.4]{docking_steps}
   \caption{Diagrama de flujo para un acoplamiento usual.  (Tomado de
     \cite{kukol})}
   \label{fig:docking_flowchart}
 \end{figure}
+\end{center}
 
 La figura \ref{fig:docking_flowchart} muestra los pasos clave que son
 comunes en todos los protocolos. El acoplamiento consiste en encontrar
@@ -99,13 +101,3 @@ coordenadas de átomos, nombres de moléculas e información sobre
 estructuras primarias y secundarias. Es con este formato con el que se
 trabajó durante el proyecto.
 \footnote{\url{ftp://ftp.wwpdb.org/pub/pdb/doc/format_descriptions/Format_v33_Letter.pdf}}
-
-\section{SMILES}
-SMILES (\textit{Simple Molecular Input Line Entry System}) es un
-sencillo lenguaje químico que permite describir moléculas y reacciones
-utilizando únicamente caracteres ASCII que representan símbolos de
-átomos y enlaces. Una cadena SMILES contiene la misma información que
-una tabla de conexiones extendida, pero con varias ventajas: es
-sumamente compacta y puede ser canonizada de tal manera que puede ser
-usada como identificador universal para una estructura química
-dada.\footnote{\url{http://www.daylight.com/smiles/}}
