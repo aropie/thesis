@@ -322,20 +322,63 @@ j-ésimo peso de la siguiente manera:
 \end{split}
 \end{equation*}
 
+\section{Descenso estocástico por el gradiente}
+Si se considera el caso en el que se tiene un conjunto de datos con
+millones de puntos con datos, correr un entrenamiento con descenso por
+el gradiente puede ser un proceso sumamente costoso computacionalmente
+ya que se requiere reevaluar todo el conjunto de datos cada vez que se
+toma un \textit{paso} hacia el mínimo global.
+
+Una alternativa popular al algoritmo de descenso por el gradiente es el
+\textbf{descenso estocástico por el gradiente}, llamado también
+descenso por el gradiente iterativo. En lugar de actualizar los pesos
+basado en la suma de los errores acumulados de todas las muestras
+$x^{(i)}$:
+\begin{equation}
+  \Delta w = \eta \sum_i(y^{(i)} - \phi(z^{(i)}))x^{(i)}
+\end{equation}
+
+Se actualizan los datos de manera incremental para cada muestra del
+entrenamiento:
+\begin{equation}
+  \eta(y^{(i)} - \phi(z^{(i)}))x^{(i)}
+\end{equation}
+
+Aunque el descenso estocástico por el gradiente podria ser considerado
+una aproximación del descenso por el gradiente, por lo general
+converge mucho más rápido debido a las actualizaciones tan frecuentes
+de los pesos. Como cada gradiente se calcula basado en un sólo ejemplo
+de entrenamiento, el error tiende a tener más \textit{ruido}, lo que
+permite que el descenso estocástico por el gradiente
+pueda \textit{escapar} más fácilmente de un mínimo local. Para obtener
+buenos resultados con el descenso estocástico por el gradiente es
+importante que se tomen los datos de forma aleatoria.
+
+Otra ventaja del descenso estocástico por el gradiente es que se puede
+usar para hacer \textit{aprendizaje en línea}. Esto quiere decir que
+el modelo es entrenado al momento, mientras más y más datos van
+llegando. Esto es especialmente útil cuando se están acumulando
+grandes cantidades de datos.  Usando entrenamiento en línea, el
+sistema puede adaptarse inmediatamente a los cambios y los datos de
+entrenamiento pueden ser descartados después de actualizar el modelo,
+si el espacio de almacenamiento fuera un problema.
+
 Las redes neuronales (ANN, \textit{Artificial Neural Network}) son
 modelos complejos que por lo general tienen un alto número de mínimos
 locales, volviendo al descenso por el gradiente poco efectivo como
-mecanismo de entrenamiento.  Sin embargo, redes altamente eficientes
-usualmente son entrenadas utilizando descenso por el gradiente. ¿Cómo
-explicar esta aparente contradicción?
+mecanismo de entrenamiento, incluso utilizando la variante
+estocástica. Sin embargo, redes altamente eficientes usualmente son
+entrenadas utilizando descenso por el gradiente. ¿Cómo explicar esta
+aparente contradicción?
 
 Recientemente, evidencia empírica \cite{choromanska} ha dado indicios
 de que las ANN tienen la mayoría de sus mínimos locales cerca del
-mínimo global.  Esto quiere decir que \textbf{el descenso por el
-gradiente funciona ``suficientemente bien''}. Hay otros métodos más
-avanzados que son empleados para entrenar ANNs, pero en este trabajo
-utilizamos descenso por el gradiente por su simplicidad e
-interpetación tan intuitiva.
+mínimo global. Esto quiere decir que \textbf{el descenso por el
+gradiente estocástico funciona ``suficientemente bien''}, ya que
+puede \textit{escapar} de los mínimos locales sin alejarse demasiado
+del mínimo global. Hay otros métodos más avanzados que son empleados
+para entrenar ANNs, pero en este trabajo utilizamos descenso por el
+gradiente por su simplicidad e interpetación tan intuitiva.
 
 \section{Retropropagación}
 Para utilizar de forma efectiva el descenso por el gradiente, es
