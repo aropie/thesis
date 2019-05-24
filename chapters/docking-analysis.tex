@@ -13,13 +13,68 @@ convolucional para hacer un meta-análisis de dichos acoplamientos,
 comparando las poses cristalográficas con las dadas por el acoplamiento
 simulado.
 
+\section{Preparación de la base de datos}
+La base de datos de la cual partimos fué la proporcionada por el Banco
+de Datos de Proteínas (PDB, \textit{Protein Data Bank}), que
+poporciona acceso a resultados de estudios estructurales de
+macromoléculas biológicas\footnote{\url{https://www.rcsb.org/}}. Este
+banco porporciona acceso libre a alrededor de 150,000 moléculas
+tridimensionales determinadas experimentalmente. El formato utilizado
+para almacenar está información (.pdb) contiene elementos como coordenadas de
+átomos, nombres de moléculas e información sobre estructuras primarias
+y secundarias. Es con este formato con el que se trabajó durante el
+proyecto.
 
+Inicialmente, se descargaron todas las proteínas alojadas en el banco
+y se fué haciendo un filtrado de ellas del siguiente modo:
+\begin{enumerate}
+  \item Nos interesa estudiar acoplamientos, entonces se trabaja únicamente
+  con proteínas que contuvieran ligandos. El resto queda descartado.
+  \item Se descartan todas las proteínas que tuvieran un peso
+  molecular menor a 300Da.
+  \item Se quitan de las proteínas las moléculas solventes
+  como DMSO, PEG y MES.\@
+  \item Se filtran de las proteínas las cadenas de ADN o ARN.\@
+  \item Se quitan también todos los metales pesados de las proteínas.
+  \item Finalmente, se transforma el archivo .pdb en un archivo .pdbqt.
+  Esto quiere decir que se definen las cargas de la proteína así como
+  sus libertades de torción (a las que más adelante
+  llamaremos \textit{ramas}). Para esto se utilizó el programa
+  MGLTools\footnote{\url{http://mgltools.scripps.edu/}}
+\end{enumerate}
+
+Después, se hace la separación en cada proteína entre ligando y
+receptor, y para cada pareja se realiza un acoplamiento virtual
+utilizando \textbf{AutoDock Vina
+1.1.2}\footnote{\url{http://vina.scripps.edu/index.html}}.
+Esto genera un listado de poses, donde cada poses es un archvio
+.pdbqt, junto con una calificación asociada, dada por la función
+evaluadora de AutoDock Vina, de qué tan ``buena'' es la pose dada.
+Con esto, se hace una tabulación de cada pose y su calificación contra
+el RMSD a la pose cristalográfica original. Esta tabla sirve como
+entrada para \textit{Deep-pose}.
+
+\begin{table}[]
+\begin{tabular}{|c|c|c|c|}
+\hline
+Pose         & \begin{tabular}[c]{@{}c@{}}Clasificación\\ (según AutoDock Vina)\end{tabular} & Calificación & RMSD  \\ \hline
+1JXL\_BRU\_T & 1                                                                             & 9.69         & -4.2  \\
+1JXL\_BRU\_T & 3                                                                             & 9.67         & -3.9  \\
+2H29\_DND\_A & 5                                                                             & 7.96         & -11.5 \\
+1Z0S\_ATP\_A & 4                                                                             & 6.26         & -9.3  \\
+3D6M\_PHQ\_C & 2                                                                             & 10.10        & -4.6  \\ \hline
+\end{tabular}
+\caption{Extracto de la tabulación de poses contra RMSD a
+la información cristalográfica. El formato de nombre de las poses
+es \{compuesto\}\_\{ligando acoplado\}\_\{cadena\}.}
+\label{tab:poses}
+\end{table}
 
 \section{Deep-pose}
 \textbf{Deep-pose} es una red neuronal convolucional profunda que toma
 la información de la pose de un acoplamiento en un complejo
 proteína-ligando como entrada y produce una calificación de qué tan
-\sout{viable} es dicha pose.  Primero, dada una entrada de un complejo
+viable es dicha pose.  Primero, dada una entrada de un complejo
 proteína-ligando $x$, se extrae información del contexto local de cada
 rama. El \textit{contexto} de una rama está dado por información
 estructural básica (\textit{tipo de rama} y distancia). Después, cada
@@ -31,8 +86,11 @@ representación vectorial del complejo. Posteriormente se pasa a una
 capa oculta para síntesis y procesamiento del
 vector-ligando. Finalmente, en la última capa, la representación del
 complejo es dada como entrada a un clasificador \textit{softmax}, que
-es responsable de producir el puntaje. A continuación se presenta un
-pseudo-código de alto nivel del proceso de la red:
+es responsable de producir el puntaje.
+
+A continuación se presenta un pseudo-código de alto nivel del proceso
+de la red:
+\newpage
 \begin{algorithm}[H]
   \caption{Deep-pose}
   \begin{algorithmic}[1]
@@ -311,12 +369,12 @@ b^{3}, b^{out}\}$ es utilizada para estimar la probabilidad
 $p(y|x, \theta)$. Finalmente, el error en la predicción se computa
 como la probabilidad logarítmica negativa, $-\log(p(y|x, \theta))$, y
 los parámetros de $\theta$ son actualizados
-utilizando \sout{backpropagation}.
+utilizando retropropagación.
 \begin{equation}
   \theta \longmapsto \sum_{(x,y) \in D} -\log p(y|x, \theta)
 \end{equation}
 
 En este trabajo, se utilizaron \textit{minilotes} de complejos, 30 por
 lote, y tomamos el promedio del error de la predicción para realizar
-el \sout{backpropagation}. La red se implementó utilizando la biblioteca
+la retropropagación. La red se implementó utilizando la biblioteca
 Theano\footnote{http://deeplearning.net/software/theano/}.
