@@ -27,9 +27,11 @@
 \frontmatter
     \input{chapters/cover}
     \tableofcontents
-    \input{chapters/abstract}
 
 \mainmatter
+    \chapter*{Introducción}
+        \input{chapters/abstract}
+    \addcontentsline{toc}{chapter}{Introducción}
     \chapter{Sobre inteligencia artifical}
         \input{chapters/types-of-learning}
     \chapter{Sobre redes y neuronas}
@@ -38,6 +40,8 @@
         \input{chapters/proteins}
     \chapter{Sobre meta-análisis del acoplamiento}
         \input{chapters/docking-analysis}
+    \chapter{Resultados y conclusiónes}
+        \input{chapters/results}
 
 
 %% \input{chapters/stochastic-gradient-descent}
