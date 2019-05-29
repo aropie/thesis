@@ -1,4 +1,5 @@
-Los modelos de redes neuronales artificiales, uno de los cuales es el
+Los modelos de redes neuronales artificiales (ANN \textit{Artificial
+Neural Network}), uno de los cuales es el
 \textit{perceptrón} que discutiremos en este capítulo, están
 inspirados en el cerebro humano. Hay científicos cognitivos y de
 neurociencia cuya meta es entender el funcionamiento del cerebro y
@@ -32,7 +33,7 @@ memoria están distribuidos por toda la red. El procesamiento es
 efectuado por las neuronas y la memoria se encuentra en las sinapsis
 entre ellas.
 
-El cerebro es, además, un órgano capás de adaptarse a las condiciones
+El cerebro es, además, un órgano capaz de adaptarse a las condiciones
 de su ambiente, ya que constantemente son agregadas nuevas conexiones
 sinápticas entre neuronas y modificadas las ya existentes. Una vez que
 una neurona ha emitido una señal eléctrica, las adyacentes reciben la
@@ -127,9 +128,9 @@ puede ser resumida en los siguientes pasos:
 
 
 En este caso, el valor de salida es la clasificación dada por la
-función escalón definida previamente, y la actualización simultánea de
-cada peso $w_j$ en el vector de pesos $w$ puede ser escrito más
-formalmente cómo:
+función escalón definida previamente (\textit{i.e.} $\hat y
+= \phi(z)$), y la actualización simultánea de cada peso $w_j$ en el
+vector de pesos $w$ puede ser escrito más formalmente cómo:
 \begin{equation}
   w_j := w_j + \Delta w_j
 \end{equation}
@@ -223,7 +224,7 @@ intermedias, llamadas \textit{capas ocultas}, consta de un conjunto de
 neuronas sin conexiones entre ellas, pero totalmente conectadas a las
 capas inmediatamente anterior y posterior. Visto como una gráfica, un
 \textbf{perceptrón multicapa} (MLP, \textit{Multilayer Perceptron})
-es una gráfica $n$-partita dirigida donde $n$ seria el número de
+es una gráfica $n$-partita dirigida donde $n$ sería el número de
 capas.
 \begin{figure}[H]
   \includegraphics[scale=1.3]{mlp} \centering \caption{Arquitectura de
@@ -246,16 +247,16 @@ capa oculta $h_1$ calcula su valor a partir de $W_1$ y una traslación
 $b_1$, que llamamos \textit{sesgo} (en inglés, \textit{bias}), del
 siguiente modo:
 \begin{equation}
-  h_1 = \sigma(W_1x + b_1)
+  h_1 = \phi(W_1x + b_1)
 \end{equation}
-donde $\sigma$ es una función de activación no lineal y
+donde $\phi$ es una función de activación no lineal y
 diferenciable. Así la $i+1$-ésima capa oculta computa su valor como
 \begin{equation}
-  h_{i+1} = \sigma(W_{i+1}h_i + b_{i+1})
+  h_{i+1} = \phi(W_{i+1}h_i + b_{i+1})
 \end{equation}
-Por último, la salida, suponiendo que hay $n$ capas ocultas, seria
+Por último, la salida, suponiendo que hay $n$ capas ocultas, sería
 \begin{equation}
-  \hat{y} = \sigma{(W_{n+1}h_n + b_{n+1})}
+  \hat{y} = \phi{(W_{n+1}h_n + b_{n+1})}
 \end{equation}
 donde $\hat{y}$ es el vector de clasificación.
 
@@ -296,7 +297,12 @@ un mínimo (local o global) de la función de costo. En cada iteración, se redu
 un \textit{paso} del gradiente, donde cada \textit{paso} está determinado por
 el valor del índice de aprendizaje, así como por la pendiente del gradiente.
 
-\includegraphics[scale=0.5]{gradient-descent}
+\begin{figure}[H]
+\begin{center}
+  \includegraphics[scale=0.5]{gradient-descent}
+  \caption{Diagrama de descenso por el gradiente. (Tomado de \cite{python})}
+\end{center}
+\end{figure}
 
 Usando el descenso por el gradiente, se pueden actualizar los pesos quitandole un \textit{paso}
 al gradiente $\nabla J(w)$ de la función de costos $J(w)$:
@@ -338,17 +344,17 @@ $x^{(i)}$:
   \Delta w = \eta \sum_i(y^{(i)} - \phi(z^{(i)}))x^{(i)}
 \end{equation}
 
-Se actualizan los datos de manera incremental para cada muestra del
+se actualizan los datos de manera incremental para cada muestra del
 entrenamiento:
 \begin{equation}
-  \eta(y^{(i)} - \phi(z^{(i)}))x^{(i)}
+  \Delta w = \eta(y^{(i)} - \phi(z^{(i)}))x^{(i)}
 \end{equation}
 
-Aunque el descenso estocástico por el gradiente podria ser considerado
+Aunque el descenso estocástico por el gradiente podría ser considerado
 una aproximación del descenso por el gradiente, por lo general
 converge mucho más rápido debido a las actualizaciones tan frecuentes
 de los pesos. Como cada gradiente se calcula basado en un sólo ejemplo
-de entrenamiento, el error tiende a tener más \textit{ruido}, lo que
+de entrenamiento, el error tiende a tener más entropía, lo que
 permite que el descenso estocástico por el gradiente
 pueda \textit{escapar} más fácilmente de un mínimo local. Para obtener
 buenos resultados con el descenso estocástico por el gradiente es
@@ -363,13 +369,12 @@ sistema puede adaptarse inmediatamente a los cambios y los datos de
 entrenamiento pueden ser descartados después de actualizar el modelo,
 si el espacio de almacenamiento fuera un problema.
 
-Las redes neuronales (ANN, \textit{Artificial Neural Network}) son
-modelos complejos que por lo general tienen un alto número de mínimos
-locales, volviendo al descenso por el gradiente poco efectivo como
-mecanismo de entrenamiento, incluso utilizando la variante
-estocástica. Sin embargo, redes altamente eficientes usualmente son
-entrenadas utilizando descenso por el gradiente. ¿Cómo explicar esta
-aparente contradicción?
+Las redes neuronales son modelos complejos que por lo general tienen
+un alto número de mínimos locales, volviendo al descenso por el
+gradiente poco efectivo como mecanismo de entrenamiento, incluso
+utilizando la variante estocástica. Sin embargo, redes altamente
+eficientes usualmente son entrenadas utilizando descenso por el
+gradiente. ¿Cómo explicar esta aparente contradicción?
 
 Recientemente, evidencia empírica \cite{choromanska} ha dado indicios
 de que las ANN tienen la mayoría de sus mínimos locales cerca del
