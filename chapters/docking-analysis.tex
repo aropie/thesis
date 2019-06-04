@@ -52,20 +52,22 @@ y se fué haciendo un filtrado de ellas del siguiente modo:
 Después, se hace la separación en cada proteína entre ligando y
 receptor, y para cada pareja se realiza un acoplamiento virtual
 utilizando \textbf{AutoDock Vina
-1.1.2}\footnote{\url{http://vina.scripps.edu/index.html}}.
-Esto genera un listado de poses, donde cada poses es un archvio
-.pdbqt, junto con una calificación asociada, dada por la función
-evaluadora de AutoDock Vina, de qué tan ``buena'' es la pose dada.
-Con esto, se hace una tabulación de cada pose y su calificación contra
-el RMSD a la pose cristalográfica original. Esta tabla sirve como
-entrada para \textit{Deep-pose}.
-\begin{figure}[H]
+  1.1.2}\footnote{\url{http://vina.scripps.edu/index.html}}, teniendo
+así una base de datos de 24,964 acoplamientos.  Esto genera un listado
+de poses, donde cada poses es un archvio .pdbqt, junto con una
+calificación asociada, dada por la función evaluadora de AutoDock
+Vina, de qué tan ``buena'' es la pose dada.  Con esto, se hace una
+tabulación de cada pose y su calificación contra el RMSD a la pose
+cristalográfica original. Esta tabla sirve como entrada para
+\textit{Deep-pose}.
+
+\begin{figure}[]
   \includegraphics[scale=0.45, left]{poses}
   \caption{Primeras tres poses de acoplamiento del ligando CB3
     con el receptor 4EIL.}
 \end{figure}
 
-\begin{table}[]
+\begin{table}[H]
 \begin{tabular}{|c|c|c|c|}
 \hline
 Pose         & \begin{tabular}[c]{@{}c@{}}Clasificación\\ (según AutoDock Vina)\end{tabular} & Calificación & RMSD  \\ \hline
@@ -147,12 +149,12 @@ Pereira, Caffaren y dos Santos \cite{dossantos} consideran al átomo
 como una entidad ligada íntimamente a su contexto. Bajo esta premisa,
 crean una red que toma como entrada a cada átomo del ligando con su
 contexto codificado, entendiendo contexto del átomo como las
-carácteristicas de este y de los átomos más cercanos.  Pereira buscaba
-encontrar valores de acoplamiento que correspondieran con la eventual
-medición de la energía de enlace, sin importar cual fuera la
-conformación necesaria para poder realizarlo; nuestro enfoque busca
-dar preferencia a la indentificación de poses que correspondan con
-una eventual pose cristalográfica.
+carácteristicas de este y de los átomos más cercanos.  Pereira,
+Caffaren y dos Santos buscaban encontrar valores de acoplamiento que
+correspondieran con la eventual medición de la energía de enlace, sin
+importar cual fuera la conformación necesaria para poder realizarlo;
+nuestro enfoque busca dar preferencia a la identificación de poses
+que correspondan con una eventual pose cristalográfica.
 
 Partiendo de la idea del átomo ligado a su contexto, y considerando
 que lo que buscamos es una propiedad puramente estructural, tomamos
@@ -162,16 +164,17 @@ rotacional, a la que llamaremos \textit{rama}. Así, nuestro
 siendo éste la combinación del tipo de rama, los de las ramas más
 cercanas y la distancia a cada una de ellas.
 
-IMAGEN HISTOGRAMA DE DISTRIBUCIÖN DE TIPOS DE RAMA
-
+\subsection{Codificación del contexto de la rama}
 SMILES (\textit{Simple Molecular Input Line Entry System}) es un
 sencillo lenguaje químico que permite describir moléculas y reacciones
-utilizando únicamente caracteres ASCII que representan símbolos de
-átomos y enlaces. Una cadena SMILES contiene la misma información que
-una tabla de conexiones extendida, pero con varias ventajas: es
-sumamente compacta y puede ser canonizada de tal manera que puede ser
-usada como identificador universal para una estructura química
-dada.\footnote{\url{http://www.daylight.com/smiles/}}
+utilizando únicamente caracteres ASCII\footnote{El American Standard
+  Code for Information Interchange es un estándar de codificación de
+  caracteres para la comunicación informática.} que representan
+símbolos de átomos y enlaces. Una cadena SMILES contiene la misma
+información que una tabla de conexiones extendida, pero con varias
+ventajas: es sumamente compacta y puede ser canonizada de tal manera
+que puede ser usada como identificador universal para una estructura
+química dada.\footnote{\url{http://www.daylight.com/smiles/}}
 
 Se divide cada receptor y ligando en sus respectivas ramas y cada una
 de estas ramas se codifica usando la respresentación SMILES. Esta
@@ -179,6 +182,8 @@ codificación, representa de forma única a cada rama distinta; es a
 esto a lo que llamamos \textbf{tipo de rama}. Se enlistan todos los
 tipos de rama, asociando a cada uno un índice, generando así lo que
 llamamos el \textit{diccionario de ramas}.
+
+IMAGEN HISTOGRAMA DE DISTRIBUCIÖN DE TIPOS DE RAMA
 
 Del mismo modo, se segmentan los rangos de distancia encontrados en
 compartimentos, y a cada uno de estos se les asigna también un índice,
