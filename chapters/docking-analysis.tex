@@ -110,8 +110,8 @@ de la red:
     \State \textbf{Entrada:} complejo proteína-ligando x,
     donde el ligando tiene $n$ \textit{ramas}
     \State \textbf{Dados:}\newline
-                           $W^{b\_type} \in \mathbb{R}^{h\times |B|}, W^{b\_dist}
-                           \in \mathbb{R}^{h\times |B|},\newline
+                           $W^{b\_type} \in \mathbb{R}^{N\times |B|}, W^{b\_dist}
+                           \in \mathbb{R}^{N\times |B|},\newline
                            W^{conv} \in \mathbb{R}^{|z_i| \times cf}, W^3 \in
                            \mathbb{R}^{cf \times h},\newline
                            W_{out} \in \mathbb{R}^{h \times 2},\newline
@@ -249,8 +249,8 @@ inicializadas con valores aleatorios.
 
 La primera capa de la red toma cada matriz de ligando y la transforma
 en una matriz en $\mathbb{R}$. Cada columna en $W^{b\_type} \in
-\mathbb{R}^{h\times |B|}$ corresponde al vector característico de un
-tipo de rama, donde $B$ es el conjunto de tipo de ramas y $h$ es la
+\mathbb{R}^{N\times |B|}$ corresponde al vector característico de un
+tipos de rama, donde $B$ es el conjunto de tipo de ramas y $N$ es la
 dimensión de los vectores característicos, quedando como un
 hiperparámetro a definir.  Dado el contexto de una rama, la red
 transforma cada tipo de rama en su respectivo vector característico,
@@ -390,7 +390,7 @@ utilizando retropropagación.
   \theta \longmapsto \sum_{(x,y) \in D} -\log p(y|x, \theta)
 \end{equation}
 
-En este trabajo, se utilizaron \textit{minilotes} de complejos, 30 por
+En este trabajo, se utilizaron \textit{minilotes} de complejos, 20 por
 lote, y tomamos el promedio del error de la predicción para realizar
 la retropropagación. La red se implementó utilizando la biblioteca
-Theano\footnote{http://deeplearning.net/software/theano/}.
+Theano.\footnote{http://deeplearning.net/software/theano/}
