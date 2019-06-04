@@ -44,6 +44,11 @@ y se fué haciendo un filtrado de ellas del siguiente modo:
   MGLTools\footnote{\url{http://mgltools.scripps.edu/}}
 \end{enumerate}
 
+\begin{figure}[H]
+  \includegraphics[scale=0.45]{torsions} \centering
+  \caption{Ligando CB3 con sus ejes de torsión marcados en rosa.}
+\end{figure}
+
 Después, se hace la separación en cada proteína entre ligando y
 receptor, y para cada pareja se realiza un acoplamiento virtual
 utilizando \textbf{AutoDock Vina
@@ -54,16 +59,21 @@ evaluadora de AutoDock Vina, de qué tan ``buena'' es la pose dada.
 Con esto, se hace una tabulación de cada pose y su calificación contra
 el RMSD a la pose cristalográfica original. Esta tabla sirve como
 entrada para \textit{Deep-pose}.
+\begin{figure}[H]
+  \includegraphics[scale=0.45, left]{poses}
+  \caption{Primeras tres poses de acoplamiento del ligando CB3
+    con el receptor 4EIL.}
+\end{figure}
 
 \begin{table}[]
 \begin{tabular}{|c|c|c|c|}
 \hline
 Pose         & \begin{tabular}[c]{@{}c@{}}Clasificación\\ (según AutoDock Vina)\end{tabular} & Calificación & RMSD  \\ \hline
-1JXL\_BRU\_T & 1                                                                             & 9.69         & -4.2  \\
-1JXL\_BRU\_T & 3                                                                             & 9.67         & -3.9  \\
-2H29\_DND\_A & 5                                                                             & 7.96         & -11.5 \\
-1Z0S\_ATP\_A & 4                                                                             & 6.26         & -9.3  \\
-3D6M\_PHQ\_C & 2                                                                             & 10.10        & -4.6  \\ \hline
+4EIL\_CB3\_A & 1                                                                             & 10.22        & -10.2  \\
+4EIL\_CB3\_A & 2                                                                             & 9.86         & -10.0  \\
+4EIL\_CB3\_A & 3                                                                             & 9.65         & -9.8  \\
+4EIL\_CB3\_A & 4                                                                             & 2.56         & -9.5  \\
+4EIL\_CB3\_A & 5                                                                             & 9.84         & -9.3  \\ \hline
 \end{tabular}
 \caption{Extracto de la tabulación de poses contra RMSD a
 la información cristalográfica. El formato de nombre de las poses
