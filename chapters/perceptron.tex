@@ -13,7 +13,7 @@ asombrosas en muchos campos que sobrepasan con creces a los más
 grandes esfuerzos de la ingeniería como son visión, aprendizaje y
 reconocimiento del habla, por nombrar algunos.
 
-\section{Inspiracion en la biología}
+\section{Inspiración en la biología}
 El cerebro humano es muy diferente de una computadora. Mientras una
 computadora tiene un número reducido de procesadores, el cerebro está
 compuesto de una enorme cantidad $(10^{11})$ de unidades de
@@ -129,14 +129,14 @@ puede ser resumida en los siguientes pasos:
 
 En este caso, el valor de salida es la clasificación dada por la
 función escalón definida previamente (\textit{i.e.} $\hat y
-= \phi(z)$), y la actualización simultánea de cada peso $w_j$ en el
-vector de pesos $w$ puede ser escrito más formalmente cómo:
+= \phi(z)$) y la actualización simultánea de cada peso $w_j$ en el
+vector de pesos $w$ puede ser escrito más formalmente como:
 \begin{equation}
   w_j := w_j + \Delta w_j
 \end{equation}
 
 El valor de $\Delta w_j$, que es usado para actualizar el peso $w_j$,
-es calculado por la regla de aprendizaje de perceptrón:
+es calculado por la regla de aprendizaje del perceptrón:
 \begin{equation}
   \Delta w_j = \eta (y^{(i)} - \hat y^{(i)})x^{(i)}_j
 \end{equation}
@@ -192,7 +192,7 @@ actualiza- ción de pesos, un \textit{cuantificador}, similar a la
 función escalón descrita anteriormente, puede ser usado para hacer la
 clasificación, como se ilustra en la figura \ref{fig:adaline}.
 
-Si se compara la figura \ref{fig:perceptron} con la figura
+Si se comparan las figuras \ref{fig:perceptron} y
 \ref{fig:adaline}, la diferencia es que se usa la salida con valores
 continuos de la función lineal de activación para calcular el error y
 actualizar los pesos, en lugar de hacer una clasificación binaria.
@@ -219,7 +219,7 @@ es combinar varios perceptrones en una \textit{red neuronal de
 
 La información fluye de capa en capa en el mismo sentido, desde la
 \textit{capa de entrada} donde están los datos sin procesar, hasta la
-\textit{capa de salida} dónde se da la clasificación. Cada una de las capas
+\textit{capa de salida} donde se da la clasificación. Cada una de las capas
 intermedias, llamadas \textit{capas ocultas}, consta de un conjunto de
 neuronas sin conexiones entre ellas, pero totalmente conectadas a las
 capas inmediatamente anterior y posterior. Visto como una gráfica, un
@@ -244,7 +244,7 @@ manipular estos pesos acomodandolos en una matriz $W$, que llamaremos
 \textit{matriz de pesos}, donde $W_i$ son los pesos de la $i$-ésima
 capa de la red. Entonces, dado un vector de entrada $x$, la primera
 capa oculta $h_1$ calcula su valor a partir de $W_1$ y una traslación
-$b_1$, que llamamos \textit{sesgo} (en inglés, \textit{bias}), del
+$b_1$, que llamamos \textit{sesgo} (\textit{bias}, inglés), del
 siguiente modo:
 \begin{equation}
   h_1 = \phi(W_1x + b_1)
@@ -272,8 +272,8 @@ Definimos la función de costo $J$ como la \textbf{Suma de los errores
 \begin{equation}
   J(w)=1/2n \sum_i (\hat{y}_i - y_i^2)
 \end{equation}
-donde $w$ es el conjunto de los parámteros de la red, es decir $w :=
-\bigcup{W_i, b_i}_{i=1}^{n}$, $n$ el número de capas de la red, y
+donde $w$ es el conjunto de los parámteros de la red, es decir
+$w:=\bigcup{W_i, b_i}_{i=1}^{n}$, $n$ el número de capas de la red, y
 $y_i$ la $i$-ésima etiqueta de entrenamiento. La principal ventaja de
 esta función de error, además de ser lineal es que la función de
 costos se vuelve diferenciable.
@@ -307,13 +307,13 @@ el valor del índice de aprendizaje, así como por la pendiente del gradiente.
 Usando el descenso por el gradiente, se pueden actualizar los pesos quitandole un \textit{paso}
 al gradiente $\nabla J(w)$ de la función de costos $J(w)$:
 \begin{equation}
-  w := w + \Delta w
+  w:=w + \Delta w
 \end{equation}
 
 En donde el cambio de peso $\Delta w$ se define como el gradiente negativo multiplicado
 por el índice de aprendizaje $\eta$:
 \begin{equation}
-  \Delta w := -\eta \Delta J(w)
+  \Delta w:=-\eta \Delta J(w)
 \end{equation}
 
 Calculamos la derivada parcial de la función de costos SSE con respecto al
@@ -443,6 +443,6 @@ $\frac{\partial J}{\partial a_m^{(l+1)}}$ y $\frac{\partial a_m^{(l+1)}}{\partia
 \end{equation}
 
 Notemos que esto nos permite computar capas anteriores a $\delta_j$ a
-través de las capas posteriores --- de ahí el nombre de retropropagación.
+través de las capas posteriores, de ahí el nombre de retropropagación.
 Podemos computar $\delta_j$ directamente, si $j$ es una capa de salida,
 así que este proceso eventualmente termina.

@@ -30,12 +30,12 @@ la inteligencia.
 
 \section{Agentes}
 En su concepción más tradicional, la inteligencia artificial gira en torno a
-\textbf{agentes racionales} que, a través de \textbf{sensores} pueden percibir
+\textbf{agentes racionales} que, mediante \textbf{sensores} pueden percibir
 su \textbf{entorno} y actuar sobre él a partir de un sistema de
 decisión.  Internamente, el agente es una máquina compuesta por un
 conjunto (finito) de estados, cuyas transiciones están dadas por
 reglas de inferencias. Cuando se da una transición de estados,
-entonces es realizada una acción. Esta concepción del agente nos
+entonces es ejecutada una acción. Esta concepción del agente nos
 permite reducir la IA a un problema de búsqueda de las funciones de
 transición.
 
@@ -47,19 +47,20 @@ capaz de manejar la incertidumbre en su entorno. Además, debe
 poder \textit{aprender} del entorno y adaptarse a él, generando
 conocimiento por medio de la experiencia.
 
-El \textbf{aprendizaje de máquina} (ML, \textit{machine learning})
+El \textbf{aprendizaje de máquina} (ML, \textit{Machine Learning})
 gira en torno a algorítmos capaces de manejar información estocástica
-y generar modelos de toma de decisiones a partir de ella. Un modelo es
-bueno en la medida de lo acertado que es en términos estadísticos.
+y generar modelos de toma de decisiones a partir de ella. \textbf{Un
+modelo es bueno en la medida de lo acertado que es en términos
+estadísticos}.
 
 \section{Tipos de aprendizaje}
 El aprendizaje de máquina se ha divido en varios subcampos, cada uno
 atacando un tipo de problema distinto y utilizando diferentes formas
 de aprendizaje. Se describen a continuación cuatro parámetros bajo
-los cuáles es posible clasificar los distintos paradigmas de
-aprendizaje.
+los cuales es posible clasificar los distintos paradigmas de
+aprendizaje.\\
 
-\textbf{Supervisado/no supervisado}. Dado que el aprendizaje involucra
+\textbf{Supervisado/no supervisado.} Dado que el aprendizaje involucra
 una interacción entre el agente y el ambiente, es posible
 dividir el aprendizaje con respecto a la naturaleza de dicha interacción.
 La primera distinción a notar es la diferencia entre aprendizaje supervisado
@@ -76,28 +77,28 @@ al proporcionarle información extra (una clasificación). Por otro lado,
 en el aprendizaje no supervisado no hay distinción entre datos de
 entrenamiento y de prueba. El agente procesa los datos de entrada
 con el objetivo de generar una síntesis o versión comprimida de los
-datos que sea representativa.
+datos que sea representativa.\\
 
-\textbf{Agentes pasivos/activos}. En los paradigmas de aprendizaje
+\textbf{Agentes pasivos/activos.} En los paradigmas de aprendizaje
 el rol tomado por el agente varia. Es posible distinguir entre
 agente activo y pasivo. Un agente activo interactúa
 con el ambiente durante el entrenamiento, haciendo consultas o
 experimentos, mientras que un agente pasivo sólo observa la
 información provista por el ambiente sin influir
-o dirigirla durante el proceso de aprendizaje.
+o dirigirla durante el proceso de aprendizaje.\\
 
-\textbf{Ayuda del profesor}. Cuando se piensa en el aprendizaje humano
+\textbf{Ayuda del profesor.} Cuando se piensa en el aprendizaje humano
 el proceso, por lo general, involucra a un profesor que está tratando
 activamente de proveer al agente con la información más útil para
 lograr el objetivo de aprendizaje. En contraste, cuando un científico
-aprende sobre la naturaleza, el ambiente, tomando el rol de profesor,
+aprende sobre la naturaleza o el ambiente, tomando el rol de profesor,
 puede ser pensado como pasivo: las manzanas caen, las estrellas
 brillan y la lluvia cae sin cuidado por el aprendizaje del agente.
 Dichos escenarios son modelados postulando que los datos de
 aprendizaje (o la experiencia del agente) son generados por un proceso
-aleatorio.
+aleatorio.\\
 
-\textbf{Protocolo de entrenamiento lineal (o en línea)/por lote}. El
+\textbf{Protocolo de entrenamiento lineal (o en línea)/por lote.} El
 último parámetro a mencionar es la distinción entre las situaciones en
 las que el agente tiene que responder de forma lineal; es decir, que
 para cada ejemplo de entrenamiento tiene que dar una respuesta, y

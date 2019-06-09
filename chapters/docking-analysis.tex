@@ -14,23 +14,23 @@ comparando las poses cristalográficas con las dadas por el acoplamiento
 simulado.
 
 \section{Preparación de la base de datos}
-La base de datos de la cual partimos fué la proporcionada por el Banco
-de Datos de Proteínas (PDB, \textit{Protein Data Bank}), que
-poporciona acceso a resultados de estudios estructurales de
-macromoléculas biológicas\footnote{\url{https://www.rcsb.org/}}. Este
-banco porporciona acceso libre a alrededor de 150,000 moléculas
-tridimensionales determinadas experimentalmente. El formato utilizado
-para almacenar está información (.pdb) contiene elementos como coordenadas de
-átomos, nombres de moléculas e información sobre estructuras primarias
-y secundarias. Es con este formato con el que se trabajó durante el
-proyecto.
+La base de datos de la cual partimos es la de el Banco de Datos de
+Proteínas (PDB, \textit{Protein Data Bank}), que proporciona acceso a
+resultados de estudios estructurales de macromoléculas
+biológicas\footnote{\url{https://www.rcsb.org/}}. Este banco está
+compuesto poralrededor de 150,000 moléculas tridimensionales
+determinadas experimentalmente a las que se tiene libre acceso. El
+formato utilizado para almacenar esta información (.pdb) contiene
+elementos como coordenadas de átomos, nombres de moléculas e
+información sobre estructuras primarias y secundarias. Es con este
+formato con el que se trabajó durante el proyecto.
 
 Inicialmente, se descargaron todas las proteínas alojadas en el banco
-y se fué haciendo un filtrado de ellas del siguiente modo:
+y se fue haciendo un filtrado de ellas del siguiente modo:
 \begin{enumerate}
   \item Nos interesa estudiar acoplamientos, entonces se trabaja únicamente
   con proteínas que contuvieran ligandos. El resto queda descartado.
-  \item Se descartan todas las proteínas que tuvieran un peso
+  \item Se eliminan todas las proteínas que tuvieran un peso
     molecular menor a 300Da. Debajo de este valor se encuentran
     principalmente iones y moléculas de bufer de cristalización.
   \item Se quitan de las proteínas las moléculas solventes
@@ -39,7 +39,7 @@ y se fué haciendo un filtrado de ellas del siguiente modo:
   \item Se quitan también todos los metales pesados de las proteínas.
   \item Finalmente, se transforma el archivo .pdb en un archivo .pdbqt.
   Esto quiere decir que se definen las cargas de la proteína así como
-  sus libertades de torción (a las que más adelante
+  sus libertades de torsión (a las que más adelante
   llamaremos \textit{ramas}). Para esto se utilizó el programa
   MGLTools\footnote{\url{http://mgltools.scripps.edu/}}
 \end{enumerate}
@@ -54,7 +54,7 @@ receptor, y para cada pareja se realiza un acoplamiento virtual
 utilizando \textbf{AutoDock Vina
   1.1.2}\footnote{\url{http://vina.scripps.edu/index.html}}, teniendo
 así una base de datos de 24,964 acoplamientos.  Esto genera un listado
-de poses, donde cada poses es un archvio .pdbqt, junto con una
+de poses, donde cada pose es un archivo .pdbqt, junto con una
 calificación asociada, dada por la función evaluadora de AutoDock
 Vina, de qué tan ``buena'' es la pose dada.  Con esto, se hace una
 tabulación de cada pose y su calificación contra el RMSD a la pose
@@ -149,11 +149,11 @@ Pereira, Caffaren y dos Santos \cite{dossantos} consideran al átomo
 como una entidad ligada íntimamente a su contexto. Bajo esta premisa,
 crean una red que toma como entrada a cada átomo del ligando con su
 contexto codificado, entendiendo contexto del átomo como las
-carácteristicas de este y de los átomos más cercanos.  Pereira,
+carácteristicas de éste y de los átomos más cercanos.  Pereira,
 Caffaren y dos Santos buscaban encontrar valores de acoplamiento que
 correspondieran con la eventual medición de la energía de enlace, sin
-importar cual fuera la conformación necesaria para poder realizarlo;
-nuestro enfoque busca dar preferencia a la identificación de poses
+importar cual fuera la conformación necesaria para poder realizarlo.
+Nuestro enfoque busca dar preferencia a la identificación de poses
 que correspondan con una eventual pose cristalográfica.
 
 Partiendo de la idea del átomo ligado a su contexto, y considerando
@@ -192,7 +192,7 @@ generando así un \textit{diccionario de distancias}.
 \begin{table}[H]
   \begin{center}
     \begin{tabular}{l|l}
-      SMILES                 & Id \\ \hline
+      SMILES                 & Idx \\ \hline
       NC1=N{[}C{]}(=NC=C1)=O & 93 \\
       C1CCCCC1               & 94 \\
       CNC=O                  & 95 \\
