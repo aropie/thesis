@@ -1,0 +1,22 @@
+En este trabajo se diseña y se crea \textit{Deep-pose}: una red de
+aprendizaje profundo que busca hacer ua evaluación de acoplamientos
+virtuales. \textit{Deep-pose} está compuesta por una capa
+convolucional, una capa oculta y una de clasificación y toma como
+entrada la salida de acoplamientso virtuales generados por AutoDock
+Vina. Estos acoplamientos son traducidos en una codificación que
+transforma las poses de acoplamiento en vectores de enteros mediante
+asociaciones con tablas de búsqueda, y sirven como entrada a la red.
+
+Esta arquitectura, permitó obtener un 82\% de precisión al momento de
+discernir entre poses cercanas a las cristalográficas. Este resultado,
+aunado a que (1) \textit{Deep-pose} no requiere características
+definidas por un humano, a diferencia del proceso \textit{artesanal}
+que se sigue usualmente para determinar cuáles acoplamientos son
+buenos, y que (2) alcanza buenos resultados a partir de la salida de
+un sólo programa de docking, hacen que \textit{Deep-pose} sea
+atractivo para usarse como complemento al acoplamiento virtual usado
+normalmente. Además, este trabajo propone ideas novedosas sobre cómo
+modelar complejos proteínas-ligandos e introduce una propuesta que
+demuestra ser efectiva para codificar configuraciones moleculares, que
+podría ser usada para otros fines en alguna otra red de aprendizaje
+profundo aplicada a bioinformática.

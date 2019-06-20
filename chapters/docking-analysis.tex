@@ -183,8 +183,6 @@ esto a lo que llamamos \textbf{tipo de rama}. Se enlistan todos los
 tipos de rama, asociando a cada uno un índice, generando así lo que
 llamamos el \textit{diccionario de ramas}.
 
-IMAGEN HISTOGRAMA DE DISTRIBUCIÖN DE TIPOS DE RAMA
-
 Del mismo modo, se segmentan los rangos de distancia encontrados en
 compartimentos, y a cada uno de estos se les asigna también un índice,
 generando así un \textit{diccionario de distancias}.
@@ -370,27 +368,3 @@ donde decimos que $p(0|x)$ y $p(1|x)$ es la probabilidad condicional
 de que la pose del compuesto sea válida o sea señuelo,
 respectivamente, dados los datos obtenidos a partir del acoplamiento
 del complejo proteína-ligando.
-
-\subsection{Entrenamiento de la red}
-\textit{Deep-pose} se entrenó utilizando un algoritmo de
-\textbf{descenso estocástico por el gradiente}
-(SGD, \textit{Stochastic Gradient Descent}).
-En este caso, SGD se utiliza para minimizar la función de costos sobre
-un conjunto de entrenamiento $D$ que contiene poses tanto válidas como
-señuelos. En cada iteración, un nuevo complejo $(x,y) \in D$ es
-elegido al azar, donde $y=1$ si la pose es válida y $y=0$ en caso
-contrario. Después la red, junto con los parámetros $\theta
-= \{W^{b_{type}}, W^{b_{dist}}, W^{conv}, W^3, W^{out}, b^{conv},
-b^{3}, b^{out}\}$ es utilizada para estimar la probabilidad
-$p(y|x, \theta)$. Finalmente, el error en la predicción se computa
-como la probabilidad logarítmica negativa, $-\log(p(y|x, \theta))$, y
-los parámetros de $\theta$ son actualizados
-utilizando retropropagación.
-\begin{equation}
-  \theta \longmapsto \sum_{(x,y) \in D} -\log p(y|x, \theta)
-\end{equation}
-
-En este trabajo, se utilizaron \textit{minilotes} de complejos, 20 por
-lote, y tomamos el promedio del error de la predicción para realizar
-la retropropagación. La red se implementó utilizando la biblioteca
-Theano.\footnote{http://deeplearning.net/software/theano/}
