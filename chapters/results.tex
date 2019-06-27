@@ -36,7 +36,9 @@ retropropagación.
 
 La red se entrenó con un conjunto de datos de \textbf{24,957 poses}
 que se dividió en 19,965, 2,495 y 2,497 muestras para entrenamiento,
-pruebas y validación respectivamente.
+pruebas y validación respectivamente. Éstas poses al dividirlas
+en ramas, resultaron en \textbf{5,216 distintas ramas}, que son las
+utilizadas para crear el diccionario de ramas.
 
 \begin{table}[H]
 \begin{center}
@@ -73,7 +75,7 @@ es una opción efectiva para determinar la fiabilidad de un
 acoplamiento virtual.
 
 \begin{figure}[h]
-  \includegraphics[scale=0.5]{confusion} \centering
+  \includegraphics[scale=0.45]{confusion} \centering
   \caption{Matriz de confusión de las predicciones de la red,
   donde la etiqueta 1 representa una pose válida y 0 una inválida.
   Los puntajes son adquiridos a partir del conjunto de validación
@@ -82,7 +84,7 @@ acoplamiento virtual.
 \end{figure}
 
 \begin{figure}[h]
-  \includegraphics[scale=0.6]{roc_classifier} \centering
+  \includegraphics[scale=0.45]{roc_classifier} \centering
   \caption{Curva característica operativa del receptor (ROC,
   \textit{Receptive Operating Characteristic}) mostrando
   las razones de verdaderos y falsos positivos.}
