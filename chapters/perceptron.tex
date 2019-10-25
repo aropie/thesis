@@ -1,22 +1,19 @@
 Los modelos de redes neuronales artificiales (ANN \textit{Artificial
 Neural Network}), uno de los cuales es el
 \textit{perceptrón} que discutiremos en este capítulo, están
-inspirados en el cerebro humano. Hay científicos cognitivos y de
-neurociencia cuya meta es entender el funcionamiento del cerebro y
-construir modelos que repliquen las redes neuronales naturales del
-cerebro.
+inspirados en el cerebro humano.
 
 Sin embargo, lo que busca la inteligencia artificial es construir
 máquinas \textit{útiles} tomando como modelo el cerebro. El cerebro es
 un dispositivo de procesamiento de información con habilidades
-asombrosas en muchos campos que sobrepasan con creces a los más
-grandes esfuerzos de la ingeniería como son visión, aprendizaje y
-reconocimiento del habla, por nombrar algunos.
+asombrosas que sobrepasan con creces a los más grandes esfuerzos de la
+ingeniería en campos como son visión, aprendizaje y reconocimiento del habla,
+por nombrar algunos.
 
 \section{Inspiración en la biología}
 El cerebro humano es muy diferente de una computadora. Mientras una
 computadora tiene un número reducido de procesadores, el cerebro está
-compuesto de una enorme cantidad $(10^{11})$ de unidades de
+compuesto de una enorme cantidad (se estiman $10^{11}$) de unidades de
 procesamiento llamadas \textbf{neuronas} trabajando en paralelo.
 
 Aunque los detalles son inciertos, se cree que las neuronas son mucho
@@ -38,9 +35,9 @@ de su ambiente, ya que constantemente son agregadas nuevas conexiones
 sinápticas entre neuronas y modificadas las ya existentes. Una vez que
 una neurona ha emitido una señal eléctrica, las adyacentes reciben la
 información por medio de canales de transmisión llamados
-\textit{dendritas}. Estos impulsos son llevados hasta el
-\textit{núcleo} de la neurona para su procesamiento y, posteriormente,
-una reacción es transmitida a través del \textit{axón} de la célula
+\textit{dendritas}. Estos impulsos son llevados hasta la membrana
+de la neurona para su procesamiento y, posteriormente, una reacción es
+transmitida a través del \textit{axón} de la célula
 \cite{memes}.
 \begin{figure}[h]
   \includegraphics{neurona} \centering
@@ -215,7 +212,10 @@ El perceptrón multicapa es una generalización del perceptrón simple de
 Rosenblatt, como consecuencia de las limitaciones de éste ante
 conjuntos de datos que no son linealmente separables. Lo que se hace
 es combinar varios perceptrones en una \textit{red neuronal de
-  propagación hacia adelante}, con una estructura de \textit{capas}.
+propagación hacia adelante}, con una estructura
+de \textit{capas}\footnote{Entendiendo \textit{capa} como perceptrones
+en paralelo, donde están conectados de cada lado a las capas
+adyacentes, formando así una especie de \textit{red}}.
 
 La información fluye de capa en capa en el mismo sentido, desde la
 \textit{capa de entrada} donde están los datos sin procesar, hasta la
@@ -238,7 +238,7 @@ Esto se logra a través de una serie de transformaciones no lineales,
 dadas por las funciones de activación y pesos específicos de cada
 neurona.
 
-Inicialmente, a cada neurona se le asigna un peso aleatorio. Dada la
+Inicialmente, a cada conexión se le asigna un peso aleatorio. Dada la
 estructura en capas de la red, es mucho más fácil visualizar y
 manipular estos pesos acomodandolos en una matriz $W$, que llamaremos
 \textit{matriz de pesos}, donde $W_i$ son los pesos de la $i$-ésima
@@ -290,7 +290,9 @@ pequeña mejora en $y$, en otras palabras $f(x-\varepsilon f'(x)) <
 f(x)$ para un $\varepsilon \in \mathbb{R}$ suficientemente
 pequeño. Podemos entonces minimizar $f(x)$ al mover a $x$ en pequeños
 \textit{pasos} con el signo opuesto de la derivada. A esta técnica se
-le conoce como \textbf{descenso por el gradiente}.
+le conoce como \textbf{descenso por el gradiente}\footnote{Puede
+pensarse en el gradiente como una generalización de la derivada para
+espacios $n$-dimensionales}.
 
 La idea detrás del descenso por el gradiente es disminuir el gradiente hasta encontrar
 un mínimo (local o global) de la función de costo. En cada iteración, se reduce
@@ -320,11 +322,11 @@ Calculamos la derivada parcial de la función de costos SSE con respecto al
 j-ésimo peso de la siguiente manera:
 \begin{equation*}
 \begin{split}
-  \frac{\partial J}{\partial w_j} &= \frac{\partial}{\partial w_j}\frac{1}{2}\sum_i (y^{(i)} - \phi(z^{(i)}))^2 \\
-  &= \frac{1}{2}\sum_i 2(y^{(i)} - \phi(z^{(i)}))\frac{\partial}{\partial w_j}(y^{(i)} - \phi(z^{(i)}))\\
-  &= \sum_i (y^{(i)} - \phi(z^{(i)}))\frac{\partial}{\partial w_j}(y^{(i)} - \phi (z^{(i)}))\\
-  &= \sum_i(y^{(i)} - \phi(z^{(i)}))(-x_j^{(i)})\\
-  &= -\sum_i(y^{(i)} - \phi(z^{(i)}))x_j^{(i)}
+  \frac{\partial J}{\partial w_j} &= \frac{\partial}{\partial w_j}\frac{1}{2}\sum_{i=1}^n (y^{(i)} - \phi(z^{(i)}))^2 \\
+  &= \frac{1}{2}\sum_{i=1}^n 2(y^{(i)} - \phi(z^{(i)}))\frac{\partial}{\partial w_j}(y^{(i)} - \phi(z^{(i)}))\\
+  &= \sum_{i=1}^n (y^{(i)} - \phi(z^{(i)}))\frac{\partial}{\partial w_j}(y^{(i)} - \phi (z^{(i)}))\\
+  &= \sum_{i=1}^n(y^{(i)} - \phi(z^{(i)}))(-x_j^{(i)})\\
+  &= -\sum_{i=1}^n(y^{(i)} - \phi(z^{(i)}))x_j^{(i)}
 \end{split}
 \end{equation*}
 
@@ -352,7 +354,7 @@ entrenamiento:
 
 Aunque el descenso estocástico por el gradiente podría ser considerado
 una aproximación del descenso por el gradiente, por lo general
-converge mucho más rápido debido a las actualizaciones tan frecuentes
+converge mucho más rápido debido a las actualizaciones más frecuentes
 de los pesos. Como cada gradiente se calcula basado en un sólo ejemplo
 de entrenamiento, el error tiende a tener más entropía, lo que
 permite que el descenso estocástico por el gradiente

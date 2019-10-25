@@ -1,18 +1,24 @@
 El descubrimiento de nuevos fármacos es un proceso muy tardado y
-costoso; e incluso el reposicionamiento de compuestos ya conocidos es
-una tarea sumamente complicada. El escenario es aún más complejo si
-se toman en cuenta los miles o millones de moléculas capaces de ser
-sintetizadas en cada etapa del desarrollo.  Para superar estas
-dificultades, el uso de alternativas computacionales de bajo costo es
-altamente recomendado y se ha adoptado como la forma estándar de
-ayuda para el desarrollo de nuevos fármacos.
+costoso; e incluso el reposicionamiento de compuestos\footnote{El
+reposicionamiento de fármacos es cuando se toman medicamentos con
+ciertas indicaciones terapéuticas y se estudian con fines para los
+autorizados, como es el caso del viagra que originalmente fué dada
+como tratamiento para la angina de pecho.} ya conocidos es una tarea
+sumamente complicada. El escenario es aún más complejo si se toman en
+cuenta los miles o millones de moléculas capaces de ser sintetizadas
+en cada etapa del desarrollo.  Para superar estas dificultades, el uso
+de alternativas computacionales de bajo costo es altamente recomendado
+y se ha adoptado como la forma estándar de ayuda para el desarrollo de
+nuevos fármacos.
 
 Una de las metodologias computacionales más usadas para investigar las
 interacciones proteína-ligando es el acoplamiento molecular. La
 selección de los ligandos con mayor afinidad utilizando Cribado
 Virtual basado en Acoplamiento (DBVS, \textit{Docking Based Virtual
-  Screening}) es realizada mediante la inserción de cada elemento de
-la bibilioteca en una región particular de un receptor objetivo.
+Screening}) es realizada mediante la inserción de cada elemento de la
+bibilioteca\footnote{Se le llama biblioteca al conjunto de potenciales
+complejos a intentar acoplar.} en una región particular de un receptor
+objetivo.
 
 En la primera etapa del proceso se procede a una búsqueda heurística
 en la que miles de posibles inserciones son consideradas. En la
@@ -24,7 +30,7 @@ decidir de forma determinística si un acoplamiento es bueno o no.
 Los sistemas basados en aprendizaje de máquina (ML, \textit{Machine
   Learning}) han sido empleados con éxito para mejorar la salida del DBVS
 para incrementar el desempeño de las funciones evaluadoras así como
-para construir clasificadores de afinidad de enlace. Una de las
+para construir clasificadores de afinidad de enlace\cite{arciniega}. Una de las
 principales ventajas de utilizar ML es la capacidad de capturar la
 dependencia no lineal de las interacciones moleculares entre ligando y
 receptor.

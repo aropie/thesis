@@ -3,15 +3,15 @@ evaluado a través de una función evaluadora. El detalle es que esta
 fase de evaluación se ha convertido en todo un reto para los
 científicos computacionales por la dificultad de decidir de forma
 determinística si un acoplamiento es bueno o no. Esto se traduce en
-que la pose que se evalua como la ``mejor'' está realmente alejada de
-la pose cristalográfica, y la pose más cercana a la cristalográfica
-esta mucho más abajo en el ranking de poses ``buenas'' dada por esta
-evaluación.
+que la pose que se evalua como la ``mejor'' puede estar realmente
+alejada de la pose cristalográfica, y la pose más cercana a la
+cristalográfica esta mucho más abajo en el ranking de poses ``buenas''
+dada por esta evaluación.
 
-En este trabajo se propone un acercamiento con una red neuronal
-convolucional para hacer un meta-análisis de dichos acoplamientos,
-comparando las poses cristalográficas con las dadas por el acoplamiento
-simulado.
+En este trabajo se propone una arquitecture (junto con su respectiva
+implementación) de red neuronal convolucional para hacer un
+meta-análisis de dichos acoplamientos, comparando las poses
+cristalográficas con las dadas por el acoplamiento simulado.
 
 \section{Preparación de la base de datos}
 La base de datos de la cual partimos es la de el Banco de Datos de
@@ -37,21 +37,21 @@ y se fue haciendo un filtrado de ellas del siguiente modo:
   como DMSO, PEG y MES, los cuales no son de relevancia biológica.\@
   \item Se filtran de las proteínas las cadenas de ADN o ARN.\@
   \item Se quitan también todos los metales pesados de las proteínas.
-  \item Finalmente, se transforma el archivo .pdb en un archivo .pdbqt.
-  Esto quiere decir que se definen las cargas de la proteína así como
-  sus libertades de torsión (a las que más adelante
-  llamaremos \textit{ramas}). Para esto se utilizó el programa
-  MGLTools\footnote{\url{http://mgltools.scripps.edu/}}
+  \item Finalmente, se transforma el archivo .pdb en un archivo
+    .pdbqt.  Esto quiere decir que se definen las cargas de la
+    proteína así como sus libertades de torsión (a las que más
+    adelante llamaremos \textit{ramas}). Para esto se utilizó el
+    programa MGLTools\footnote{\url{http://mgltools.scripps.edu/}}
 \end{enumerate}
 
 \begin{figure}[H]
-  \includegraphics[scale=0.45]{torsions} \centering
-  \caption{Ligando CB3 con sus ejes de torsión marcados en rosa.}
+  \includegraphics[scale=0.40]{torsions} \centering
+  \caption{Ligando con registro CB3 con sus ejes de torsión marcados
+    en rosa.}
 \end{figure}
 
-Después, se hace la separación en cada proteína entre ligando y
-receptor, y para cada pareja se realiza un acoplamiento virtual
-utilizando \textbf{AutoDock Vina
+Después, se hace la separación de cada par proteína-ligando, y se
+realiza un acoplamiento virtual utilizando \textbf{AutoDock Vina
   1.1.2}\footnote{\url{http://vina.scripps.edu/index.html}}, teniendo
 así una base de datos de 24,964 acoplamientos.  Esto genera un listado
 de poses, donde cada pose es un archivo .pdbqt, junto con una
@@ -61,47 +61,49 @@ tabulación de cada pose y su calificación contra el RMSD a la pose
 cristalográfica original. Esta tabla sirve como entrada para
 \textit{Deep-pose}.
 
-\begin{figure}[]
-  \includegraphics[scale=0.45, left]{poses}
+\begin{figure}[H]
+  \includegraphics[scale=0.35]{poses}
   \caption{Primeras tres poses de acoplamiento del ligando CB3
-    con el receptor 4EIL.}
+    con el receptor con registro 4EIL.}\centering
 \end{figure}
 
 \begin{table}[H]
 \begin{tabular}{|c|c|c|c|}
 \hline
 Pose         & \begin{tabular}[c]{@{}c@{}}Clasificación\\ (según AutoDock Vina)\end{tabular} & Calificación & RMSD  \\ \hline
-4EIL\_CB3\_A & 1                                                                             & -10.2        & 3.08  \\
-4EIL\_CB3\_A & 2                                                                             & -10.0         & 3.02  \\
-4EIL\_CB3\_A & 3                                                                             & -9.8         & 3.02  \\
-4EIL\_CB3\_A & 4                                                                             & -9.5         & 1.31  \\
-4EIL\_CB3\_A & 5                                                                             & -9.3         & 3.0  \\ \hline
+4EIL\_CB3\_A\_1 & 1                                                                             & -10.2        & 3.08  \\
+4EIL\_CB3\_A\_2 & 2                                                                             & -10.0         & 3.02  \\
+4EIL\_CB3\_A\_3 & 3                                                                             & -9.8         & 3.02  \\
+4EIL\_CB3\_A\_4 & 4                                                                             & -9.5         & 1.31  \\
+4EIL\_CB3\_A\_5 & 5                                                                             & -9.3         & 3.0  \\ \hline
 \end{tabular}
 \caption{Extracto de la tabulación de poses contra RMSD a la
   información cristalográfica. Se puede apreciar que la mejor pose es
   la que Autodock Vina colocó en el lugar 4, siendo que es la que
-  tiene el menor RMSD. El formato de nombre de las poses es
-  \{compuesto\}\_\{ligando acoplado\}\_\{cadena\}.}
+  tiene el menor RMSD. El formato de nombre de las poses es \{registro
+  de compuesto\}\_\{registro de ligando acoplado\}\_\{cadena\}\_\{número de pose\}.}
 \label{tab:poses}
 \end{table}
 
 \section{Deep-pose}
-\textbf{Deep-pose} es una red neuronal convolucional profunda que toma
+Implementamos una red neuronal convolucional profunda que toma
 la información de la pose de un acoplamiento en un complejo
 proteína-ligando como entrada y produce una calificación de qué tan
-viable es dicha pose.  Primero, dada una entrada de un complejo
-proteína-ligando $x$, se extrae información del contexto local de cada
-rama. El \textit{contexto} de una rama está dado por información
-estructural básica (\textit{tipo de rama} y distancia). Después, cada
-una de estas características básicas de cada rama es convertida en
-vectores característicos que utiliza la red para aprender. Luego, una
-capa convolucional es empleada para sintetizar la información de todos
-los contextos de todas las ramas del ligando y generar una
-representación vectorial del complejo. Posteriormente se pasa a una
-capa oculta para síntesis y procesamiento del
-vector-ligando. Finalmente, en la última capa, la representación del
-complejo es dada como entrada a un clasificador \textit{softmax}, que
-es responsable de producir el puntaje.
+viable es dicha pose. A esta red la hemos llamado \textbf{Deep-pose}.
+
+Primero, dada una entrada de un complejo proteína-ligando $x$, se
+extrae información del contexto local de cada rama. El
+\textit{contexto} de una rama está dado por información estructural
+básica (\textit{tipo de rama} y distancia). Después, cada una de estas
+características básicas de cada rama es convertida en vectores
+característicos que utiliza la red para aprender. Luego, una capa
+convolucional es empleada para sintetizar la información de todos los
+contextos de todas las ramas del ligando y generar una representación
+vectorial del complejo. Posteriormente se pasa a una capa oculta para
+síntesis y procesamiento del vector-ligando. Finalmente, en la última
+capa, la representación del complejo es dada como entrada a un
+clasificador \textit{softmax}, que es responsable de producir el
+puntaje.
 
 A continuación se presenta un pseudo-código de alto nivel del proceso
 de la red:
@@ -161,7 +163,10 @@ que correspondan con una eventual pose cristalográfica.
 Partiendo de la idea del átomo ligado a su contexto, y considerando
 que lo que buscamos es una propiedad puramente estructural, tomamos
 como unidad básica del ligando a los segmentos con libertad
-rotacional, a la que llamaremos \textit{rama}. Así, nuestro
+rotacional, a la que llamaremos \textit{rama}\footnote{Dado que los
+ligandos no son nulos (ya que tienen al menos un átomo), tienen al
+menos una libertad rotacional. Esto quiere decir que todos los
+ligandos tienen al menos una \textit{rama}.}. Así, nuestro
 \textit{contexto de átomo} se convierte en \textbf{contexto de rama},
 siendo éste la combinación del tipo de rama, los de las ramas más
 cercanas y la distancia a cada una de ellas.
@@ -185,9 +190,18 @@ esto a lo que llamamos \textbf{tipo de rama}. Se enlistan todos los
 tipos de rama, asociando a cada uno un índice, generando así lo que
 llamamos el \textit{diccionario de ramas}.
 
-Del mismo modo, se segmentan los rangos de distancia encontrados en
-compartimentos, y a cada uno de estos se les asigna también un índice,
-generando así un \textit{diccionario de distancias}.
+\begin{figure}[H]
+  \includegraphics[scale=0.6]{branches} \centering
+  \caption{División de un ligando en sus respectivas ramas.}
+\end{figure}
+
+Del mismo modo, se segmentan los rangos de distancia entre ramas
+encontrados en compartimentos\footnote{Se le llaman compartimentos
+precisamente a los rangos entre distancias. Es decir, se divide la
+distancia máxima en $n$ rangos iguales, y a cada uno de esos rangos es
+a lo que llamamos compartimentos.}, y a cada uno de estos se les
+asigna también un índice, generando así un \textit{diccionario de
+  distancias}.
 
 \begin{table}[H]
   \begin{center}
@@ -224,7 +238,7 @@ entrada de la red.
 \begin{table}[H]
   \begin{center}
   \begin{tabular}{l|l}
-    OP(O)O & \AA \\ \hline N & 5.794664 \\ C1CC1 & 5.691862
+    Ramas cercanas a OP(O)O & Distancia en \AA \\ \hline N & 5.794664 \\ C1CC1 & 5.691862
     \\ NC1=N{[}C{]}(=NC=C1)=O & 4.449922 \\ NC=N & 3.785496 \\ O &
     3.747894
   \end{tabular}
@@ -237,7 +251,7 @@ entrada de la red.
     (2, 13, 93, 96, 4) & (4, 2, 2, 6, 4)
     \end{bmatrix}
   \end{equation*}
-  \caption{Traducción de una rama a su representación vectorial}
+  \caption{Traducción de la rama OP(O)O a su representación vectorial}
 \end{table}
 
 Tanto para los tipos de rama, como para las particiones de distancia, se
@@ -316,7 +330,7 @@ $z_i$ es la representación vectorial del contexto de la $i$-ésima rama
 del ligando. En la primera etapa de la capa, la extracción de
 características más abstractas de cada vector $z_i$ está dada por
 \begin{equation}
-  u_i = f(W^{conv}_{z_i} + b^{conv})
+  u_i = f(W^{conv}_{z_i} + b^{conv}) = f(z_i + b^{conv})
 \end{equation}
 donde $W^{conv} \in \mathbb{R}^{cf \times h_1}$ es la matriz de pesos
 correspondiente a la capa convolucional, $b^{conv}$ es el sesgo, $f$
@@ -370,3 +384,8 @@ donde decimos que $p(0|x)$ y $p(1|x)$ es la probabilidad condicional
 de que la pose del compuesto sea válida o sea señuelo,
 respectivamente, dados los datos obtenidos a partir del acoplamiento
 del complejo proteína-ligando.
+
+\begin{figure}[H]
+  \includegraphics[scale=0.5]{architecture} \centering
+  \caption{Arquitectura de la red.}
+\end{figure}
