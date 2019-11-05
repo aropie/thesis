@@ -1,0 +1,49 @@
+#+OPTIONS: H:2
+#+LATEX_CLASS: beamer
+#+COLUMNS: %45ITEM %10BEAMER_env(Env) %10BEAMER_act(Act) %4BEAMER_col(Col) %8BEAMER_opt(Opt)
+#+BEAMER_THEME: metropolis
+#+BEAMER_COLOR_THEME:
+#+BEAMER_FONT_THEME:
+#+BEAMER_INNER_THEME:
+#+BEAMER_OUTER_THEME:
+#+BEAMER_HEADER: \AtBeginSection{\frame{\sectionpage}}
+#+BEAMER_HEADER: \metroset{block=fill}
+#+TITLE: Implementación de redes neuronales convolucionales
+#+TITLE: para el meta-análisis de acoplamientos moleculares
+#+TITLE: de complejos proteína-ligando
+#+AUTHOR: Adrián Antonio Rodríguez Pié
+#+LATEX_HEADER: \institute{Universidad Nacional Autónoma de México}
+#+DATE: 2 de octubre de 1968
+
+
+* Sobre inteligencia artificial
+** La prueba de Turing
+   #+attr_latex: :width 170px
+   [[file:images/turing-test.png]]
+** IA y agentes
+*** Inteligencia artrificial                                        :B_block:
+    :PROPERTIES:
+    :BEAMER_env: block
+    :END:
+    **Agentes racionales** que, mediante **sensores**, pueden
+    percibir su **entorno** y actuar sobre él a partir de un
+    sistema de decisión.
+    #+BEAMER: \pause
+*** Agentes                                                         :B_block:
+    :PROPERTIES:
+    :BEAMER_env: block
+    :END:
+    Máquina compuesta por un conjunto finito de estados, cuyas
+    transiciones están dadas por reglas de inferencias.
+** Tipos de aprendizaje
+   - Supervisado vs no supervisado
+   - Agentes pasivos vs pasivos
+   - Ayuda del profesor
+   - Entrenamiento lineal vs por lote
+* Regunda chgapter o algo así?
+** Segundoeeeee
+*** This should be a block :B_block:
+    :PROPERTIES:
+    :BEAMER_env: block
+    :END:
+    I hope it works correctly
