@@ -16,6 +16,36 @@
 #+DATE: 2 de octubre de 1968
 
 
+* Sobre proteínas
+** Proteínas
+*** Orígen :B_block:
+    :PROPERTIES:
+    :BEAMER_env: block
+    :END:
+    Originado del griego /proteios/ que significa "primario"
+    o "de primer orden".
+    #+BEAMER: \pause
+*** Definición (según la *RAE*) :B_block:
+    :PROPERTIES:
+    :BEAMER_env: block
+    :END:
+    Sustancia constitutiva de la materia viva, formada
+    por una o varias cadenas de aminoácidos.
+** Ligandos
+   - Un *ligando* es una molécula que se une a otra molécula específica, en algunos casos mandando una señal en el proceso.
+    #+BEAMER: \pause
+   - Estos ligandos interactuan con moleculas objetivo (usualmente otras proteínas). Son a estas proteínas a las que llamamos *receptores* o *residuos*.
+** Docking
+*** Acoplamiento molecular :B_block:
+    :PROPERTIES:
+    :BEAMER_env: block
+    :END:
+    Método cuyo objetivo es predecir los estados tanto estructurales,
+    llamadas *poses*, como energéticos, prediciendo la afinidad del enlace
+    entre moléculas.
+    [[file:images/docking.png]]
+** Pasos del docking
+   [[file:images/docking_steps.png]]
 * Sobre inteligencia artificial
 ** La prueba de Turing
    #+attr_latex: :width 170px
@@ -35,15 +65,13 @@
     :END:
     Máquina compuesta por un conjunto finito de estados, cuyas
     transiciones están dadas por reglas de inferencias.
-** Tipos de aprendizaje
-   - Supervisado vs no supervisado
-   - Agentes pasivos vs pasivos
-   - Ayuda del profesor
-   - Entrenamiento lineal vs por lote
-* Regunda chgapter o algo así?
-** Segundoeeeee
-*** This should be a block :B_block:
+* Sobre redes y neurona
+** Inspiración en la biología
+   [[file:images/neurona.png]]
+
+** Perceptrón
+*** Dados asdfasdf :B_block:
     :PROPERTIES:
     :BEAMER_env: block
     :END:
-    I hope it works correctly
+    asdasdfasdf asdfasd iqieid
