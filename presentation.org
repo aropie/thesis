@@ -13,7 +13,7 @@
 #+TITLE: de complejos proteína-ligando
 #+AUTHOR: Adrián Antonio Rodríguez Pié
 #+LATEX_HEADER: \institute{Universidad Nacional Autónoma de México}
-#+DATE: 2 de octubre de 1968
+#+DATE: 21 de noviembre de 2019
 
 
 * Sobre proteínas
@@ -65,13 +65,60 @@
     :END:
     Máquina compuesta por un conjunto finito de estados, cuyas
     transiciones están dadas por reglas de inferencias.
-* Sobre redes y neurona
+* Sobre redes y neuronas
 ** Inspiración en la biología
    [[file:images/neurona.png]]
 
-** Perceptrón
-*** Dados asdfasdf :B_block:
-    :PROPERTIES:
-    :BEAMER_env: block
-    :END:
-    asdasdfasdf asdfasd iqieid
+** El perceptrón
+*** Definiciónes
+    - *x* $\in \mathbb{R}^n$ (muestra)
+    - *w* $\in \mathbb{R}^n$ (vector de pesos)
+    - *$\theta$* $\in \mathbb{R}^n$ (umbral de activación)
+    - *y* $\in \{0, 1\}$ (valor real de la muestra)
+    - *$\hat y$* $\in \{0, 1\}$ (valor predicho de la muestra)
+    Por último, definimos *z* como una combinación líneal de *x* y *w*
+    $z=w_1x_1+...w_nx_n$ \\
+    Llamamos a *z* la /entrada de la red/.
+    #+BEAMER: \pause
+*** Función de activación
+    Definimos
+    \begin{equation*}
+    \phi(z)= \left\{ \begin{array} {rl} 1 & \text{si } z \geq \theta
+    \\ -1 & \text{en otro caso} \end{array} \right.
+    \end{equation*}
+
+** Pasos del perceptrón
+   1) Inicializar los pesos en cero o en números aleatorios cercanos a cero.
+   2) Para cada muestra de entrenamiento $x$, realizar lo siguiente:
+      a) Calcular el valor de salida $\hat y$ ($\hat y = \phi(z)$).\\
+      b) Actualizar los pesos en $w$ a partir del error $\Delta w$.
+
+      Con $\Delta w$ dado por:
+      \begin{equation*}
+      \Delta w = \eta (y - \hat y)x
+      \end{equation*}
+
+      Donde $\eta \in [0,1]$ es el /índice de aprendizaje/.
+
+** Diagrama del perceptrón
+   [[file:images/perceptron-summary.png]]
+
+** El perceptrón multicapa
+   [[file:images/mlp.png]]
+** El perceptrón multicapa
+   #+attr_latex: :width 170px
+   [[file:images/mlp.png]]
+*** Función de costo o error
+    Definimos la función de costo *$J$* para el perceptrón multicapa
+    como la suma de los errores cuadrados entre la salida calculada y
+    el valor real:
+    \begin{equation*}
+    J(w)=1/2n \sum_{i=1}^n (\hat{y}_i - y_i^2)
+    \end{equation*}
+
+    #+BEAMER: \pause
+    \begin{center}
+    ¡Es diferenciable!
+    \end{center}
+** Descenso por el gradiente
+   [[file:images/gradient-descent.png]]
