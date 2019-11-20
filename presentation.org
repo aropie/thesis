@@ -89,9 +89,12 @@
 
 ** Pasos del perceptrón
    1) Inicializar los pesos en cero o en números aleatorios cercanos a cero.
+   #+BEAMER: \pause
    2) Para cada muestra de entrenamiento $x$, realizar lo siguiente:
-      a) Calcular el valor de salida $\hat y$ ($\hat y = \phi(z)$).\\
-      b) Actualizar los pesos en $w$ a partir del error $\Delta w$.
+   #+BEAMER: \pause
+   a) Calcular el valor de salida $\hat y$ ($\hat y = \phi(z)$).\\
+   #+BEAMER: \pause
+   b) Actualizar los pesos en $w$ a partir del error $\Delta w$.
 
       Con $\Delta w$ dado por:
       \begin{equation*}
@@ -122,3 +125,209 @@
     \end{center}
 ** Descenso por el gradiente
    [[file:images/gradient-descent.png]]
+
+* Sobre meta-análisis del acoplamiento
+** Preparación de la base de datos
+   #+BEAMER: \pause
+   1. Se filtran las proteínas que no contengan ligandos.
+    #+BEAMER: \pause
+   2. Se eliminan todas las proteínas con peso molecular menor a 300 Da.
+    #+BEAMER: \pause
+   3. Se filtran de las proteínas las cadenas de ADN y ARN.
+    #+BEAMER: \pause
+   4. Se quitan también los metales pesados de las proteínas.
+** Preparación de la base de datos
+   5. [@5] Se definen las cargas de la proteína, así como sus libertades de torsión (*ramas*).
+    #+BEAMER: \pause
+    [[file:images/torsions.png]]
+** Preparación de la base de datos
+   6. [@6] Se separa cada par proteína-ligando.
+      #+BEAMER: \pause
+   7. Se hace el acoplamiento virtual de cada par.
+      #+BEAMER: \pause
+      [[file:images/poses.png]]
+** Preparación de la base de datos
+   Se genera entonces un listado de poses con una calificación asociada, que
+   se compara con el RMSD del compuesto cristalográfico original.
+   #+BEAMER: \pause
+   \begin{table}[H]
+   \begin{tabular}{|c|c|c|c|}
+   \hline
+   Pose         & \begin{tabular}[c]{@{}c@{}}Clasificación\\ (según AutoDock Vina)\end{tabular} & Calificación & RMSD  \\ \hline
+   4EIL\_CB3\_A\_1 & 1                                                                             & -10.2        & 3.08  \\
+   4EIL\_CB3\_A\_2 & 2                                                                             & -10.0         & 3.02  \\
+   4EIL\_CB3\_A\_3 & 3                                                                             & -9.8         & 3.02  \\
+   4EIL\_CB3\_A\_4 & 4                                                                             & -9.5         & 1.31  \\
+   4EIL\_CB3\_A\_5 & 5                                                                             & -9.3         & 3.0  \\ \hline
+   \end{tabular}
+   \end{table}
+
+** Deep-pose
+*** Deep-pose
+    Una red neuronal convolucional profunda que toma la información de
+    un acomplamiento en un complejo proteína-ligando como entrada y
+    produce una calificación de qué tan viable es dicha pose.
+    [[file:images/architecture.png]]
+* Deep-pose
+** Contexto de la rama
+   #+BEAMER: \pause
+*** Codificación del contexto de la rama
+    SMILES (/Simple Molecular Input Line Entry System/) es un sencillo
+    lenguaje químico que permite describir moléculas utilizando únicamente
+    caracteres ASCII.
+    #+BEAMER: \pause
+    - Es sumamente compacta.
+      #+BEAMER: \pause
+    - Es canónica.
+** Diccionarios de ramas
+   #+BEAMER: \pause
+   [[file:images/branches.png]]
+   #+BEAMER: \pause
+*** Diccionarios de ramas
+    - Se enlistan todas las ramas codificadas distintas y a cada una se
+      le asigna un índice (*diccionario de ramas*).
+    - Se segmentan los rangos de distancias entre ramas encontrados
+      en compartimentos, y a cada uno de estos se le asigna también un
+      índice (*diccionario de distancias*).
+
+** Fragmento de los diccionarios de ramas y de distancias
+   \begin{table}[H]
+     \begin{center}
+       \begin{tabular}{l|l}
+	 SMILES                 & Idx \\ \hline
+	 NC1=N{[}C{]}(=NC=C1)=O & 93 \\
+	 C1CCCCC1               & 94 \\
+	 CNC=O                  & 95 \\
+	 NC=N                   & 96 \\
+	 CC=C                   & 97
+       \end{tabular}
+       \begin{tabular}{l|l}
+	 Rango de distancia (\AA) & Idx \\ \hline
+	 3.0526 - 3.2631        & 6   \\
+	 3.2632 - 3.4736        & 7   \\
+	 3.4737 - 3.6842        & 8   \\
+	 3.6843 - 3.8947        & 9   \\
+	 3.8948 - 4.1052        & 10
+       \end{tabular}
+     \end{center}
+   \end{table}
+** Codificación del contexto de la rama
+   Para cada rama del ligando, se codifican entonces las cinco
+   ramas más cercanas del receptor a través de sus tipos y sus distancias.
+   #+BEAMER: \pause
+*** Traducción de la rama *OP(O)O* en una tupla.
+    #+BEAMER: \pause
+   \begin{table}[H]
+     \begin{center}
+     \begin{tabular}{l|l}
+       Ramas cercanas a OP(O)O & Distancia en \AA \\ \hline N & 5.794664 \\ C1CC1 & 5.691862
+       \\ NC1=N{[}C{]}(=NC=C1)=O & 4.449922 \\ NC=N & 3.785496 \\ O &
+       3.747894
+     \end{tabular}
+     \end{center}
+   \end{table}
+    #+BEAMER: \pause
+    \begin{equation*}
+    \downarrow
+    \end{equation*}
+   \begin{equation*}
+     OP(O)O=\begin{bmatrix}
+     (2, 13, 93, 96, 4) & (11, 10, 7, 4, 4)
+     \end{bmatrix}
+   \end{equation*}
+
+** Representación vectorial del contexto de la rama
+*** Definiciones
+    - *$B$* El conjunto de tipos de ramas.
+    - *$N$* Dimensión de los vectores característicos (*hiperparámetro*).
+    - *$W^{b\_type}$* $\in \mathbb{R}^{N\times |B|}$.
+
+** Representación vectorial del contexto de la rama
+   \begin{table}[H]
+     \begin{equation*}
+       Rama=\begin{bmatrix}
+       OP=O, & OC=O, & C=O, & OPO, & OP=O
+       \end{bmatrix}
+     \end{equation*}
+     \begin{center}
+       $W_{b\_type}$
+       \begin{tabular}{|l|l|l|l|l|l|l|}
+    	 \hline
+    	 OP=O & OC=O & OPO & C=O & NC=O & OPO & OP=O \\ \hline
+    	 &      &     &     &      &     &      \\ \hline
+    	 &      &     &     &      &     &      \\ \hline
+    	 &      &     &     &      &     &      \\ \hline
+       \end{tabular}
+     \end{center}
+   \begin{equation*}
+   \downarrow
+   \end{equation*}
+   \begin{equation*}
+     z_{b\_type}^T =
+   \begin{tabular}{lllllllllllllll}
+ \multicolumn{3}{l}{OP=O}                                               &                       & \multicolumn{3}{l}{OC=O}                                              &                       & \multicolumn{3}{l}{C=O}                                               &                       & \multicolumn{3}{l}{OPO}                                               \\ \cline{1-3} \cline{5-7} \cline{9-11} \cline{13-15}
+ \multicolumn{1}{|l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{$\bullet$} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{$\bullet$} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{$\bullet$} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} \\ \cline{1-3} \cline{5-7} \cline{9-11} \cline{13-15}
+   \end{tabular}
+   \end{equation*}
+   \end{table}
+** Representación vectorial del contexto de la rama
+  Analogamente se genera el vector $z_{b\_dist}$.
+  #+BEAMER: \pause
+*** Representación del contexto de la rama
+   Finalmente, la representación del contexto de la rama $b$ se define como
+   \begin{equation*}
+   z_b = z_{b\_type} \bullet z_{b\_dist}
+   \end{equation*}
+
+** Representación de la pose de un complejo proteina-ligando
+   La entrada de la capa convolucional es una lista de vectores
+   $\{z_1, z_2, ..., z_n\}$ donde $z_i$ es la representación vectorial
+   del contexto de la \(i\)-ésima rama del ligando.
+   #+BEAMER: \pause
+*** Primera etapa de la capa convolucional (extracción de características)
+    \begin{equation*}
+      u_i = f(z_i + b^{conv})
+    \end{equation*}
+    donde:
+    - $f$ es la función tangente hiperbólica.
+    - $b^{conv}$ es el sesgo.
+   #+BEAMER: \pause
+*** Segunda etapa de la capa convolucional /(max-pooling)/
+    \begin{equation*}
+      [r]_j = \max_{1 \leq i \leq n} [u_i]_j
+    \end{equation*}
+
+** Clasificación de la pose
+   Finalmente el vector $r$ es procesado por dos capas neuronales más:
+   1. Una tercera capa oculta que reprsenta un nivel más de abstracción.
+   2. Una última capa de salida donde se dá la clasificación.
+
+   Es en esta última capa donde se computa una calificación para cada
+   una de las posibles clasificaciónes de la pose: (0) pose *señuelo* y
+   (1) pose *válida*.
+** Arquitectura de la red
+   [[file:images/architecture.png]]
+* Entrenamiento y resultados
+** Hiperparámetros
+   \begin{table}[H]
+   \begin{center}
+   \begin{tabular}{|c|c|c|}
+   \hline
+   Hiperparámetro & Descripción                         & Valor \\ \hline
+   \textit{N}     & Dimensión del vector característico & 80    \\
+   \textit{cf}    & Unidades en la capa convolucional   & 150   \\
+   \textit{h}     & Unidades en la capa oculta          & 60    \\
+   \textit{bs}    & \textit{Tamaño de los minilotes}    & 20    \\
+   $\lambda$         & Índice de aprendizaje               & 0.1   \\ \hline
+   \end{tabular}
+   \end{center}
+   \end{table}
+
+** Calibración de hiperparámetros
+   #+attr_latex: :width 190px
+   [[file:images/calibration.png]]
+** Resultados
+   #+attr_latex: :width 190px
+   [[file:images/confusion.png]]
+
+* ¿Preguntas?
